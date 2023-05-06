@@ -28,7 +28,7 @@ const Footer = () => {
         </div>
       </Link>
 
-      <Link to="/" className="nav-link" onClick={() => setActiveNav(3)}>
+      <Link to="/list" className="nav-link" onClick={() => setActiveNav(3)}>
         <div className="nav-color">
           <BsFillJournalBookmarkFill
             size="21"

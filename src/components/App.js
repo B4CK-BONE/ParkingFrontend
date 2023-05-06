@@ -4,7 +4,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import NavBar from "./views/NavBar/NavBar";
 import MyParking from "./views/LandingPage/MyParking";
 import Footer from "./views/Footer/Footer";
-import Bottom from "./views/LandingPage/Sections/Bottom";
+import ListPage from "./views/ListPage/ListPage";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<MyParking />} />
-          <Route path="/test" element={<Bottom />} />
+          <Route path="/list" element={<ListPage />} />
         </Routes>
       </div>
       <Footer />

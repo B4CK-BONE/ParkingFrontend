@@ -1,51 +1,62 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-
 import BottomSheet from "./BottomSheet";
-
 import styled from "styled-components";
 
 function Bottom(props) {
   const [isDisabled, setDisabled] = useState(true);
-
-  const [bottomSheetTitle, setBottomSheetTitle] = useState("위시리스트");
   const [wishListName, setWishListName] = useState("");
+
+  useEffect(() => {
+    console.log(props.User);
+    const $body = document.querySelector("body");
+    const overflow = $body.style.overflow;
+    $body.style.overflow = "hidden";
+    return () => {
+      $body.style.overflow = overflow;
+    };
+  }, []);
+
+  const createNewWishList = () => {
+    props.User.outTime = wishListName;
+    props.setIsModalOpen(false);
+    setWishListName("");
+    console.log(wishListName);
+    console.log(props.User.outTime);
+  };
 
   return (
     <StyledRoom>
-      {props.isModalOpen && (
-        <div>
-          {props.User.use === true ? (
-            <BottomSheet
-              title={props.User.userCar}
-              closeModal={() => props.setIsModalOpen(false)}
-            >
-              <StyledNewWishList>
-                <StyledButtonWrapper>
-                  <div>주차{props.User.inTime}</div>
-                  <div>출차 예정 {props.User.outTime}</div>
-                </StyledButtonWrapper>
-              </StyledNewWishList>
-            </BottomSheet>
-          ) : (
-            <BottomSheet
-              title="출발시간 설정"
-              closeModal={() => props.setIsModalOpen(false)}
-            >
-              <StyledNewWishList>
-                <input
-                  value={wishListName}
-                  placeholder="최대 50자"
-                  maxLength="50"
-                  onChange={(e) => {
-                    setWishListName(e.target.value);
-                    setDisabled(e.target.value.length === 0 ? true : false);
-                  }}
-                />
-              </StyledNewWishList>
-            </BottomSheet>
-          )}
-        </div>
+      {props.User.use === true ? (
+        <BottomSheet
+          title={props.User.userCar}
+          closeModal={() => props.setIsModalOpen(false)}
+        >
+          <StyledNewWishList>
+            <StyledButtonWrapper>
+              <div>주차{props.User.inTime}</div>
+              <div>출차 예정 {props.User.outTime}</div>
+            </StyledButtonWrapper>
+          </StyledNewWishList>
+        </BottomSheet>
+      ) : (
+        <BottomSheet
+          title="주차가능"
+          closeModal={() => props.setIsModalOpen(false)}
+        >
+          <StyledNewWishList>
+            <input
+              type="time"
+              name="inTime"
+              onChange={(e) => {
+                setWishListName(e.target.value);
+                setDisabled(e.target.value.length === 0 ? true : false);
+              }}
+            />
+            <button disabled={isDisabled} onClick={createNewWishList}>
+              새로 만들기
+            </button>
+          </StyledNewWishList>
+        </BottomSheet>
       )}
     </StyledRoom>
   );
@@ -57,13 +68,6 @@ const StyledRoom = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-`;
-
-const StyledExistingWishList = styled.div`
-  padding: 2.4rem 2.2rem 2rem 2.2rem;
-  font-weight: 600;
-  font-size: 1.4rem;
-  line-height: 1.7rem;
 `;
 
 const StyledButtonWrapper = styled.div`
@@ -89,11 +93,11 @@ const StyledNewWishList = styled.div`
   padding: 3.3rem 2.2rem 3.6rem 2.2rem;
 
   & > input {
-    width: 100%;
-    padding: 2rem 1.2rem 2.1rem 1.2rem;
+    width: 85%;
+    padding: 0.5rem 1rem;
     border: 0.1rem solid gray;
     border-radius: 0.8rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.8rem;
     font-weight: 500;
     font-size: 1.4rem;
     line-height: 1.7rem;
@@ -113,14 +117,14 @@ const StyledNewWishList = styled.div`
   }
 
   & > button {
-    width: 100%;
+    width: 98%;
     font-weight: 600;
-    font-size: 1.6rem;
-    line-height: 1.9rem;
-    padding: 1.6rem 0 1.5rem 0;
+    font-size: 1rem;
+    line-height: 2.3rem;
+    margin-bottom: 30px;
     border-radius: 0.6rem;
     color: white;
-    background-color: pink;
+    background-color: #452b75;
   }
 
   & > button:disabled {

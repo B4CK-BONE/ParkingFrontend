@@ -151,7 +151,7 @@ const MyParking = () => {
     const button_number = event.target.getAttribute("data");
 
     setIsModalOpen(true);
-    if (positions[button_number].use) {
+    if (positions[button_number]) {
       setUser(positions[button_number]);
     } else {
       setUser("");
@@ -206,11 +206,13 @@ const MyParking = () => {
           ))}
         </Parkingcontainer>
       </Container>
-      <Bottom
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        User={User}
-      />
+      {isModalOpen && (
+        <Bottom
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          User={User}
+        />
+      )}
     </div>
   );
 };
