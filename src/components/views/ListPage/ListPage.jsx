@@ -2,24 +2,73 @@ import React from "react";
 import styled from "styled-components";
 
 function ListPage() {
+  let positions = [
+    {
+      number: 0,
+      text: "06:20",
+      userName: "201호",
+      userCar: "17다 5864",
+      inTime: "18:50",
+      outTime: "06:15",
+      userImg:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU",
+      use: true,
+    },
+    {
+      number: 1,
+      text: "06:20",
+      userName: "201호",
+      userCar: "18다 1564",
+      inTime: "18:50",
+      outTime: "06:20",
+      userImg:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU",
+      use: true,
+    },
+    {
+      number: 2,
+      text: "06:20",
+      userName: "402호",
+      userCar: "37다 7869",
+      inTime: "18:50",
+      outTime: "07:20",
+      userImg:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU",
+      use: true,
+    },
+    {
+      number: 3,
+      text: "06:20",
+      userName: "301호",
+      userCar: "27다 3664",
+      inTime: "18:50",
+      outTime: "08:20",
+      userImg:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU",
+      use: true,
+    },
+  ];
   return (
-    <Ulclass>
-      <Liclass>
-        <Divclass>
-          <Divchildclass>
-            <Imgclass
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbCAVka%2FbtrY2o9XY6e%2Fld0UENc2vedDW60ngkDyI1%2Fimg.jpg"
-              alt="Neil image"
-            />
-          </Divchildclass>
-          <Divchild2class>
-            <Pclass>Neil Sims</Pclass>
-            <Pclass2>email@flowbite.com</Pclass2>
-          </Divchild2class>
-          <Divchild3class>10:24</Divchild3class>
-        </Divclass>
-      </Liclass>
-    </Ulclass>
+    <div>
+      {positions.map((list, index) => (
+        <Ulclass>
+          <Liclass>
+            <Divclass>
+              <Divchildclass>
+                <Imgclass src={list.userImg} alt="Neil image" />
+              </Divchildclass>
+              <Divchild2class>
+                <Pclass>{list.userName}</Pclass>
+                <Pclass2>{list.userCar}</Pclass2>
+              </Divchild2class>
+              <Divchild3class>
+                {list.inTime} ~ {list.outTime}
+              </Divchild3class>
+            </Divclass>
+          </Liclass>
+        </Ulclass>
+      ))}
+    </div>
   );
 }
 
@@ -84,7 +133,7 @@ const Pclass = styled.p`
   overflow: hidden; /* truncate in Tailwind CSS */
   text-overflow: ellipsis; /* truncate in Tailwind CSS */
   white-space: nowrap; /* truncate in Tailwind CSS */
-  margin : 10px;
+  margin: 10px;
 `;
 
 const Pclass2 = styled.p`
@@ -93,7 +142,7 @@ const Pclass2 = styled.p`
   overflow: hidden; /* truncate in Tailwind CSS */
   text-overflow: ellipsis; /* truncate in Tailwind CSS */
   white-space: nowrap; /* truncate in Tailwind CSS */
-  margin : 10px;
+  margin: 10px;
 `;
 
 const Divchild3class = styled.div`

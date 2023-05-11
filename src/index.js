@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 //import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <BrowserRouter>
     <App />

@@ -5,6 +5,7 @@ import NavBar from "./views/NavBar/NavBar";
 import MyParking from "./views/LandingPage/MyParking";
 import Footer from "./views/Footer/Footer";
 import ListPage from "./views/ListPage/ListPage";
+import QrPage from "./views/QrPage/QrPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MyParking />} />
           <Route path="/list" element={<ListPage />} />
+          <Route path="/qrcode" element={<QrPage />} />
         </Routes>
       </div>
       <Footer />

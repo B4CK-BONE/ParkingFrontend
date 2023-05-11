@@ -39,7 +39,7 @@ const Footer = () => {
           </div>
         </div>
       </Link>
-      <Link to="/" className="nav-link" onClick={() => setActiveNav(4)}>
+      <Link to="/qrcode" className="nav-link" onClick={() => setActiveNav(4)}>
         <div className="nav-color">
           <AiOutlineQrcode
             size="23"
