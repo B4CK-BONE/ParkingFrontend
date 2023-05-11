@@ -16,7 +16,7 @@ function ListPage() {
             <Pclass>Neil Sims</Pclass>
             <Pclass2>email@flowbite.com</Pclass2>
           </Divchild2class>
-          <Divchild3class>$320</Divchild3class>
+          <Divchild3class>10:24</Divchild3class>
         </Divclass>
       </Liclass>
     </Ulclass>
@@ -48,7 +48,7 @@ const Divclass = styled.div`
   justify-content: space-between; /* space-x-4 in Tailwind CSS */
 
   & > div {
-    flex: 1; /* flex-1 in Tailwind CSS */
+    flex: auto; /* flex-1 in Tailwind CSS */
     min-width: 0; /* min-w-0 in Tailwind CSS */
   }
 
@@ -73,7 +73,7 @@ const Imgclass = styled.img`
 `;
 
 const Divchild2class = styled.div`
-  flex: 1; /* flex-1 in Tailwind CSS */
+  flex: auto; /* flex-1 in Tailwind CSS */
   min-width: 0; /* min-w-0 in Tailwind CSS */
 `;
 
@@ -84,6 +84,7 @@ const Pclass = styled.p`
   overflow: hidden; /* truncate in Tailwind CSS */
   text-overflow: ellipsis; /* truncate in Tailwind CSS */
   white-space: nowrap; /* truncate in Tailwind CSS */
+  margin : 10px;
 `;
 
 const Pclass2 = styled.p`
@@ -92,6 +93,7 @@ const Pclass2 = styled.p`
   overflow: hidden; /* truncate in Tailwind CSS */
   text-overflow: ellipsis; /* truncate in Tailwind CSS */
   white-space: nowrap; /* truncate in Tailwind CSS */
+  margin : 10px;
 `;
 
 const Divchild3class = styled.div`
