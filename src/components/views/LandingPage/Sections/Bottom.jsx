@@ -33,8 +33,16 @@ function Bottom(props) {
         >
           <StyledNewWishList>
             <StyledButtonWrapper>
-              <div>주차{props.User.inTime}</div>
-              <div>출차 예정 {props.User.outTime}</div>
+              <ParkingInDiv>
+                <ParkingInChildDiv>
+                  주차 : {props.User.inTime}
+                </ParkingInChildDiv>
+              </ParkingInDiv>
+              <ParkingInDiv>
+                <ParkingInChildDiv>
+                  출차 예정 : {props.User.outTime}
+                </ParkingInChildDiv>
+              </ParkingInDiv>
             </StyledButtonWrapper>
           </StyledNewWishList>
         </BottomSheet>
@@ -63,6 +71,18 @@ function Bottom(props) {
 }
 
 export default Bottom;
+
+const ParkingInDiv = styled.div`
+  border-bottom: 3px solid #00aaff;
+  border-top: 3px solid #00aaff;
+  color: black;
+  text-align: center;
+  margin-left: 10px;
+`;
+
+const ParkingInChildDiv = styled.div`
+  margin: 10px;
+`;
 
 const StyledRoom = styled.div`
   display: flex;
