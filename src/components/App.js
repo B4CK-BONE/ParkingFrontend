@@ -6,6 +6,7 @@ import MyParking from "./views/LandingPage/MyParking";
 import Footer from "./views/Footer/Footer";
 import ListPage from "./views/ListPage/ListPage";
 import QrPage from "./views/QrPage/QrPage";
+import DragDropPage from "./views/DragDropPage/DragDropPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" element={<MyParking />} />
           <Route path="/list" element={<ListPage />} />
           <Route path="/qrcode" element={<QrPage />} />
+          <Route path="/test" element={<DragDropPage />} />
         </Routes>
       </div>
       <Footer />
