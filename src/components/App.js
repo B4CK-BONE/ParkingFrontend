@@ -6,6 +6,8 @@ import MyParking from "./views/LandingPage/MyParking";
 import Footer from "./views/Footer/Footer";
 import ListPage from "./views/ListPage/ListPage";
 import QrPage from "./views/QrPage/QrPage";
+import RoomStart from "./views/RoomStartPage/RoomStart";
+import LoginForm from "./views/LoginPage/LoginForm";
 
 function App() {
   return (
@@ -22,6 +24,9 @@ function App() {
           <Route path="/" element={<MyParking />} />
           <Route path="/list" element={<ListPage />} />
           <Route path="/qrcode" element={<QrPage />} />
+        <Route path="/login" element={<LoginForm />} />
+            <Route path="/roomstart" element={<RoomStart />} />
+
         </Routes>
       </div>
       <Footer />
