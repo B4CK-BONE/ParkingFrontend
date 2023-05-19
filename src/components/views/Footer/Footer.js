@@ -50,7 +50,7 @@ const Footer = () => {
           </div>
         </div>
       </Link>
-      <Link to="/" className="nav-link" onClick={() => setActiveNav(5)}>
+      <Link to="/setting" className="nav-link" onClick={() => setActiveNav(5)}>
         <div className="nav-color">
           <GiHamburgerMenu
             size="23"
