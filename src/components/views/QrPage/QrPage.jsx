@@ -29,7 +29,7 @@ function QrPage() {
           }}
         />
         <QrcodeH3>QR코드로 방을 입장할 수 있습니다.</QrcodeH3>
-        <QrcodeChildDiv>앱 상단바 `&gt;` QR코드 스캔 </QrcodeChildDiv>
+        <QrcodeChildDiv>앱 상단바 &gt; QR코드 스캔 </QrcodeChildDiv>
       </div>
       <QrcodeDiv>
         <img
