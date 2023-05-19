@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./BottomNav.css";
 import { Link } from "react-router-dom";
-import { FaRobot } from "react-icons/fa";
+
 import { AiOutlineQrcode } from "react-icons/ai";
 import { IoMdHome, IoMdTrophy } from "react-icons/io";
 import { HiHome, HiOutlineQrCode } from "react-icons/hi";

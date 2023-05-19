@@ -1,0 +1,7 @@
+.react-slideshow-container .default-nav:first-of-type {
+  display: none;
+}
+
+.react-slideshow-container .default-nav:last-of-type {
+  display: none;
+}
