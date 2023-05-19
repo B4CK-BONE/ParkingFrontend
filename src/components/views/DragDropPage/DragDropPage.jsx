@@ -6,6 +6,7 @@ function DragDropPage() {
   // const [logoPos, setlogoPos] = useState({x:50, y:100})
   const logoPos = useSpring({ x: 0, y: 0 });
   const logoPos1 = useSpring({ x: 0, y: 0 });
+
   const bindLogoPos = useDrag((params) => {
     // setlogoPos({
     //   x: params.offset[0],
