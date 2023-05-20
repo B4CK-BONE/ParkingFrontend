@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import styled from "styled-components";
 import Axios from "axios";
+import { useCookies } from 'react-cookie';
 
 function QrPage() {
   const [Src, setSrc] = useState("");
+    const [cookies, setCookie, removeCookie] = useCookies(['id']);
 
   let qrUrl = [
     {
@@ -13,13 +15,14 @@ function QrPage() {
   ];
 
   useEffect(() => {
-    Axios.get("https://backbone-ufribf.run.goorm.site/getroom", {
+     const token = cookies.id; // 쿠키에서 id 를 꺼내기
+    Axios.get(`https://backbone-ufribf.run.goorm.site/getroom?id=${token}`, {
       withCredentials: true,
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
         console.log(response.data);
-        QRCode.toDataURL(qrUrl[0].QRcodeUrl).then((data) => {
+        QRCode.toDataURL(`https://backbone-xpiar.run.goorm.site/roomjoin?roomkey=${response.data}`).then((data) => {
           setSrc(data);
         });
       })
@@ -46,7 +49,7 @@ function QrPage() {
       <QrcodeDiv>
         <img
           src={Src}
-          alt={qrUrl[0].QRcodeUrl}
+          alt={1}
           width={"200px"}
           style={{
             marginTop: "100px",
