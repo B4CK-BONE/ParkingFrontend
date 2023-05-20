@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IoIosArrowForward } from "react-icons/io";
 import SliderSection from "./Sections/SliderSection";
+import Axios from "axios";
 
 function SettingPage() {
   const [Src, setSrc] = useState("");
@@ -25,6 +26,20 @@ function SettingPage() {
       use: true,
     },
   ];
+
+  useEffect(() => {
+    Axios.get("https://backbone-ufribf.run.goorm.site/", {
+      withCredentials: true,
+    }) //
+      .then((response) => {
+        // 요청이 성공한 경우의 처리
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        console.error(error);
+      });
+  }, []);
 
   return (
     <div>

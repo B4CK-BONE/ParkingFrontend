@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import styled from "styled-components";
+import Axios from "axios";
 
 function QrPage() {
   const [Src, setSrc] = useState("");
@@ -12,9 +13,20 @@ function QrPage() {
   ];
 
   useEffect(() => {
-    QRCode.toDataURL(qrUrl[0].QRcodeUrl).then((data) => {
-      setSrc(data);
-    });
+    Axios.get("https://backbone-ufribf.run.goorm.site/getroom", {
+      withCredentials: true,
+    })
+      .then((response) => {
+        // 요청이 성공한 경우의 처리
+        console.log(response.data);
+        QRCode.toDataURL(qrUrl[0].QRcodeUrl).then((data) => {
+          setSrc(data);
+        });
+      })
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        console.error(error);
+      });
   }, []);
   return (
     <div>
