@@ -1,11 +1,35 @@
+.parent-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.parent-container2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .my-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  padding: 0 1rem;
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-transform: uppercase;
+  width: 70%;
+  height: 3.5rem;
+  border-radius: 1rem;
   background-color: #007bff;
   color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
+  align-items: center; 
+  display: flex;
+  margin:10px;
+  font-size:20px;
 }
 
 .my-button:hover {

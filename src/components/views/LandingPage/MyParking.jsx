@@ -4,8 +4,11 @@ import Axios from "axios";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Bottom from "./Sections/Bottom";
+import { useCookies } from 'react-cookie';
 
 const MyParking = () => {
+    
+    const [cookies, setCookie] = useCookies(['id']); // 쿠키 훅 
   let outimg = [
     { bottom: "450px", right: "40%", height: "3rem", width: "5rem" },
   ];
@@ -142,10 +145,32 @@ const MyParking = () => {
       use: false,
     },
   ];
+    
+    
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [User, setUser] = useState([]);
-  useEffect(() => {}, []);
+  useEffect(() => {
+       const token = cookies.id; // 쿠키에서 id 를 꺼내기
+      const jsonString = JSON.stringify(positions);
+      const params = { id:token, positions: jsonString };
+      const body = JSON.stringify(params);
+      console.log(jsonString);
+      
+    Axios.post(`https://backbone-ufribf.run.goorm.site/room/`, body ,{
+      withCredentials: true,
+    })
+      .then((response) => {
+        // 요청이 성공한 경우의 처리
+        console.log(response.data);
+       
+        })
+      
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        console.error(error);
+      });
+  }, []);
 
   const onClickButton = (event) => {
     const button_number = event.target.getAttribute("data");

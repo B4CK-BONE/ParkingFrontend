@@ -43,6 +43,7 @@ function SettingPage() {
 
   return (
     <div>
+         
       <UserinfoDiv>
         <UserDiv>
           <UserNameDiv>조현식</UserNameDiv>
@@ -89,13 +90,13 @@ function SettingPage() {
           }}
         />
         <ListUl>
-          <li>목록 아이템 1</li>
-          <li>목록 아이템 2</li>
-          <li>목록 아이템 3</li>
-          <li>목록 아이템 4</li>
-          <li>목록 아이템 5</li>
+          <li>공지사항</li>
+          <li>고객지원</li>
+          <li>이벤트</li>
+          
         </ListUl>
       </UserinfoDiv>
+            
     </div>
   );
 }
@@ -111,6 +112,9 @@ const UserNameDiv = styled.div`
   text-align: center;
   font-size: 6vw;
   font-weight: 1000;
+  @media (min-width: 800px) { 
+    font-size: 35px;
+  }
 `;
 
 const UserParkingTimeDiv = styled.div`
@@ -121,6 +125,9 @@ const ParkingTitleDiv = styled.div`
   font-size: 3vw;
   margin-top: 20px;
   color: gray;
+  @media (min-width: 800px) { 
+    font-size: 15px;
+  }
 `;
 
 const ParkingTimeDiv = styled.div`
@@ -128,6 +135,9 @@ const ParkingTimeDiv = styled.div`
   font-size: 6vw;
   font-weight: bold;
   margin-top: 2%;
+    @media (min-width: 800px) { 
+    font-size: 35px;
+  }
 `;
 
 const UserCarDiv = styled.div`
@@ -140,6 +150,10 @@ const UserCarDiv = styled.div`
   margin-left: 2.5vw;
   color: rgb(69, 43, 117);
   background-color: rgb(182, 156, 230);
+  @media (min-width: 800px) { 
+  padding: 10px;
+    font-size: 10px;
+  }
 `;
 
 const ParkingImg = styled.img`
@@ -153,8 +167,12 @@ const ParkingSet = styled.div`
   display: block;
   margin: 10vw 2.5vw 2vw 7vw;
   font-size: 3vw;
-
   color: gray;
+   @media (min-width: 800px) { 
+   margin: 20px 5px 2px 7px;
+    font-size: 10px;
+  }
+  
 `;
 
 const UserinfosDiv = styled.div`
@@ -179,8 +197,10 @@ const UserinfochildDiv = styled.div`
 const ListUl = styled.ul`
   list-style: none;
   font-weight: bold;
+  margin-right : 1vw;
   & > li {
-    margin: 8px;
+    margin: 8px 8px 8px 8px;
+    
   }
 `;
 
@@ -209,3 +229,4 @@ const UserinfoDiv = styled.div`
     height: 94vh;
   }
 `;
+
