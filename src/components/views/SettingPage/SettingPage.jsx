@@ -4,7 +4,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import SliderSection from "./Sections/SliderSection";
 import Axios from "axios";
 
-function SettingPage() {
+function SettingPage(props) {
   const [Src, setSrc] = useState("");
 
   let qrUrl = [
@@ -42,8 +42,7 @@ function SettingPage() {
   }, []);
 
   return (
-    <div>
-         
+    <div ref={props.ref} className="wrap loaded">
       <UserinfoDiv>
         <UserDiv>
           <UserNameDiv>조현식</UserNameDiv>
@@ -90,13 +89,29 @@ function SettingPage() {
           }}
         />
         <ListUl>
-          <li>공지사항</li>
-          <li>고객지원</li>
-          <li>이벤트</li>
-          
+          <li>
+            공지사항{" "}
+            <IoIosArrowForward
+              size="23"
+              style={{ marginRight: "11%", color: "gray", float: "right" }}
+            />
+          </li>
+          <li>
+            고객지원{" "}
+            <IoIosArrowForward
+              size="23"
+              style={{ marginRight: "11%", color: "gray", float: "right" }}
+            />
+          </li>
+          <li>
+            이벤트{" "}
+            <IoIosArrowForward
+              size="23"
+              style={{ marginRight: "11%", color: "gray", float: "right" }}
+            />
+          </li>
         </ListUl>
       </UserinfoDiv>
-            
     </div>
   );
 }
@@ -112,7 +127,7 @@ const UserNameDiv = styled.div`
   text-align: center;
   font-size: 6vw;
   font-weight: 1000;
-  @media (min-width: 800px) { 
+  @media (min-width: 800px) {
     font-size: 35px;
   }
 `;
@@ -125,7 +140,7 @@ const ParkingTitleDiv = styled.div`
   font-size: 3vw;
   margin-top: 20px;
   color: gray;
-  @media (min-width: 800px) { 
+  @media (min-width: 800px) {
     font-size: 15px;
   }
 `;
@@ -135,7 +150,7 @@ const ParkingTimeDiv = styled.div`
   font-size: 6vw;
   font-weight: bold;
   margin-top: 2%;
-    @media (min-width: 800px) { 
+  @media (min-width: 800px) {
     font-size: 35px;
   }
 `;
@@ -150,8 +165,8 @@ const UserCarDiv = styled.div`
   margin-left: 2.5vw;
   color: rgb(69, 43, 117);
   background-color: rgb(182, 156, 230);
-  @media (min-width: 800px) { 
-  padding: 10px;
+  @media (min-width: 800px) {
+    padding: 13px;
     font-size: 10px;
   }
 `;
@@ -168,11 +183,10 @@ const ParkingSet = styled.div`
   margin: 10vw 2.5vw 2vw 7vw;
   font-size: 3vw;
   color: gray;
-   @media (min-width: 800px) { 
-   margin: 20px 5px 2px 7px;
+  @media (min-width: 550px) {
+    margin: 20px 5px 30px 50px;
     font-size: 10px;
   }
-  
 `;
 
 const UserinfosDiv = styled.div`
@@ -197,10 +211,9 @@ const UserinfochildDiv = styled.div`
 const ListUl = styled.ul`
   list-style: none;
   font-weight: bold;
-  margin-right : 1vw;
+  margin-right: 1vw;
   & > li {
-    margin: 8px 8px 8px 8px;
-    
+    margin: 13px 8px 8px 8px;
   }
 `;
 
@@ -216,7 +229,7 @@ const UserBannerchildDiv = styled.div`
 const UserinfoDiv = styled.div`
   margin-left: auto;
   margin-right: auto;
-  width: 100vw;
+  width: 90vw;
   height: 40vh;
   display: flex;
 
@@ -229,4 +242,3 @@ const UserinfoDiv = styled.div`
     height: 94vh;
   }
 `;
-

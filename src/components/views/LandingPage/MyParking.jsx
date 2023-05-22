@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Bottom from "./Sections/Bottom";
-import { useCookies } from 'react-cookie';
 
-const MyParking = () => {
-    
-    const [cookies, setCookie] = useCookies(['id']); // 쿠키 훅 
+import { useCookies } from "react-cookie";
+import BottomSheetSection from "./Sections/BottomSheetSection";
+
+const MyParking = (props) => {
+  const [cookies, setCookie] = useCookies(["id"]); // 쿠키 훅
   let outimg = [
     { bottom: "450px", right: "40%", height: "3rem", width: "5rem" },
   ];
@@ -145,27 +145,25 @@ const MyParking = () => {
       use: false,
     },
   ];
-    
-    
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [User, setUser] = useState([]);
   useEffect(() => {
-       const token = cookies.id; // 쿠키에서 id 를 꺼내기
-      const jsonString = JSON.stringify(positions);
-      const params = { id:token, positions: jsonString };
-      const body = JSON.stringify(params);
-      console.log(jsonString);
-      
-    Axios.post(`https://backbone-ufribf.run.goorm.site/room/`, body ,{
+    const token = cookies.id; // 쿠키에서 id 를 꺼내기
+    const jsonString = JSON.stringify(positions);
+    const params = { id: token, positions: jsonString };
+    const body = JSON.stringify(params);
+    console.log(jsonString);
+
+    Axios.post(`https://backbone-ufribf.run.goorm.site/room/`, body, {
       withCredentials: true,
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
         console.log(response.data);
-       
-        })
-      
+      })
+
       .catch((error) => {
         // 요청이 실패한 경우의 처리
         console.error(error);
@@ -175,6 +173,7 @@ const MyParking = () => {
   const onClickButton = (event) => {
     const button_number = event.target.getAttribute("data");
 
+    setOpen(true);
     setIsModalOpen(true);
     if (positions[button_number]) {
       setUser(positions[button_number]);
@@ -183,7 +182,7 @@ const MyParking = () => {
     }
   };
   return (
-    <div>
+    <div ref={props.ref} className="wrap loaded">
       <Container>
         <Parkingcontainer>
           <Parkingmaintextcontainer>주차장 현황</Parkingmaintextcontainer>
@@ -230,14 +229,8 @@ const MyParking = () => {
             </React.Fragment>
           ))}
         </Parkingcontainer>
+        <BottomSheetSection open={open} setOpen={setOpen} User={User} />
       </Container>
-      {isModalOpen && (
-        <Bottom
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          User={User}
-        />
-      )}
     </div>
   );
 };

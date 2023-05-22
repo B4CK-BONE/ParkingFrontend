@@ -45,6 +45,9 @@ const EachSlideEffect = styled.div`
     justify-content: center;
     background-size: cover;
     border-radius: 20px;
+    @media (min-width: 800px) {
+      width: auto;
+    }
     width: 90vw;
     height: 9vh;
     margin-top: 0.5vh;

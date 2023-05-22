@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function ListPage() {
+function ListPage(props) {
   let positions = [
     {
       number: 0,
@@ -49,7 +49,7 @@ function ListPage() {
     },
   ];
   return (
-    <div>
+    <div ref={props.ref} className="wrap loaded">
       {positions.map((list, index) => (
         <Ulclass>
           <Liclass>

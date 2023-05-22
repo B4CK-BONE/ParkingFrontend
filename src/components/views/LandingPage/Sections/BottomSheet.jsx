@@ -10,7 +10,7 @@ function BottomSheet({ title, closeModal, children }) {
           <div>{title}</div>
           <GrClose size="23" onClick={closeModal} />
         </StyledBottomSheetHeader>
-        <div>{children}</div>
+        <div>{children} 123</div>
       </StyledBottomSheet>
     </>
   );

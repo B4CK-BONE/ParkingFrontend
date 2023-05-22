@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Rnd } from "react-rnd";
 
 const App = () => {
@@ -22,36 +22,19 @@ const App = () => {
 };
 
 const DragDropPage = () => {
-  const [position, setPosition] = useState({ x: 10, y: 10 });
-  const [size, setSize] = useState({ width: 320, height: 200 });
-
   const handleDragStop = (e, d) => {
-    setPosition((prevPosition) => ({
-      x: prevPosition.x + d.deltaX,
-      y: prevPosition.y + d.deltaY,
-    }));
+    console.log("Position:", d.x, d.y, d.width, d.height);
   };
-
-  const handleResize = (e, direction, ref, delta, position) => {
-    setSize({
-      width: parseInt(ref.style.width),
-      height: parseInt(ref.style.height),
-    });
-  };
-
-  useEffect(() => {
-    setPosition((prevPosition) => ({
-      x: prevPosition.x + (size.width - prevPosition.width) / 2,
-      y: prevPosition.y + (size.height - prevPosition.height) / 2,
-    }));
-  }, [size]);
 
   return (
     <Rnd
-      position={position}
-      size={size}
+      default={{
+        x: 10,
+        y: 10,
+        width: 320,
+        height: 200,
+      }}
       onDragStop={handleDragStop}
-      onResize={handleResize}
     >
       <div
         style={{

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import styled from "styled-components";
 import Axios from "axios";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 
-function QrPage() {
+function QrPage(props) {
   const [Src, setSrc] = useState("");
-    const [cookies, setCookie, removeCookie] = useCookies(['id']);
+  const [cookies, setCookie, removeCookie] = useCookies(["id"]);
 
   let qrUrl = [
     {
@@ -15,14 +15,16 @@ function QrPage() {
   ];
 
   useEffect(() => {
-     const token = cookies.id; // 쿠키에서 id 를 꺼내기
+    const token = cookies.id; // 쿠키에서 id 를 꺼내기
     Axios.get(`https://backbone-ufribf.run.goorm.site/getroom?id=${token}`, {
       withCredentials: true,
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
         console.log(response.data);
-        QRCode.toDataURL(`https://backbone-xpiar.run.goorm.site/roomjoin?roomkey=${response.data}`).then((data) => {
+        QRCode.toDataURL(
+          `https://backbone-xpiar.run.goorm.site/roomjoin?roomkey=${response.data}`
+        ).then((data) => {
           setSrc(data);
         });
       })
@@ -32,7 +34,7 @@ function QrPage() {
       });
   }, []);
   return (
-    <div>
+    <div ref={props.ref} className="wrap loaded">
       <div>
         <img
           src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcYaxSE%2FbtsfdaHthmR%2F1f2rjzIEmZbuy8EfSEHyok%2Fimg.png"
