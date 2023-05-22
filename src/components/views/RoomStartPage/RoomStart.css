@@ -3,21 +3,33 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
-
-.button-container {
-  margin: 10px;
+.parent-container2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .my-button {
-  /* 기존 스타일 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  padding: 0 1rem;
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-transform: uppercase;
+  width: 70%;
+  height: 3.5rem;
+  border-radius: 1rem;
   background-color: #007bff;
   color: #fff;
-  padding: 20px;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
+  align-items: center; 
+  display: flex;
+  margin:10px;
+  font-size:20px;
 }
 
 .my-button:hover {

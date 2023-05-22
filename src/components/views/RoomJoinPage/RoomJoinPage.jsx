@@ -10,7 +10,7 @@ function RoomJoinPage() {
     const [cookies, setCookie, removeCookie] = useCookies(['id']);
 
     useEffect(() => {
-        const params = new URLSearchParams(location.search);
+        const params = new URLSearchParams(window.location.search);
         let roomkey = params.get('roomkey');
         console.log(roomkey);
         // 방 입장하기 버튼 클릭 시 실행되는 로직

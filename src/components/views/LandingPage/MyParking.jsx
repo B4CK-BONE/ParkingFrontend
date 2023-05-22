@@ -152,15 +152,20 @@ const MyParking = () => {
   const [User, setUser] = useState([]);
   useEffect(() => {
        const token = cookies.id; // 쿠키에서 id 를 꺼내기
-    Axios.post(`https://backbone-ufribf.run.goorm.site/room?id=${token}`, positions,{
+      const jsonString = JSON.stringify(positions);
+      const params = { id:token, positions: jsonString };
+      const body = JSON.stringify(params);
+      console.log(jsonString);
+      
+    Axios.post(`https://backbone-ufribf.run.goorm.site/room/`, body ,{
       withCredentials: true,
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
         console.log(response.data);
        
-        });
-      })
+        })
+      
       .catch((error) => {
         // 요청이 실패한 경우의 처리
         console.error(error);

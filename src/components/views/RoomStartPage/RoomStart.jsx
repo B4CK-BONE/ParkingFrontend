@@ -37,16 +37,17 @@ const RoomStart = () => {
         console.error(error);
       });
   };
-  return (
-    <div class="parent-container">
-  <div class="button-container">
-    <button class="my-button">방 생성</button>
+return (
+  <div>
+	<div className="parent-container2">
+      <img src="logo2.png" alt="로고" style={{ height: '30vh',width: '30vh', marginTop: '10vh',marginBottom: '7vh' }}/>
+	</div>
+    <div className="parent-container">
+      <button className="my-button" style={{ fontSize: '18px' }}>주차장 생성</button>
+      <button className="my-button" style={{ fontSize: '18px' }}>주차장 참여</button>
+    </div>
   </div>
-  <div class="button-container">
-    <button class="my-button">방 참여</button>
-  </div>
-</div>
-  );
+);
 };
 
 export default RoomStart;

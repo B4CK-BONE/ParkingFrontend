@@ -10,6 +10,7 @@ import RoomJoinPage from './views/RoomJoinPage/RoomJoinPage';
 import RoomStart from './views/RoomStartPage/RoomStart';
 import SettingPage from './views/SettingPage/SettingPage';
 import DragDropPage from './views/DragDropPage/DragDropPage';
+import DragDropPage2 from './views/DragDropPage2/DragDropPage2';
 import SliderSection from './views/SettingPage/Sections/SliderSection';
 
 function App() {
@@ -32,7 +33,8 @@ function App() {
                     <Route path="/roomstart" element={<RoomStart />} />
                     <Route path="/setting" element={<SettingPage />} />
 
-                    <Route path="/test" element={<SliderSection />} />
+                    <Route path="/test" element={<DragDropPage />} />
+					<Route path="/test2" element={<DragDropPage2 />} />
                 </Routes>
             </div>
             <Footer />
