@@ -109,7 +109,7 @@ const StyledButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 1.6rem;
-
+  justify-content: center;
   & > button {
     width: 5.8rem;
     height: 5.8rem;
@@ -148,7 +148,9 @@ const StyledBottomSheetHeader = styled.div`
 
 const StyledNewWishList = styled.div`
   padding: 3.3rem 2.2rem 3.6rem 2.2rem;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   & > input {
     width: 85%;
     padding: 0.5rem 1rem;

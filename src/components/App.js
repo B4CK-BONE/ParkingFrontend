@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import "./App.css";
+import Auth from "../hoc/auth";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import NavBar from "./views/NavBar/NavBar";
 import MyParking from "./views/LandingPage/MyParking";
@@ -19,6 +20,13 @@ function App() {
   const { pathname } = useLocation();
   const wrapRef = useRef(null);
 
+  const NewMyParking = Auth(MyParking, true);
+  const NewListPage = Auth(ListPage, true);
+  const NewQrPage = Auth(QrPage, true);
+  const NewRoomJoinPage = Auth(RoomJoinPage, false);
+  const NewSettingPage = Auth(SettingPage, true);
+  const NewRoomStart = Auth(RoomStart, false);
+
   const movePage = (url) => {
     if (pathname !== `/${url}`) {
       wrapRef.current.classList.replace("loaded", "unloaded");
@@ -37,7 +45,7 @@ function App() {
           style={{ minHeight: "calc(100vh - 80px)", paddingTop: "50px" }}
         >
           <Routes>
-            <Route path="/roomstart" element={<RoomStart ref={wrapRef} />} />
+            <Route path="/roomstart" element={<NewRoomStart ref={wrapRef} />} />
             <Route path="/test" element={<StartPage ref={wrapRef} />} />
           </Routes>
         </div>
@@ -55,12 +63,12 @@ function App() {
         }}
       >
         <Routes>
-          <Route path="/" element={<MyParking ref={wrapRef} />} />
-          <Route path="/list" element={<ListPage ref={wrapRef} />} />
-          <Route path="/qrcode" element={<QrPage ref={wrapRef} />} />
-          <Route path="/roomjoin" element={<RoomJoinPage />} />
+          <Route path="/" element={<NewMyParking ref={wrapRef} />} />
+          <Route path="/list" element={<NewListPage ref={wrapRef} />} />
+          <Route path="/qrcode" element={<NewQrPage ref={wrapRef} />} />
+          <Route path="/roomjoin" element={<NewRoomJoinPage />} />
 
-          <Route path="/setting" element={<SettingPage ref={wrapRef} />} />
+          <Route path="/setting" element={<NewSettingPage ref={wrapRef} />} />
 
           <Route path="/test2" element={<DragDropPage2 />} />
         </Routes>

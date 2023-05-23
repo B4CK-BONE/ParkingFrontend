@@ -137,7 +137,7 @@ const UserParkingTimeDiv = styled.div`
 `;
 
 const ParkingTitleDiv = styled.div`
-  font-size: 3vw;
+  font-size: 13px;
   margin-top: 20px;
   color: gray;
   @media (min-width: 800px) {
@@ -147,7 +147,7 @@ const ParkingTitleDiv = styled.div`
 
 const ParkingTimeDiv = styled.div`
   text-align: center;
-  font-size: 6vw;
+  font-size: 5vw;
   font-weight: bold;
   margin-top: 2%;
   @media (min-width: 800px) {
@@ -156,16 +156,17 @@ const ParkingTimeDiv = styled.div`
 `;
 
 const UserCarDiv = styled.div`
-  padding: 2vw 2vw;
+  padding: 8px;
   font-size: 1vw;
   font-weight: 1000;
   border-radius: 11px;
   display: flex;
-  margin-top: 0.8vw;
+  margin-top: auto;
   margin-left: 2.5vw;
+  margin-bottom: auto;
   color: rgb(69, 43, 117);
   background-color: rgb(182, 156, 230);
-  @media (min-width: 800px) {
+  @media (min-width: 550px) {
     padding: 13px;
     font-size: 10px;
   }
@@ -180,12 +181,12 @@ const ParkingImg = styled.img`
 
 const ParkingSet = styled.div`
   display: block;
-  margin: 10vw 2.5vw 2vw 7vw;
-  font-size: 3vw;
+  margin: 25px 20px 30px 32px;
+  font-size: 13px;
   color: gray;
   @media (min-width: 550px) {
     margin: 20px 5px 30px 50px;
-    font-size: 10px;
+    font-size: 11px;
   }
 `;
 
