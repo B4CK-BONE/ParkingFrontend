@@ -16,6 +16,7 @@ export function auth() {
         body = JSON.stringify(params);
 
         
+        
     }
     const request = Axios.post('https://backbone-ufribf.run.goorm.site/api/user/auth', body, {
             withCredentials: true,
