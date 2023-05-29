@@ -46,7 +46,8 @@ function App() {
         >
           <Routes>
             <Route path="/roomstart" element={<NewRoomStart ref={wrapRef} />} />
-            <Route path="/test" element={<StartPage ref={wrapRef} />} />
+           
+			   <Route path="/test" element={<DragDropPage2 />} />
           </Routes>
         </div>
       </div>
@@ -70,7 +71,7 @@ function App() {
 
           <Route path="/setting" element={<NewSettingPage ref={wrapRef} />} />
 
-          <Route path="/test2" element={<DragDropPage2 />} />
+         
         </Routes>
       </div>
       <Footer />
