@@ -3,37 +3,27 @@ import styled from "styled-components";
 import { IoIosArrowForward } from "react-icons/io";
 import SliderSection from "./Sections/SliderSection";
 import Axios from "axios";
+import { useCookies } from 'react-cookie'; // useCookies import
 
 function SettingPage(props) {
   const [Src, setSrc] = useState("");
+	const [cookies, setCookie] = useCookies(['id']); // 쿠키 훅
+	const [Userinfo, setUserinfo] = useState([]);
 
-  let qrUrl = [
-    {
-      QRcodeUrl: "https://www.youtube.com/watch?v=bVGGsVt2t6o",
-    },
-  ];
+     
 
-  let positions = [
-    {
-      number: 0,
-      text: "06:20",
-      userName: "201호",
-      userCar: "17다 5864",
-      inTime: "18:50",
-      outTime: "06:15",
-      userImg:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU",
-      use: true,
-    },
-  ];
+ 
 
   useEffect(() => {
-    Axios.get("https://backbone-ufribf.run.goorm.site/", {
+	const token = cookies.id; // 쿠키에서 id 를 꺼내기
+    Axios.get(`https://backbone-ufribf.run.goorm.site/info?id=${token}`, {
       withCredentials: true,
     }) //
       .then((response) => {
         // 요청이 성공한 경우의 처리
         console.log(response.data);
+		setUserinfo(response.data);
+		
       })
       .catch((error) => {
         // 요청이 실패한 경우의 처리
@@ -45,8 +35,8 @@ function SettingPage(props) {
     <div ref={props.ref} className="wrap loaded">
       <UserinfoDiv>
         <UserDiv>
-          <UserNameDiv>조현식</UserNameDiv>
-          <UserCarDiv>17다 5864</UserCarDiv>
+          <UserNameDiv>{Userinfo.username}</UserNameDiv>
+          <UserCarDiv>{Userinfo.usercar}</UserCarDiv>
         </UserDiv>
 
         <UserinfochildDiv>
@@ -56,8 +46,8 @@ function SettingPage(props) {
               alt="1"
             />
             <UserParkingTimeDiv>
-              <ParkingTitleDiv>주차 시간</ParkingTitleDiv>
-              <ParkingTimeDiv>06:15~18:50</ParkingTimeDiv>
+              <ParkingTitleDiv>출차 시간</ParkingTitleDiv>
+              <ParkingTimeDiv>{Userinfo.outTime}</ParkingTimeDiv>
             </UserParkingTimeDiv>
             <IoIosArrowForward
               size="23"
