@@ -8,36 +8,15 @@ import { useNavigate } from "react-router-dom";
 const RoomStart = (props) => {
   const [cookies, setCookie] = useCookies(["id"]); // 쿠키 훅
   const navigate = useNavigate();
-  const handleJoinRoom = () => {
+  const handleCreateRoom = () => {
     // 방 입장하기 버튼 클릭 시 실행되는 로직
-    axios
-      .get("https://backbone-ufribf.run.goorm.site/main/", {
-        withCredentials: true,
-      }) // 아 그 순차통역이   그리고 그거  ㅇㅇㅇ 그 합쳐서 하도록 설계하는거였음 음ㅇㅇ
-      .then((response) => {
-        // 요청이 성공한 경우의 처리
-        console.log(response.data);
-        setCookie("id", response.data); // 쿠키에 토큰 저장
-        navigate("/");
-      })
-      .catch((error) => {
-        // 요청이 실패한 경우의 처리
-        console.error(error);
-      });
+   
+    navigate("/inputname");
+      
   };
 
-  const handleCreateRoom = () => {
-    // 방 생성하기 버튼 클릭 시 실행되는 로직
-    axios
-      .get("http://www.catsecurity.net/?page_id=182")
-      .then((response) => {
-        // 요청이 성공한 경우의 처리
-        console.log(response.data);
-      })
-      .catch((error) => {
-        // 요청이 실패한 경우의 처리
-        console.error(error);
-      });
+  const handleJoinRoom = () => {
+    window.location.href = 'camera://'+window.location.href;
   };
   return (
     <div ref={props.ref} className="wrap loaded">

@@ -13,6 +13,8 @@ import SettingPage from "./views/SettingPage/SettingPage";
 import DragDropPage from "./views/DragDropPage/DragDropPage";
 import DragDropPage2 from "./views/DragDropPage2/DragDropPage2";
 import StartPage from "./views/StartPage/StartPage";
+import InputNamePage from "./views/InputNamePage/InputNamePage";
+
 
 function App() {
   const url = document.URL;
@@ -26,6 +28,7 @@ function App() {
   const NewRoomJoinPage = Auth(RoomJoinPage, false);
   const NewSettingPage = Auth(SettingPage, true);
   const NewRoomStart = Auth(RoomStart, false);
+const NewInputName = Auth(InputNamePage, false);
 
   const movePage = (url) => {
     if (pathname !== `/${url}`) {
@@ -37,7 +40,7 @@ function App() {
     }
   };
 
-  if (url.includes("roomstart") || url.includes("test")) {
+  if (url.includes("roomstart") || url.includes("test") || url.includes("inputname") ||  url.includes("roomjoin")) {
     return (
       <div>
         <div
@@ -46,7 +49,8 @@ function App() {
         >
           <Routes>
             <Route path="/roomstart" element={<NewRoomStart ref={wrapRef} />} />
-           
+           <Route path="/inputname" element={<NewInputName ref={wrapRef} />} />
+			  <Route path="/roomjoin" element={<NewRoomJoinPage ref={wrapRef} />} />
 			   <Route path="/test" element={<DragDropPage2 />} />
           </Routes>
         </div>
@@ -67,7 +71,7 @@ function App() {
           <Route path="/" element={<NewMyParking ref={wrapRef} />} />
           <Route path="/list" element={<NewListPage ref={wrapRef} />} />
           <Route path="/qrcode" element={<NewQrPage ref={wrapRef} />} />
-          <Route path="/roomjoin" element={<NewRoomJoinPage />} />
+          
 
           <Route path="/setting" element={<NewSettingPage ref={wrapRef} />} />
 

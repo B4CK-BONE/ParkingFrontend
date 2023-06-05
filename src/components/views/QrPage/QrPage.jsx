@@ -3,6 +3,7 @@ import QRCode from "qrcode";
 import styled from "styled-components";
 import Axios from "axios";
 import { useCookies } from "react-cookie";
+import CameraButton from './CameraButton';
 
 function QrPage(props) {
   const [Src, setSrc] = useState("");

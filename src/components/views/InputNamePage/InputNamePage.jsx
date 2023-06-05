@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import QRCode from 'qrcode';
+import React, { useState } from 'react';
+import axios from 'axios';
 import styled, { keyframes } from 'styled-components';
-import Axios from 'axios';
-import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie'; // useCookies import
 import { useNavigate } from 'react-router-dom';
 
-function RoomJoinPage(props) {
-    const [cookies, setCookie, removeCookie] = useCookies(['id']);
+const InputNamePage = (props) => {
+    const [cookies, setCookie] = useCookies(['id']); // 쿠키 훅
     const [Name, setName] = useState('');
     const [Usercar, setUsercar] = useState('');
     const navigate = useNavigate();
@@ -21,32 +20,31 @@ function RoomJoinPage(props) {
 
     const handleJoinRoom = (event) => {
         event.preventDefault();
-        const params = new URLSearchParams(window.location.search);
-        let roomkey = params.get('roomkey');
-        console.log(roomkey);
-        // 방 입장하기 버튼 클릭 시 실행되는 로직
-		
-		const paramsbody = { username: Name, usercar: Usercar };
-        const body = JSON.stringify(paramsbody);
-        if (Name !== "" || Usercar !== "") {
-        Axios.post(`https://backbone-ufribf.run.goorm.site/main?roomkey=${roomkey}`, body, {
-            withCredentials: true,
-        }) //
-            .then((response) => {
-                // 요청이 성공한 경우의 처리
-                console.log(response.data);
-                setCookie('id', response.data); // 쿠키에 토큰 저장
-				setCookie('username', Name); // 쿠키에 토큰 저장
-				setCookie('usercar', Usercar); // 쿠키에 토큰 저장
-                navigate('/');
-            })
-            .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
-            });
-		}else{
-			alert("차량번호 및 호수를 확인해주세요.");
-		}
+
+        const params = { username: Name, usercar: Usercar };
+        const body = JSON.stringify(params);
+        if (Name !== '' || Usercar !== '') {
+            console.log(body);
+            // 방 입장하기 버튼 클릭 시 실행되는 로직
+            axios
+                .post('https://backbone-ufribf.run.goorm.site/main/', body, {
+                    withCredentials: true,
+                }) //
+                .then((response) => {
+                    // 요청이 성공한 경우의 처리
+                    console.log(response.data);
+                    setCookie('id', response.data); // 쿠키에 토큰 저장
+                    setCookie('username', Name); // 쿠키에 토큰 저장
+                    setCookie('usercar', Usercar); // 쿠키에 토큰 저장
+                    navigate('/');
+                })
+                .catch((error) => {
+                    // 요청이 실패한 경우의 처리
+                    console.error(error);
+                });
+        } else {
+            alert('차량번호 및 호수를 확인해주세요.');
+        }
     };
 
     return (
@@ -61,14 +59,14 @@ function RoomJoinPage(props) {
             <ContainerDiv>
                 <NameInput
                     type="text"
-					minlength = "3" 
+                    minlength="3"
                     value={Name}
                     onChange={onNameHandler}
                     placeholder="세대 호수 예). 201호"
                 />
                 <NameInput
                     type="text"
-					minlength = "7" 
+                    minlength="7"
                     value={Usercar}
                     onChange={onUsercarHandler}
                     placeholder="차량 번호 예). 17가 8526"
@@ -77,9 +75,9 @@ function RoomJoinPage(props) {
             </ContainerDiv>
         </div>
     );
-}
+};
 
-export default RoomJoinPage;
+export default InputNamePage;
 
 const NameInput = styled.input`
     width: 85%;
@@ -122,8 +120,8 @@ const ContainersubTitleDiv = styled.div`
     align-items: center;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 15px;
-	margin-left:15px;
-	margin-right:15px;
+    margin-left: 15px;
+    margin-right: 15px;
     margin-bottom: 5vh;
 `;
 
