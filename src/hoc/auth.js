@@ -12,20 +12,20 @@ export default function (SpecificComponent, option, adminRoute = null) {
     useEffect(() => {
       dispatch(auth()).then((response) => {
         console.log(response.payload.isAuth);
-        if (!response.payload.isAuth) {
-          if (option) {
-            navigate("/roomstart", { replace: true });
-          }
-        } else {
-          //로그인한 상태
-          if (adminRoute && !response.payload.isAdmin) {
-            navigate("/", { replace: true });
-          } else {
-            if (option === false) {
-              navigate("/", { replace: true });
-            }
-          }
-        }
+        // if (!response.payload.isAuth) {
+        //   if (option) {
+        //     navigate("/roomstart", { replace: true });
+        //   }
+        // } else {
+        //   //로그인한 상태
+        //   if (adminRoute && !response.payload.isAdmin) {
+        //     navigate("/", { replace: true });
+        //   } else {
+        //     if (option === false) {
+        //       navigate("/", { replace: true });
+        //     }
+        //   }
+        // }
       });
     }, []);
 
