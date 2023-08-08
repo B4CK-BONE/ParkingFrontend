@@ -1,41 +1,49 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styled, { keyframes } from 'styled-components';
-import { useCookies } from 'react-cookie'; // useCookies import
 import { useNavigate } from 'react-router-dom';
 
 const InputNamePage = (props) => {
-    const [cookies, setCookie] = useCookies(['id']); // 쿠키 훅
     const [Name, setName] = useState('');
     const [Usercar, setUsercar] = useState('');
+    const [Userphone, setUserphone] = useState('');
     const navigate = useNavigate();
 
     const onNameHandler = (event) => {
-        setName(event.currentTarget.value);
+        const newValue = event.target.value
+            .replace(/[^0-9.]/g, '') // 숫자와 소수점 이외의 문자를 제거
+            .replace(/(\..*?)\..*/g, '$1'); // 여러 소수점을 하나로 축소
+
+        setName(newValue);
     };
 
     const onUsercarHandler = (event) => {
         setUsercar(event.currentTarget.value);
     };
 
+    const onUserphoneHandler = (event) => {
+        const newValue = event.target.value
+            .replace(/[^0-9.]/g, '') // 숫자와 소수점 이외의 문자를 제거
+            .replace(/(\..*?)\..*/g, '$1'); // 여러 소수점을 하나로 축소
+
+        setUserphone(newValue);
+    };
+
     const handleJoinRoom = (event) => {
         event.preventDefault();
 
-        const params = { username: Name, usercar: Usercar };
-        const body = JSON.stringify(params);
-        if (Name !== '' || Usercar !== '') {
-            console.log(body);
+        const params = { idx: 1, car: Usercar, phone: Userphone, address: Name };
+        //const body = JSON.stringify(params);
+        if (Name !== '' || Usercar !== '' || Userphone) {
+            //console.log(body);
             // 방 입장하기 버튼 클릭 시 실행되는 로직
             axios
-                .post('https://backbone-ufribf.run.goorm.site/main/', body, {
+                .put(`http://localhost:8080/api/user/${1}`, params, {
                     withCredentials: true,
                 }) //
                 .then((response) => {
                     // 요청이 성공한 경우의 처리
                     console.log(response.data);
-                    setCookie('id', response.data); // 쿠키에 토큰 저장
-                    setCookie('username', Name); // 쿠키에 토큰 저장
-                    setCookie('usercar', Usercar); // 쿠키에 토큰 저장
                     navigate('/');
                 })
                 .catch((error) => {
@@ -43,7 +51,7 @@ const InputNamePage = (props) => {
                     console.error(error);
                 });
         } else {
-            alert('차량번호 및 호수를 확인해주세요.');
+            alert('차량번호 및 호수, 전화번호를 확인해주세요.');
         }
     };
 
@@ -59,14 +67,23 @@ const InputNamePage = (props) => {
             <ContainerDiv>
                 <NameInput
                     type="text"
-                    minlength="3"
+                    minLength="3"
                     value={Name}
                     onChange={onNameHandler}
-                    placeholder="세대 호수 예). 201호"
+                    placeholder="세대 호수 예). 201호 -> 201"
                 />
                 <NameInput
                     type="text"
-                    minlength="7"
+                    minLength="7"
+                    maxLength="11"
+                    value={Userphone}
+                    onChange={onUserphoneHandler}
+                    placeholder="전화번호 번호 예). 01011112222"
+                />
+                <NameInput
+                    type="text"
+                    minLength="7"
+					maxLength="10"
                     value={Usercar}
                     onChange={onUsercarHandler}
                     placeholder="차량 번호 예). 17가 8526"

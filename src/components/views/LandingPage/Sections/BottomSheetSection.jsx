@@ -3,14 +3,15 @@ import { BottomSheet } from 'react-spring-bottom-sheet';
 import 'react-spring-bottom-sheet/dist/style.css';
 import { GrClose } from 'react-icons/gr';
 import styled from 'styled-components';
-import { useCookies } from 'react-cookie';
+
+
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 
 function BottomSheetSection(props) {
     const [isDisabled, setDisabled] = useState(true);
     const [wishListName, setWishListName] = useState('');
-    const [cookies, setCookie] = useCookies([]); // 쿠키 훅
+    
     const navigate = useNavigate();
 
     const onClose = () => {
@@ -18,9 +19,7 @@ function BottomSheetSection(props) {
     };
 
     const createNewWishList = () => {
-        const token = cookies.id; // 쿠키에서 id 를 꺼내기
-        const token1 = cookies.username; // 쿠키에서 id 를 꺼내기
-        const token2 = cookies.usercar; // 쿠키에서 id 를 꺼내기
+       
 
         props.User.outTime = wishListName;
         props.setOpen(false);
@@ -31,7 +30,7 @@ function BottomSheetSection(props) {
         if (props.User.outTime !== '') {
             
             const params = {
-                id: token,
+                
                 parking_id: props.User.number,
                 outTime: props.User.outTime,
             };
@@ -52,11 +51,11 @@ function BottomSheetSection(props) {
 
 			props.ParkingList[props.User.number].outTime = wishListName;
             props.ParkingList[props.User.number].text = wishListName;
-            props.ParkingList[props.User.number].userCar = token2;
+            props.ParkingList[props.User.number].userCar = "";
             props.ParkingList[props.User.number].backgroundColor = '#9b111e';
 
             const jsonString = JSON.stringify(props.ParkingList);
-            const parameter = { id: token, positions: jsonString };
+            const parameter = { id: "token", positions: jsonString };
 			const paramete = JSON.stringify(parameter);
             Axios.post(`https://backbone-ufribf.run.goorm.site/room/`, paramete, {
                 withCredentials: true,
@@ -125,7 +124,7 @@ function BottomSheetSection(props) {
                             height: '50vh',
                         }}
                     >
-                        {cookies.id === props.User.id ? (
+                        {props.User.id ? (
                             <StyledNewWishList>
                                 <input
                                     type="time"

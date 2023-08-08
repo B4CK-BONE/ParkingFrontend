@@ -9,16 +9,16 @@ import BottomSheetSection from './Sections/BottomSheetSection';
 
 const MyParking = (props) => {
     const [cookies, setCookie] = useCookies(['id']); // 쿠키 훅
-	const [ParkingList, setParkingList] = useState([]);
-    let outimg = [{ bottom: '450px', right: '40%', height: '3rem', width: '5rem' }];
+    const [ParkingList, setParkingList] = useState([]);
+    
 
     let positions = [
         {
             number: 0,
-            bottom: '400px',
+            bottom: '56vh',
             right: '70%',
-            height: '2.5rem',
-            width: '5rem',
+            height: '5vh',
+            width: '20vw',
             backgroundColor: '#237af2',
             text: '주차가능',
             userCar: '',
@@ -28,10 +28,10 @@ const MyParking = (props) => {
         },
         {
             number: 1,
-            bottom: '350px',
+            bottom: '50vh',
             right: '70%',
-            height: '2.5rem',
-            width: '5rem',
+            height: '5vh',
+            width: '20vw',
             backgroundColor: '#237af2',
             text: '주차가능',
             userCar: '',
@@ -41,10 +41,10 @@ const MyParking = (props) => {
         },
         {
             number: 2,
-            bottom: '300px',
+            bottom: '44vh',
             right: '70%',
-            height: '2.5rem',
-            width: '5rem',
+            height: '5vh',
+            width: '20vw',
             backgroundColor: '#237af2',
             text: '주차가능',
             userCar: '',
@@ -54,10 +54,10 @@ const MyParking = (props) => {
         },
         {
             number: 3,
-            bottom: '400px',
-            right: '15%',
-            height: '2.5rem',
-            width: '5rem',
+            bottom: '56vh',
+            right: '12%',
+            height: '5vh',
+            width: '20vw',
             backgroundColor: '#237af2',
             text: '주차가능',
             userCar: '',
@@ -67,10 +67,10 @@ const MyParking = (props) => {
         },
         {
             number: 4,
-            bottom: '350px',
-            right: '15%',
-            height: '2.5rem',
-            width: '5rem',
+            bottom: '50vh',
+            right: '12%',
+            height: '5vh',
+            width: '20vw',
             backgroundColor: '#237af2',
             text: '주차가능',
             userCar: '',
@@ -80,10 +80,10 @@ const MyParking = (props) => {
         },
         {
             number: 5,
-            bottom: '300px',
-            right: '15%',
-            height: '2.5rem',
-            width: '5rem',
+            bottom: '44vh',
+            right: '12%',
+            height: '5vh',
+            width: '20vw',
             backgroundColor: '#9b111e',
             text: '06:20',
             userCar: '17다 5864',
@@ -93,10 +93,10 @@ const MyParking = (props) => {
         },
         {
             number: 6,
-            bottom: '220px',
+            bottom: '40vh',
             right: '40%',
-            height: '5rem',
-            width: '3rem',
+            height: '10vh',
+            width: '5vh',
             backgroundColor: '#9b111e',
             text: '06:50',
             userCar: '17다 5864',
@@ -106,10 +106,10 @@ const MyParking = (props) => {
         },
         {
             number: 7,
-            bottom: '310px',
+            bottom: '51vh',
             right: '55%',
-            height: '5rem',
-            width: '3rem',
+            height: '10vh',
+            width: '5vh',
             backgroundColor: '#237af2',
             text: '주차가능',
             userCar: '',
@@ -119,10 +119,10 @@ const MyParking = (props) => {
         },
         {
             number: 8,
-            bottom: '310px',
+            bottom: '51vh',
             right: '40%',
-            height: '5rem',
-            width: '3rem',
+            height: '10vh',
+            width: '5vh',
             backgroundColor: '#237af2',
             text: '주차가능',
             userCar: '',
@@ -132,10 +132,10 @@ const MyParking = (props) => {
         },
         {
             number: 9,
-            bottom: '220px',
+            bottom: '40vh',
             right: '55%',
-            height: '5rem',
-            width: '3rem',
+            height: '10vh',
+            width: '5vh',
             backgroundColor: '#237af2',
             text: '주차가능',
             userCar: '',
@@ -143,6 +143,33 @@ const MyParking = (props) => {
             outTime: '',
             use: false,
         },
+		{
+            number: 10,
+            bottom: '28vh',
+            right: '40%',
+            height: '10vh',
+            width: '5vh',
+            backgroundColor: '#237af2',
+            text: '주차가능',
+            userCar: '',
+            inTime: '',
+            outTime: '',
+            use: false,
+        },
+		{
+            number: 11,
+            bottom: '28vh',
+            right: '55%',
+            height: '10vh',
+            width: '5vh',
+            backgroundColor: '#237af2',
+            text: '주차가능',
+            userCar: '',
+            inTime: '',
+            outTime: '',
+            use: false,
+        },
+		
     ];
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -153,7 +180,6 @@ const MyParking = (props) => {
         // const jsonString = JSON.stringify(positions);
         // const params = { id: token, positions: jsonString };
         // const body = JSON.stringify(params);
-        
 
         Axios.get(`https://backbone-ufribf.run.goorm.site/room?id=${token}`, {
             withCredentials: true,
@@ -161,7 +187,7 @@ const MyParking = (props) => {
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 console.log(response.data);
-				setParkingList(response.data);
+                setParkingList(response.data);
             })
 
             .catch((error) => {
@@ -186,50 +212,43 @@ const MyParking = (props) => {
             <Container>
                 <Parkingcontainer>
                     <Parkingmaintextcontainer>주차장 현황</Parkingmaintextcontainer>
-                    <img
-                        src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FL7lEw%2Fbtsd01rpkbO%2FUwIxKrC1LVq6rVqZXxAPE0%2Fimg.png"
-                        style={{
-                            position: 'absolute',
+                    <Parkingimgcontainer>
+                        <img
+                            src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FL7lEw%2Fbtsd01rpkbO%2FUwIxKrC1LVq6rVqZXxAPE0%2Fimg.png"
+                            style={{
+                                border: '0px',
+                                padding: '0px 0.75rem',
+								width: '70px',
+								height : '50px'
+                            }}
+                            alt="1"
+                        />
+                    </Parkingimgcontainer>
 
-                            bottom: `${outimg[0].bottom}`,
-                            right: `${outimg[0].right}`,
-                            height: `${outimg[0].height}`,
-                            width: `${outimg[0].width}`,
-
-                            border: '0px',
-                            padding: '0px 0.75rem',
-                        }}
-                        alt="1"
-                    />
-
-                    {ParkingList.map((point, index) => (
+                    {positions.map((point, index) => (
                         <React.Fragment key={index}>
-                            <button
+                            <ParkingBtn
                                 onClick={onClickButton}
                                 data={point.number}
                                 style={{
-                                    position: 'absolute',
-
+                                    backgroundColor: `${point.backgroundColor}`,
                                     bottom: `${point.bottom}`,
                                     right: `${point.right}`,
                                     height: `${point.height}`,
                                     width: `${point.width}`,
-
-                                    border: '0px',
-
-                                    outline: 'none',
-                                    cursor: 'pointer',
-                                    borderRadius: '0.5rem',
-                                    backgroundColor: `${point.backgroundColor}`,
-                                    color: '#ffffff',
                                 }}
                             >
                                 {point.text}
-                            </button>
+                            </ParkingBtn>
                         </React.Fragment>
                     ))}
                 </Parkingcontainer>
-                <BottomSheetSection open={open} setOpen={setOpen} User={User} ParkingList={ParkingList} />
+                <BottomSheetSection
+                    open={open}
+                    setOpen={setOpen}
+                    User={User}
+                    ParkingList={ParkingList}
+                />
             </Container>
         </div>
     );
@@ -242,6 +261,12 @@ const Parkingmaintextcontainer = styled.div`
     margin: 20px;
     font-size: 18px;
     font-family: 'Noto Sans KR', sans-serif;
+`;
+
+const Parkingimgcontainer = styled.div`
+    text-align: center;
+    margin-top: 20px;
+    
 `;
 
 const Parkingcontainer = styled.div`
@@ -259,6 +284,8 @@ const Parkingcontainer = styled.div`
         width: 600px;
         height: 84vh;
     }
+    box-shadow: rgba(0, 0, 0, 0.14) 0px 6px 10px 0px, rgba(0, 0, 0, 0.12) 0px 1px 18px 0px,
+        rgba(0, 0, 0, 0.2) 0px 3px 5px -1px;
 `;
 
 const Container = styled.div`
@@ -279,4 +306,17 @@ const Container = styled.div`
         /* border-left:1px solid #95afc0;
     border-right:1px solid #95afc0; */
     }
+`;
+
+const ParkingBtn = styled.button`
+    box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12),
+        0px 3px 5px -1px rgba(0, 0, 0, 0.2);
+    border: 0px;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    position: absolute;
+    color: #ffffff;
+    max-width: 120px;
+    max-height: 150px;
 `;
