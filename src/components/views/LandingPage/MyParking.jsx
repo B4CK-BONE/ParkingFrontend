@@ -3,12 +3,10 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
-import { useCookies } from 'react-cookie';
 import BottomSheetSection from './Sections/BottomSheetSection';
 
 const MyParking = (props) => {
-    const [cookies, setCookie] = useCookies(['id']); // 쿠키 훅
+    
     const [ParkingList, setParkingList] = useState([]);
     
 
@@ -176,12 +174,12 @@ const MyParking = (props) => {
     const [open, setOpen] = useState(false);
     const [User, setUser] = useState([]);
     useEffect(() => {
-        const token = cookies.id; // 쿠키에서 id 를 꺼내기
+        
         // const jsonString = JSON.stringify(positions);
         // const params = { id: token, positions: jsonString };
         // const body = JSON.stringify(params);
 
-        Axios.get(`https://backbone-ufribf.run.goorm.site/room?id=${token}`, {
+        Axios.get(`https://backbone-ufribf.run.goorm.site/room?id=${1}`, {
             withCredentials: true,
         })
             .then((response) => {
