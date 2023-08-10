@@ -1,113 +1,141 @@
-import React, { useEffect, useState } from 'react';
-import QrReader from 'react-qr-scanner';
-import styled, { keyframes } from 'styled-components';
-import Axios from 'axios';
+import { useState } from "react";
+import QrReader from "react-qr-reader";
+import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { useNavigate } from 'react-router-dom';
-
-function RoomJoinPage(props) {
-    const [delay, setDelay] = useState(100);
-    const [result, setResult] = useState('No result');
-    const navigate = useNavigate();
-
-    const handleScan = (data) => {
-        if (data !== null) {
-            setResult(data);
-            console.log('응원', data);
-            navigate('/');
-        }
-    };
-
-    const handleError = (err) => {
-        console.error(err);
-    };
-
-    const previewStyle = {
-        height: 240,
-        width: 320,
-    };
-
-    return (
-        <div>
-            <QrReader
-                delay={delay}
-                style={previewStyle}
-                onError={handleError}
-                onScan={handleScan}
-				facingMode="rear"
-            />
-            <p>{result}</p>
+const RoomJoinPage = () => {
+  const [code, setCode] = useState(null);
+  const [showDialog, setDiaglog] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [precScan, setPrecScan] = useState("");
+  const [selected, setSelected] = useState("environment");
+  const [errorMessage, setErrorMessage] = useState(null);
+const navigate = useNavigate();
+  
+  const handleScan = async (scanData) => {
+    
+    if (scanData && scanData !== "" && !showDialog && !processing) {
+      console.log(`loaded >>>`, scanData);
+      navigate("/");
+      
+    }
+  };
+  const handleError = (err) => {
+    console.error(err);
+  };
+  return (
+    <div className="App">
+      <h1>Hello CodeSandbox</h1>
+      <h2>
+        Last Scan:{precScan}
+        {selected}
+      </h2>
+      <select onChange={(e) => setSelected(e.target.value)}>
+        <option value={"environment"}>Back Camera</option>
+        <option value={"user"}>Front Camera</option>
+      </select>
+      {showDialog && (
+        <div className="dialog">
+          <div className="dialog-content">
+            <div className="close">
+              <button
+                onClick={() => {
+                  setCode(null);
+                  setErrorMessage(null);
+                  setDiaglog(false);
+                  setProcessing(false);
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            {errorMessage && (
+              <div className="errorMessage">
+                <h2>{errorMessage}</h2>
+              </div>
+            )}
+            {code && (
+              <div className="description">
+                <h4 className="title">Scan Result</h4>
+                <div className="detail detail-first-child">
+                  <h6 className="detail-header">Matricule :</h6>
+                  <h6 className="detail-content green">{code.text}</h6>
+                </div>
+                <div className="detail">
+                  <h6 className="detail-header">Identité :</h6>
+                  <h6 className="detail-content">{code.identite}</h6>
+                </div>
+                <div className="detail">
+                  <h6 className="detail-header">Pomotion :</h6>
+                  <h6 className="detail-content">{code.promotion}</h6>
+                </div>
+                <div className="detail">
+                  <h6 className="detail-header">Année Academique :</h6>
+                  <h6 className="detail-content">{code.annee}</h6>
+                </div>
+                <div className="detail">
+                  <h6 className="detail-header">Total payé :</h6>
+                  <h6 className="detail-content red">
+                    {code.frais} (USD,dollars americains)
+                  </h6>
+                </div>
+                <div className="detail">
+                  <h6 className="detail-header">Total prévu :</h6>
+                  <h6 className="detail-content red">
+                    {code.total} (USD,dollars americains)
+                  </h6>
+                </div>
+                <div className="detail">
+                  <h6 className="detail-header">Reste à payer :</h6>
+                  <h6 className="detail-content red">
+                    {code.total - code.frais} (USD,dollars americains)
+                  </h6>
+                </div>
+                <div className="detail">
+                  <h6 className="detail-header">Votre Situation :</h6>
+                  <h6
+                    className={
+                      code.total <= code.frais
+                        ? `detail-content green`
+                        : "detail-content red small"
+                    }
+                  >
+                    {code.total <= code.frais
+                      ? "Eligible"
+                      : "Vous etes en retard de payement"}
+                  </h6>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-    );
-}
+      )}
+      {/* {code && <h2>{code.text}</h2>} */}
+      {!showDialog && !processing && (
+        <QrReader
+          facingMode={selected}
+          delay={500}
+          onError={handleError}
+          onScan={handleScan}
+          // chooseDeviceId={()=>selected}
+          style={{ width: "200px", heigth: "100px" }}
+        />
+      )}
+    </div>
+  );
+};
 
 export default RoomJoinPage;
-
-const NameInput = styled.input`
-    width: 85%;
-    height: 32px;
-    font-size: 15px;
-    border: 0px;
-    border-radius: 15px;
-    outline: none;
-    padding: 10px;
-    margin: 10px auto;
-    background-color: rgb(233, 233, 233);
-`;
-
-const animation = keyframes`
-50% {
-  transform: scale(0.92);
-}
-`;
-
-const ContainerDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
-const ContainerTitleDiv = styled.div`
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 25px;
-    font-weight: 1000;
-    margin-bottom: 2vh;
-`;
-
-const ContainersubTitleDiv = styled.div`
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 15px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 5vh;
-`;
-
-const StartBtn = styled.button`
-    display: flex;
-    justify-content: center;
-
-    width: calc(100% - 32px);
-    height: 54px;
-    line-height: 54px;
-    box-sizing: border-box;
-    border: none;
-    border-radius: 5px;
-    background: #5849ff;
-    color: #fff;
-    text-align: center;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 17px;
-    font-weight: 400;
-
-    margin: 10px;
-    &:active {
-        animation: ${animation} 0.2s;
-    }
-`;
