@@ -2,21 +2,31 @@ import React from "react";
 import axios from "axios";
 import styled, { keyframes } from "styled-components";
 import "./RoomStart.css";
-import { useCookies } from "react-cookie"; // useCookies import
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config";
 
 const RoomStart = (props) => {
-  const [cookies, setCookie] = useCookies(["id"]); // 쿠키 훅
   const navigate = useNavigate();
   const handleCreateRoom = () => {
-    // 방 입장하기 버튼 클릭 시 실행되는 로직
-   
-    navigate("/inputname");
-      
+    // 방 생성하기 버튼 클릭 시 실행되는 로직
+    const params = { userIdx: 1 };
+    axios
+      .put(`${API_URL}room`, params, {
+        withCredentials: true,
+      }) //
+      .then((response) => {
+        // 요청이 성공한 경우의 처리
+        console.log(response.data);
+        navigate("/");
+      })
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        console.error(error);
+      });
   };
 
   const handleJoinRoom = () => {
-    window.location.href = 'camera://'+window.location.href;
+    window.location.href = "camera://" + window.location.href;
   };
   return (
     <div ref={props.ref} className="wrap loaded">
