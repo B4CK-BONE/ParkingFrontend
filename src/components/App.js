@@ -15,6 +15,7 @@ import DragDropPage2 from './views/DragDropPage2/DragDropPage2';
 import StartPage from './views/StartPage/StartPage';
 import InputNamePage from './views/InputNamePage/InputNamePage';
 import LoginPage from './views/LoginPage/LoginPage';
+import RoomWaitPage from './views/RoomWaitPage/RoomWaitPage'
 
 function App() {
     const url = document.URL;
@@ -30,6 +31,7 @@ function App() {
     const NewRoomStart = Auth(RoomStart, false);
     const NewInputName = Auth(InputNamePage, false);
     const NewLoginPage = Auth(LoginPage, false);
+	const NewRoomWaitPage = Auth(RoomWaitPage, false);
 
     const movePage = (url) => {
         if (pathname !== `/${url}`) {
@@ -46,6 +48,7 @@ function App() {
         url.includes('test') ||
         url.includes('inputname') ||
         url.includes('roomjoin') ||
+		url.includes('roomwait') ||
         url.includes('login')
     ) {
         return (
@@ -59,6 +62,7 @@ function App() {
                         <Route path="/roomstart" element={<NewRoomStart ref={wrapRef} />} />
                         <Route path="/inputname" element={<NewInputName ref={wrapRef} />} />
                         <Route path="/roomjoin" element={<NewRoomJoinPage ref={wrapRef} />} />
+						<Route path="/roomwait" element={<NewRoomWaitPage ref={wrapRef} />} />
                         <Route path="/test" element={<DragDropPage2 />} />
                     </Routes>
                 </div>
