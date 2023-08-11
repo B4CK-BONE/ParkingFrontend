@@ -21,6 +21,7 @@ const MyParking = (props) => {
             endDate: "08-10",
             endTime: "21:52",
             car: "12가1234",
+			userIdx:2,
             slot: 1,
             use: true
         },

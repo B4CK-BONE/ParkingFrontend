@@ -3,154 +3,21 @@ import Axios from 'axios';
 import styled from 'styled-components';
 import { API_URL } from '../../config';
 import { useSelector } from 'react-redux';
+import { HiCheck } from 'react-icons/hi';
+import { MdClose } from 'react-icons/md';
 
 function ManagementPage(props) {
     const [ParkingList, setParkingList] = useState([]);
     const userinfos = useSelector((state) => state.user);
     let newUser = [
         {
-            bottom: '56vh',
-            right: '70%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: '08-10',
-            endTime: '21:52',
-            car: '12가1234',
-            slot: 1,
-            use: true,
-        },
-        {
-            bottom: '50vh',
-            right: '70%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 2,
-            use: false,
-        },
-        {
-            bottom: '44vh',
-            right: '70%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 3,
-            use: false,
-        },
-        {
-            bottom: '56vh',
-            right: '12%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 4,
-            use: false,
-        },
-        {
-            bottom: '50vh',
-            right: '12%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 5,
-            use: false,
-        },
-        {
-            bottom: '44vh',
-            right: '12%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 6,
-            use: false,
-        },
-        {
-            bottom: '40vh',
-            right: '40%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 7,
-            use: false,
-        },
-        {
-            bottom: '51vh',
-            right: '55%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 8,
-            use: false,
-        },
-        {
-            bottom: '51vh',
-            right: '40%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 9,
-            use: false,
-        },
-        {
-            bottom: '40vh',
-            right: '55%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 10,
-            use: false,
-        },
-        {
-            bottom: '28vh',
-            right: '40%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 11,
-            use: false,
-        },
-        {
-            bottom: '28vh',
-            right: '55%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 12,
-            use: false,
+            idx: 3,
+            roomIdx: 1,
+            email: 'aqerdfc@naver.com',
+            car: '15다1345',
+            phone: '01021111111',
+            address: '103',
+            role: 0,
         },
     ];
 
@@ -176,36 +43,84 @@ function ManagementPage(props) {
                 console.error(error);
             });
     }, []);
+
+    const onDeleteButton = (event) => {
+        const buttonValue = event.currentTarget.value;
+        
+		let body = {
+            userIdx: buttonValue,
+			adminIdx: 1,
+			role : 0
+        };
+        const config = {
+            headers: {
+                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+        Axios.put(`${API_URL}room/${userinfos?.userData?.roomIdx}/admin`, body, config)
+            .then((response) => {
+                // 요청이 성공한 경우의 처리
+                console.log(response.data);
+                setParkingList(response.data);
+            })
+
+            .catch((error) => {
+                // 요청이 실패한 경우의 처리
+                console.error(error);
+            });
+    };
+	
+	 const onAccessButton = (event) => {
+        
+        const buttonValue = event.currentTarget.value;
+        
+		let body = {
+            userIdx: buttonValue,
+			adminIdx: 1,
+			role : 1
+        };
+        const config = {
+            headers: {
+                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+        Axios.put(`${API_URL}room/${userinfos?.userData?.roomIdx}/admin`, body, config)
+            .then((response) => {
+                // 요청이 성공한 경우의 처리
+                console.log(response.data);
+                setParkingList(response.data);
+            })
+
+            .catch((error) => {
+                // 요청이 실패한 경우의 처리
+                console.error(error);
+            });
+    };
     return (
         <div ref={props.ref} className="wrap loaded">
-            {newUser.map(
-                (list, index) =>
-                    list.use && (
-                        <React.Fragment key={index}>
-                            <Ulclass>
-                                <Liclass>
-                                    <Divclass>
-                                        <Divchildclass>
-                                            <Imgclass
-                                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU"
-                                                alt="Neil image"
-                                            />
-                                        </Divchildclass>
-                                        <Divchild2class>
-                                            <Pclass>{list.slot} 번 사용중</Pclass>
-                                            <Pclass2>{list.car}</Pclass2>
-                                        </Divchild2class>
-                                        <Divchild3class>
-                                            {list.endDate.split('-')[0]}월{' '}
-                                            {list.endDate.split('-')[1]}일 {list.endTime} 까지 사용
-                                            예정
-                                        </Divchild3class>
-                                    </Divclass>
-                                </Liclass>
-                            </Ulclass>
-                        </React.Fragment>
-                    )
-            )}
+            {newUser.map((list, index) => (
+                <React.Fragment key={index}>
+                    <Ulclass>
+                        <Liclass>
+                            <Divclass>
+                                <Divchildclass>{list.address}호</Divchildclass>
+                                <Divchild2class>
+                                    <Pclass>{list.car}</Pclass>
+                                    <Pclass2>{list.phone}</Pclass2>
+                                </Divchild2class>
+                                <CheckBtn value={list.idx} onClick={onAccessButton}>
+                                    <HiCheck size="23" style={{ color: 'green' }} />
+                                </CheckBtn>
+                                <CheckBtn value={list.idx} onClick={onDeleteButton}>
+                                    <MdClose size="23" style={{ color: 'red' }} />
+                                </CheckBtn>
+                            </Divclass>
+                        </Liclass>
+                    </Ulclass>
+                </React.Fragment>
+            ))}
         </div>
     );
 }
@@ -225,11 +140,13 @@ const Ulclass = styled.ul`
 `;
 
 const Liclass = styled.li`
-    /* 스크린 크기가 작을 때 */
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px -1px, rgba(0, 0, 0, 0.14) 0px 6px 10px 0px,
+        rgba(0, 0, 0, 0.12) 0px 1px 18px 0px;
+    border-radius: 15px;
+    margin: 20px;
 `;
 
 const Divclass = styled.div`
-    border-bottom: 1px solid #d3d3d3;
     display: flex; /* flex in Tailwind CSS */
     align-items: center; /* items-center in Tailwind CSS */
     justify-content: space-between; /* space-x-4 in Tailwind CSS */
@@ -265,7 +182,6 @@ const Divchild2class = styled.div`
 `;
 
 const Pclass = styled.p`
-    font-size: 0.875rem; /* text-sm in Tailwind CSS */
     font-weight: 500; /* font-medium in Tailwind CSS */
     color: #1f2937; /* text-gray-900 in Tailwind CSS */
     overflow: hidden; /* truncate in Tailwind CSS */
@@ -283,10 +199,13 @@ const Pclass2 = styled.p`
     margin: 10px;
 `;
 
-const Divchild3class = styled.div`
+const CheckBtn = styled.button`
     display: inline-flex; /* inline-flex in Tailwind CSS */
     align-items: center; /* items-center in Tailwind CSS */
     font-size: 1.125rem; /* text-base in Tailwind CSS */
     font-weight: 600; /* font-semibold in Tailwind CSS */
     color: #1f2937; /* text-gray-900 in Tailwind CSS */
+    border: none;
+    margin-right: 5px;
+    background: none;
 `;

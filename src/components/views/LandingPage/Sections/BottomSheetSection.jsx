@@ -103,7 +103,7 @@ function BottomSheetSection(props) {
                             height: '50vh',
                         }}
                     >
-                        {props.User?.car ? (
+                        {props.User?.userIdx ? (
                             <StyledNewWishList>
                                 <input
                                     type="datetime-local"
