@@ -1,68 +1,174 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import styled from 'styled-components';
-import { useCookies } from 'react-cookie';
+import { API_URL } from '../../config';
+import { useSelector } from 'react-redux';
 
 function ListPage(props) {
-    const [cookies, setCookie] = useCookies(['id']); // 쿠키 훅
-    const [Parkinglist, setParkinglist] = useState([]);
-    let positions = [
+    const [ParkingList, setParkingList] = useState([]);
+    const userinfos = useSelector((state) => state.user);
+    let position2 = [
         {
-            number: 0,
-            text: '06:20',
-            userName: '201호',
-            userCar: '17다 5864',
-            inTime: '18:50',
-            outTime: '06:15',
-            userImg:
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU',
+            bottom: '56vh',
+            right: '70%',
+            height: '5vh',
+            width: '20vw',
+            direction: 'a',
+            endDate: '08-10',
+            endTime: '21:52',
+            car: '12가1234',
+            slot: 1,
             use: true,
         },
         {
-            number: 1,
-            text: '06:20',
-            userName: '201호',
-            userCar: '18다 1564',
-            inTime: '18:50',
-            outTime: '06:20',
-            userImg:
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU',
-            use: true,
+            bottom: '50vh',
+            right: '70%',
+            height: '5vh',
+            width: '20vw',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 2,
+            use: false,
         },
         {
-            number: 2,
-            text: '06:20',
-            userName: '402호',
-            userCar: '37다 7869',
-            inTime: '18:50',
-            outTime: '07:20',
-            userImg:
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU',
-            use: true,
+            bottom: '44vh',
+            right: '70%',
+            height: '5vh',
+            width: '20vw',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 3,
+            use: false,
         },
         {
-            number: 3,
-            text: '06:20',
-            userName: '301호',
-            userCar: '27다 3664',
-            inTime: '18:50',
-            outTime: '08:20',
-            userImg:
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU',
-            use: true,
+            bottom: '56vh',
+            right: '12%',
+            height: '5vh',
+            width: '20vw',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 4,
+            use: false,
+        },
+        {
+            bottom: '50vh',
+            right: '12%',
+            height: '5vh',
+            width: '20vw',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 5,
+            use: false,
+        },
+        {
+            bottom: '44vh',
+            right: '12%',
+            height: '5vh',
+            width: '20vw',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 6,
+            use: false,
+        },
+        {
+            bottom: '40vh',
+            right: '40%',
+            height: '10vh',
+            width: '5vh',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 7,
+            use: false,
+        },
+        {
+            bottom: '51vh',
+            right: '55%',
+            height: '10vh',
+            width: '5vh',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 8,
+            use: false,
+        },
+        {
+            bottom: '51vh',
+            right: '40%',
+            height: '10vh',
+            width: '5vh',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 9,
+            use: false,
+        },
+        {
+            bottom: '40vh',
+            right: '55%',
+            height: '10vh',
+            width: '5vh',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 10,
+            use: false,
+        },
+        {
+            bottom: '28vh',
+            right: '40%',
+            height: '10vh',
+            width: '5vh',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 11,
+            use: false,
+        },
+        {
+            bottom: '28vh',
+            right: '55%',
+            height: '10vh',
+            width: '5vh',
+            direction: 'a',
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 12,
+            use: false,
         },
     ];
 
     useEffect(() => {
-        const token = cookies.id; // 쿠키에서 id 를 꺼내기
-
-        Axios.get(`https://backbone-ufribf.run.goorm.site/user/?id=${token}`, {
+        let body = {
+            userIdx: 1,
+        };
+        const config = {
+            headers: {
+                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+            },
             withCredentials: true,
-        })
+        };
+        Axios.get(`${API_URL}parking`, body, config)
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 console.log(response.data);
-                setParkinglist(response.data);
+                setParkingList(response.data);
             })
 
             .catch((error) => {
@@ -72,27 +178,34 @@ function ListPage(props) {
     }, []);
     return (
         <div ref={props.ref} className="wrap loaded">
-            {Parkinglist.map((list, index) => (
-                <Ulclass>
-                    <Liclass>
-                        <Divclass>
-                            <Divchildclass>
-                                <Imgclass
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU"
-                                    alt="Neil image"
-                                />
-                            </Divchildclass>
-                            <Divchild2class>
-                                <Pclass>{list.username}</Pclass>
-                                <Pclass2>{list.usercar}</Pclass2>
-                            </Divchild2class>
-                            <Divchild3class>
-                                {list.inTime} ~ {list.outTime}
-                            </Divchild3class>
-                        </Divclass>
-                    </Liclass>
-                </Ulclass>
-            ))}
+            {position2.map(
+                (list, index) =>
+                    list.use && (
+                        <React.Fragment key={index}>
+                            <Ulclass>
+                                <Liclass>
+                                    <Divclass>
+                                        <Divchildclass>
+                                            <Imgclass
+                                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0Tvq5VSi_Njmqxzi4ypD2qmrErUPorLQXA&usqp=CAU"
+                                                alt="Neil image"
+                                            />
+                                        </Divchildclass>
+                                        <Divchild2class>
+                                            <Pclass>{list.slot} 번 사용중</Pclass>
+                                            <Pclass2>{list.car}</Pclass2>
+                                        </Divchild2class>
+                                        <Divchild3class>
+                                            {list.endDate.split('-')[0]}월{' '}
+                                            {list.endDate.split('-')[1]}일 {list.endTime} 까지 사용
+                                            예정
+                                        </Divchild3class>
+                                    </Divclass>
+                                </Liclass>
+                            </Ulclass>
+                        </React.Fragment>
+                    )
+            )}
         </div>
     );
 }

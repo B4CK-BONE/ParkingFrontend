@@ -1,27 +1,26 @@
 import Axios from 'axios';
-import { AUTH_USER } from './types';
+import { AUTH_USER, REFRESH_TOKEN } from './types';
+import { API_URL } from '../components/config';
 
 export function auth() {
-    let body = {"id" : ''};
-    if (document.cookie !== '') {
-        var cookies = document.cookie; // 쿠키 문자열 가져오기
-        var cookieArray = cookies.split(';'); // 쿠키 문자열을 세미콜론으로 분할하여 배열 생성
-		var str = cookieArray.join('');
-        // // 쿠키 이름과 값의 구분자 위치 찾기
-        var cookieValue = str.split('=')[1];
-
-        
-        let params = { "id" : cookieValue };
-        body = JSON.stringify(params);
-		console.log("test",body);
-        
-        
-    }
-    const request = Axios.post('https://backbone-ufribf.run.goorm.site/user/', body, {
-            withCredentials: true,
-        }).then((response) => response.data);
+    const request = Axios.get(`${API_URL}user/auth`, {
+        withCredentials: true,
+    }).then((response) => response.data);
     return {
         type: AUTH_USER,
+        payload: request,
+    };
+}
+
+export function refreshAccessToken() {
+    const request = Axios.get(`${API_URL}user/refresh`, {
+        withCredentials: true,
+    }).then((response) => response.data);
+    
+
+    // 새로운 Access Token 저장
+    return {
+        type: REFRESH_TOKEN,
         payload: request,
     };
 }

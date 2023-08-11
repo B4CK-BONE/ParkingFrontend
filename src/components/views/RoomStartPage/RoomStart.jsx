@@ -22,6 +22,7 @@ const RoomStart = (props) => {
       .catch((error) => {
         // 요청이 실패한 경우의 처리
         console.error(error);
+		navigate("/");
       });
   };
 

@@ -1,13 +1,12 @@
 import React from "react";
 import axios from "axios";
 import styled, { keyframes } from "styled-components";
-import { useCookies } from "react-cookie"; // useCookies import
 import { useNavigate } from "react-router-dom";
 import GoogleLoginButton from "./Sections/GoogleLoginButton"
 
 
 const RoomStart = (props) => {
-  const [cookies, setCookie] = useCookies(["id"]); // 쿠키 훅
+  
   const navigate = useNavigate();
   const handleCreateRoom = () => {
     // 방 입장하기 버튼 클릭 시 실행되는 로직
