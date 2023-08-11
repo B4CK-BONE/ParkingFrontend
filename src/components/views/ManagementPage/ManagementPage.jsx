@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { API_URL } from '../../config';
 import { useSelector } from 'react-redux';
 
-function ListPage(props) {
+function ManagementPage(props) {
     const [ParkingList, setParkingList] = useState([]);
     const userinfos = useSelector((state) => state.user);
-    let position2 = [
+    let newUser = [
         {
             bottom: '56vh',
             right: '70%',
@@ -178,7 +178,7 @@ function ListPage(props) {
     }, []);
     return (
         <div ref={props.ref} className="wrap loaded">
-            {position2.map(
+            {newUser.map(
                 (list, index) =>
                     list.use && (
                         <React.Fragment key={index}>
@@ -210,7 +210,7 @@ function ListPage(props) {
     );
 }
 
-export default ListPage;
+export default ManagementPage;
 
 const Ulclass = styled.ul`
     padding-left: 0px;

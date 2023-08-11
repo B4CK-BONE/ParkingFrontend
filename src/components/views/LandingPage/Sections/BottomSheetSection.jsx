@@ -3,84 +3,67 @@ import { BottomSheet } from 'react-spring-bottom-sheet';
 import 'react-spring-bottom-sheet/dist/style.css';
 import { GrClose } from 'react-icons/gr';
 import styled from 'styled-components';
-
-
+import { API_URL } from '../../../config';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import { useSelector } from 'react-redux';
+import { GoReport } from 'react-icons/go';
+import { RiKakaoTalkFill } from 'react-icons/ri';
 
 function BottomSheetSection(props) {
     const [isDisabled, setDisabled] = useState(true);
     const [wishListName, setWishListName] = useState('');
-    
+    const [ParkingTime, setParkingTime] = useState('');
+    const userinfos = useSelector((state) => state.user);
     const navigate = useNavigate();
 
     const onClose = () => {
         props.setOpen(false);
     };
 
+    const onParkingTimeChange = (e) => {
+        setParkingTime(e.target.value);
+        setDisabled(e.target.value.length === 0 ? true : false);
+    };
+
     const createNewWishList = () => {
-       
+        let body = {
+            userIdx: 1,
+            time: ParkingTime,
+            slot: props.User.slot,
+        };
 
-        props.User.outTime = wishListName;
-        props.setOpen(false);
-        setWishListName('');
+        const config = {
+            headers: {
+                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+            },
+            withCredentials: true,
+        };
 
-        console.log(wishListName);
-        console.log(props.User);
-        if (props.User.outTime !== '') {
-            
-            const params = {
-                
-                parking_id: props.User.number,
-                outTime: props.User.outTime,
-            };
-            const body = JSON.stringify(params);
-            Axios.patch(`https://backbone-ufribf.run.goorm.site/user/`, body, {
-                withCredentials: true,
+        Axios.post(`${API_URL}parking/time`, body, config)
+            .then((response) => {
+                // 요청이 성공한 경우의 처리
+                console.log(response.data);
+                props.setParking(!props.Parking);
+                props.setOpen(false);
             })
-                .then((response) => {
-                    // 요청이 성공한 경우의 처리
-                    console.log(response.data);
-                    setDisabled(false);
-                })
 
-                .catch((error) => {
-                    // 요청이 실패한 경우의 처리
-                    console.error(error);
-                });
-
-			props.ParkingList[props.User.number].outTime = wishListName;
-            props.ParkingList[props.User.number].text = wishListName;
-            props.ParkingList[props.User.number].userCar = "";
-            props.ParkingList[props.User.number].backgroundColor = '#9b111e';
-
-            const jsonString = JSON.stringify(props.ParkingList);
-            const parameter = { id: "token", positions: jsonString };
-			const paramete = JSON.stringify(parameter);
-            Axios.post(`https://backbone-ufribf.run.goorm.site/room/`, paramete, {
-                withCredentials: true,
-            })
-                .then((response) => {
-                    // 요청이 성공한 경우의 처리
-                    console.log(response.data);
-                    navigate('/');
-                })
-
-                .catch((error) => {
-                    // 요청이 실패한 경우의 처리
-                    console.error(error);
-                });
-        }
+            .catch((error) => {
+                // 요청이 실패한 경우의 처리
+                console.error(error);
+            });
     };
     return (
         <div ref={props.ref} className="wrap loaded">
-            {props.User.use === true ? (
+            {props.User?.use === true ? (
                 <BottomSheet
                     open={props.open}
                     onDismiss={onClose}
                     header={
                         <StyledBottomSheetHeader>
-                            <div className="sheetHeader">{props.User.userCar}</div>{' '}
+                            <div className="sheetHeader">{props.User.car}</div>{' '}
+							<RiKakaoTalkFill size="33" onClick={onClose} style={{background: "yellow", borderRadius: "15px"}}/>
+                            <GoReport size="23" onClick={onClose} />
                             <GrClose size="23" onClick={onClose} />
                         </StyledBottomSheetHeader>
                     }
@@ -95,12 +78,8 @@ function BottomSheetSection(props) {
                             <StyledButtonWrapper>
                                 <ParkingInDiv>
                                     <ParkingInChildDiv>
-                                        주차 : {props.User.inTime}
-                                    </ParkingInChildDiv>
-                                </ParkingInDiv>
-                                <ParkingInDiv>
-                                    <ParkingInChildDiv>
-                                        출차 예정 : {props.User.outTime}
+                                        출차 예정 : {props.User.endDate}
+                                        {props.User.endTime}
                                     </ParkingInChildDiv>
                                 </ParkingInDiv>
                             </StyledButtonWrapper>
@@ -124,19 +103,17 @@ function BottomSheetSection(props) {
                             height: '50vh',
                         }}
                     >
-                        {props.User.id ? (
+                        {props.User?.car ? (
                             <StyledNewWishList>
                                 <input
-                                    type="time"
+                                    type="datetime-local"
                                     name="inTime"
-                                    onChange={(e) => {
-                                        setWishListName(e.target.value);
-                                        setDisabled(e.target.value.length === 0 ? true : false);
-                                    }}
+                                    value={ParkingTime}
+                                    onChange={onParkingTimeChange}
                                 />
                                 <div style={{ display: 'flex' }}>
                                     <button disabled={isDisabled} onClick={createNewWishList}>
-                                        예약 시간 바꾸기 {props.User.id}
+                                        예약 시간 바꾸기
                                     </button>
                                     <button disabled={isDisabled} onClick={createNewWishList}>
                                         취소하기
@@ -146,12 +123,10 @@ function BottomSheetSection(props) {
                         ) : (
                             <StyledNewWishList>
                                 <input
-                                    type="time"
+                                    type="datetime-local"
                                     name="inTime"
-                                    onChange={(e) => {
-                                        setWishListName(e.target.value);
-                                        setDisabled(e.target.value.length === 0 ? true : false);
-                                    }}
+                                    value={ParkingTime}
+                                    onChange={onParkingTimeChange}
                                 />
                                 <button disabled={isDisabled} onClick={createNewWishList}>
                                     새로 만들기

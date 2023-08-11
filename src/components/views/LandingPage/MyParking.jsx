@@ -1,187 +1,183 @@
 import React, { useState, useEffect } from 'react';
-
+import { API_URL } from '../../config';
 import Axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import BottomSheetSection from './Sections/BottomSheetSection';
+import { useSelector } from 'react-redux';
 
 const MyParking = (props) => {
     
     const [ParkingList, setParkingList] = useState([]);
-    
-
-    let positions = [
+    const userinfos = useSelector((state) => state.user);
+	let position2 = [
+		 
         {
-            number: 0,
-            bottom: '56vh',
+        	bottom: '56vh',
             right: '70%',
             height: '5vh',
             width: '20vw',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: "08-10",
+            endTime: "21:52",
+            car: "12가1234",
+            slot: 1,
+            use: true
         },
         {
-            number: 1,
             bottom: '50vh',
             right: '70%',
             height: '5vh',
             width: '20vw',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 2,
+            use: false
         },
         {
-            number: 2,
             bottom: '44vh',
             right: '70%',
             height: '5vh',
             width: '20vw',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 3,
+            use: false
         },
-        {
-            number: 3,
+		{
             bottom: '56vh',
             right: '12%',
             height: '5vh',
             width: '20vw',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 4,
+            use: false
         },
-        {
-            number: 4,
+		{
             bottom: '50vh',
             right: '12%',
             height: '5vh',
             width: '20vw',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 5,
+            use: false
         },
-        {
-            number: 5,
+		{
             bottom: '44vh',
             right: '12%',
             height: '5vh',
             width: '20vw',
-            backgroundColor: '#9b111e',
-            text: '06:20',
-            userCar: '17다 5864',
-            inTime: '18:50',
-            outTime: '06:20',
-            use: true,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 6,
+            use: false
         },
-        {
-            number: 6,
-            bottom: '40vh',
+		{
+           bottom: '40vh',
             right: '40%',
             height: '10vh',
             width: '5vh',
-            backgroundColor: '#9b111e',
-            text: '06:50',
-            userCar: '17다 5864',
-            inTime: '18:50',
-            outTime: '06:50',
-            use: true,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 7,
+            use: false
         },
-        {
-            number: 7,
-            bottom: '51vh',
+		{
+             bottom: '51vh',
             right: '55%',
             height: '10vh',
             width: '5vh',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 8,
+            use: false
         },
-        {
-            number: 8,
+		{
             bottom: '51vh',
             right: '40%',
             height: '10vh',
             width: '5vh',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 9,
+            use: false
         },
-        {
-            number: 9,
-            bottom: '40vh',
+		{
+             bottom: '40vh',
             right: '55%',
             height: '10vh',
             width: '5vh',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 10,
+            use: false
         },
 		{
-            number: 10,
-            bottom: '28vh',
+             bottom: '28vh',
             right: '40%',
             height: '10vh',
             width: '5vh',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 11,
+            use: false
         },
 		{
-            number: 11,
-            bottom: '28vh',
+             bottom: '28vh',
             right: '55%',
             height: '10vh',
             width: '5vh',
-            backgroundColor: '#237af2',
-            text: '주차가능',
-            userCar: '',
-            inTime: '',
-            outTime: '',
-            use: false,
+            direction: "a",
+            endDate: null,
+            endTime: null,
+            car: null,
+            slot: 12,
+            use: false
         },
 		
-    ];
+    
+	]
+
+   
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [open, setOpen] = useState(false);
     const [User, setUser] = useState([]);
+	const [Parking, setParking] = useState(false);
     useEffect(() => {
         
-        // const jsonString = JSON.stringify(positions);
-        // const params = { id: token, positions: jsonString };
-        // const body = JSON.stringify(params);
-
-        Axios.get(`https://backbone-ufribf.run.goorm.site/room?id=${1}`, {
+		let body = {
+			userIdx: 1
+		};
+		const config = {
+            headers: {
+                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+            },
             withCredentials: true,
-        })
+        };
+        Axios.get(`${API_URL}parking`, body, config)
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 console.log(response.data);
@@ -192,15 +188,15 @@ const MyParking = (props) => {
                 // 요청이 실패한 경우의 처리
                 console.error(error);
             });
-    }, []);
+    }, [Parking]);
 
     const onClickButton = (event) => {
         const button_number = event.target.getAttribute('data');
 
         setOpen(true);
         setIsModalOpen(true);
-        if (positions[button_number]) {
-            setUser(positions[button_number]);
+        if (position2[button_number - 1] && button_number > -1) {
+            setUser(position2[button_number - 1]);
         } else {
             setUser('');
         }
@@ -223,20 +219,20 @@ const MyParking = (props) => {
                         />
                     </Parkingimgcontainer>
 
-                    {positions.map((point, index) => (
+                    {position2.map((point, index) => (
                         <React.Fragment key={index}>
                             <ParkingBtn
                                 onClick={onClickButton}
-                                data={point.number}
+                                data={point.slot}
                                 style={{
-                                    backgroundColor: `${point.backgroundColor}`,
+                                    backgroundColor: point.use ? '#9b111e' : '#237af2',
                                     bottom: `${point.bottom}`,
                                     right: `${point.right}`,
                                     height: `${point.height}`,
                                     width: `${point.width}`,
                                 }}
                             >
-                                {point.text}
+                                {point.endTime ? point.endTime : "주차 가능" }
                             </ParkingBtn>
                         </React.Fragment>
                     ))}
@@ -246,6 +242,8 @@ const MyParking = (props) => {
                     setOpen={setOpen}
                     User={User}
                     ParkingList={ParkingList}
+					setParking={setParking}
+					Parking={Parking}
                 />
             </Container>
         </div>

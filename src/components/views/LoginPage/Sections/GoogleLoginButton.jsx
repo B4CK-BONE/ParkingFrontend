@@ -19,7 +19,7 @@ const GoogleLoginButton = () => {
 								jwt : res.credential
 							}
                             axios
-                                .post(`${API_URL}login`, {
+                                .post(`${API_URL}login`, body,{
                                     withCredentials: true,
                                 })
                                 .then((response) => {

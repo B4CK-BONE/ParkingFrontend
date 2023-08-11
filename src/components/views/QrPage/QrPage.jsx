@@ -2,28 +2,32 @@ import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import styled from 'styled-components';
 import Axios from 'axios';
-import { API_URL, Client_URL} from "../../config";
-import { useNavigate } from "react-router-dom";
+import { API_URL, Client_URL } from '../../config';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function QrPage(props) {
     const [Src, setSrc] = useState('');
-	const navigate = useNavigate();
-    
+    const navigate = useNavigate();
+	const userinfos = useSelector((state) => state.user);
 
     useEffect(() => {
-        Axios
-            .get(`${API_URL}room/qr`, {
-                withCredentials: true,
-            }) //
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+        Axios.get(`${API_URL}room/qr`, config) //
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 if (response.data.isSuccess) {
                     console.log(response.data);
-                    QRCode.toDataURL(
-                        `${Client_URL}roomwait?roomId=${response.data}`
-                    ).then((data) => {
-                        setSrc(data);
-                    });
+                    QRCode.toDataURL(`${Client_URL}roomwait?roomId=${response.data}`).then(
+                        (data) => {
+                            setSrc(data);
+                        }
+                    );
                 } else {
                     alert(response.data.message);
                     navigate('/');
