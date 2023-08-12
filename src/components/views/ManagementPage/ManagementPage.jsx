@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { API_URL } from '../../config';
 import { useSelector } from 'react-redux';
 import { HiCheck } from 'react-icons/hi';
-import { MdClose } from 'react-icons/md';
+import { MdClose, MdOutlineReportProblem } from 'react-icons/md';
+import { RiKakaoTalkFill } from 'react-icons/ri';
 
 function ManagementPage(props) {
     const [ParkingList, setParkingList] = useState([]);
@@ -21,6 +22,26 @@ function ManagementPage(props) {
         },
     ];
 
+	let oldUser = [
+        {
+                idx: 2,
+                roomIdx: 1,
+                email: "qezxc@naver.com",
+                car: "31다4245",
+                phone: "01011111111",
+                address: "102",
+                role: 1
+            },
+            {
+                idx: 1,
+                roomIdx: 1,
+                email: "slknalsdknalkn@naver.com",
+                car: "12가1234",
+                phone: "01012341234",
+                address: "101",
+                role: 2
+            }
+    ];
     useEffect(() => {
         let body = {
             userIdx: 1,
@@ -46,11 +67,11 @@ function ManagementPage(props) {
 
     const onDeleteButton = (event) => {
         const buttonValue = event.currentTarget.value;
-        
-		let body = {
+
+        let body = {
             userIdx: buttonValue,
-			adminIdx: 1,
-			role : 0
+            adminIdx: 1,
+            role: 0,
         };
         const config = {
             headers: {
@@ -70,15 +91,14 @@ function ManagementPage(props) {
                 console.error(error);
             });
     };
-	
-	 const onAccessButton = (event) => {
-        
+
+    const onAccessButton = (event) => {
         const buttonValue = event.currentTarget.value;
-        
-		let body = {
+
+        let body = {
             userIdx: buttonValue,
-			adminIdx: 1,
-			role : 1
+            adminIdx: 1,
+            role: 1,
         };
         const config = {
             headers: {
@@ -99,7 +119,24 @@ function ManagementPage(props) {
             });
     };
     return (
-        <div ref={props.ref} className="wrap loaded">
+        <div className="wrap loaded">
+            <CurrentDiv>
+                <div
+                    style={{
+                        color: 'gray',
+                        margin: '3vw 10vw 1vw 5vw',
+                        fontSize: '0.8rem',
+                    }}
+                >
+                    신청 회원
+                </div>
+                <hr
+                    style={{
+                        color: '#d3d3d3',
+                        width: '85%',
+                    }}
+                />
+            </CurrentDiv>
             {newUser.map((list, index) => (
                 <React.Fragment key={index}>
                     <Ulclass>
@@ -108,7 +145,7 @@ function ManagementPage(props) {
                                 <Divchildclass>{list.address}호</Divchildclass>
                                 <Divchild2class>
                                     <Pclass>{list.car}</Pclass>
-                                    <Pclass2>{list.phone}</Pclass2>
+                                    <Pclass2>{list.phone.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3')}</Pclass2>
                                 </Divchild2class>
                                 <CheckBtn value={list.idx} onClick={onAccessButton}>
                                     <HiCheck size="23" style={{ color: 'green' }} />
@@ -121,17 +158,73 @@ function ManagementPage(props) {
                     </Ulclass>
                 </React.Fragment>
             ))}
+            <CurrentDiv>
+                <div
+                    style={{
+                        color: 'gray',
+                        margin: '10vw 10vw 1vw 5vw',
+                        fontSize: '0.8rem',
+                    }}
+                >
+                    현 회원
+                </div>
+                <hr
+                    style={{
+                        color: '#d3d3d3',
+                        width: '85%',
+                    }}
+                />
+            </CurrentDiv>
+            {oldUser.map((list, index) => (
+                <React.Fragment key={index}>
+                    <Ulclass>
+                        <CurrentLiclass>
+                            <Divclass>
+                                <Divchildclass>{list.address}호</Divchildclass>
+                                <Divchild2class>
+                                    <Pclass>{list.car}</Pclass>
+                                    <Pclass2>
+                                        <ReportDiv>
+                                            <MdOutlineReportProblem
+                                                size="16"
+                                                style={{ color: 'gray' }}
+                                            />{' '}
+                                            24회
+                                        </ReportDiv>
+                                        {list.phone.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3')}
+                                    </Pclass2>
+                                </Divchild2class>
+                                <CheckBtn value={list.idx} onClick={onAccessButton}>
+                                    <RiKakaoTalkFill size="23" style={{background: "yellow", padding : "3px",borderRadius: "15px"}}/>
+                                </CheckBtn>
+                                <CheckBtn value={list.idx} onClick={onDeleteButton}>
+                                    <MdClose size="23" style={{ color: 'red' }} />
+                                </CheckBtn>
+                            </Divclass>
+                        </CurrentLiclass>
+                    </Ulclass>
+                </React.Fragment>
+            ))}
         </div>
     );
 }
 
 export default ManagementPage;
 
+const CurrentDiv = styled.div`
+    max-width: 700px;
+    margin: auto;
+`;
+
+const ReportDiv = styled.div`
+    margin-right: 10px;
+`;
+
 const Ulclass = styled.ul`
     padding-left: 0px;
     margin: auto;
     list-style: none;
-    max-width: 28rem; /* max-w-md in Tailwind CSS */
+    max-width: 640px; /* max-w-md in Tailwind CSS */
     border-color: #e5e7eb; /* divide-gray-200 in Tailwind CSS */
     &.divide-y > li:not(:last-child) {
         border-bottom-width: 1px;
@@ -143,6 +236,11 @@ const Liclass = styled.li`
     box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px -1px, rgba(0, 0, 0, 0.14) 0px 6px 10px 0px,
         rgba(0, 0, 0, 0.12) 0px 1px 18px 0px;
     border-radius: 15px;
+    margin: 20px;
+`;
+
+const CurrentLiclass = styled.li`
+    border-bottom: 1px solid #d3d3d3;
     margin: 20px;
 `;
 
@@ -197,6 +295,7 @@ const Pclass2 = styled.p`
     text-overflow: ellipsis; /* truncate in Tailwind CSS */
     white-space: nowrap; /* truncate in Tailwind CSS */
     margin: 10px;
+    display: flex;
 `;
 
 const CheckBtn = styled.button`

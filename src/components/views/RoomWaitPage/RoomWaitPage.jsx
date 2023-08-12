@@ -33,7 +33,7 @@ export default function RoomWaitPage() {
         });
 	},[])
   return (
-    <Container className="loading_KOR">
+    <Container className="wrap loaded">
 		<MainText id= "maint">ParKING</MainText>
         <SubText>관리자 승인 대기 중입니다...</SubText>
         <LoadingContainer>

@@ -28,7 +28,7 @@ function SettingPage(props) {
     }, []);
 
     return (
-        <div ref={props.ref} className="wrap loaded">
+        <div className="wrap loaded">
             <UserinfoDiv>
                 <UserDiv>
                     <UserNameDiv>{Userinfo.username}</UserNameDiv>
@@ -45,10 +45,12 @@ function SettingPage(props) {
                             <ParkingTitleDiv>출차 시간</ParkingTitleDiv>
                             <ParkingTimeDiv>{Userinfo.outTime}</ParkingTimeDiv>
                         </UserParkingTimeDiv>
-                        <IoIosArrowForward
-                            size="23"
-                            style={{ marginTop: '11%', color: '#d3d3d3' }}
-                        />
+                        <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+                            <IoIosArrowForward
+                                size="23"
+                                style={{ marginTop: '11%', color: '#d3d3d3', marginTop: "50px" }}
+                            />
+                        </Link>
                     </UserinfosDiv>
                     <ParkingSet>
                         <a>주차장 바꾸기 |</a> <a> 주차장 변경 |</a> <a> QR 변경하기</a>
@@ -99,6 +101,15 @@ function SettingPage(props) {
                     <li>
                         <Link to="/management" style={{ color: 'inherit', textDecoration: 'none' }}>
                             유저 관리 페이지{' '}
+                            <IoIosArrowForward
+                                size="23"
+                                style={{ marginRight: '11%', color: 'gray', float: 'right' }}
+                            />
+                        </Link>
+                    </li>
+					<li>
+                        <Link to="/profile" style={{ color: 'inherit', textDecoration: 'none' }}>
+                            회원 정보 수정{' '}
                             <IoIosArrowForward
                                 size="23"
                                 style={{ marginRight: '11%', color: 'gray', float: 'right' }}

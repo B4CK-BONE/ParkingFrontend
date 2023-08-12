@@ -203,7 +203,7 @@ const MyParking = (props) => {
         }
     };
     return (
-        <div ref={props.ref} className="wrap loaded">
+        <div className="wrap loaded">
             <Container>
                 <Parkingcontainer>
                     <Parkingmaintextcontainer>주차장 현황</Parkingmaintextcontainer>

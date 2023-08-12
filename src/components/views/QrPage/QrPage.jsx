@@ -39,7 +39,7 @@ function QrPage(props) {
             });
     }, []);
     return (
-        <div ref={props.ref} className="wrap loaded">
+        <div className="wrap loaded">
             <div>
                 <img
                     src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcYaxSE%2FbtsfdaHthmR%2F1f2rjzIEmZbuy8EfSEHyok%2Fimg.png"

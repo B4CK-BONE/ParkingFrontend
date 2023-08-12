@@ -27,10 +27,10 @@ const RoomStart = (props) => {
   };
 
   const handleJoinRoom = () => {
-    window.location.href = "camera://" + window.location.href;
+    navigate("/roomjoin");
   };
   return (
-    <div ref={props.ref} className="wrap loaded">
+    <div className="wrap loaded">
       <ContainerDiv>
         <img
           src="logo2.png"

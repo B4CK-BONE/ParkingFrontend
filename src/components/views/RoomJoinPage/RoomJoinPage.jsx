@@ -30,22 +30,18 @@ const RoomJoinPage = () => {
 
     const handleJoinRoom = (event) => {
 		
-        navigate(`/waitingroom/${Codenum}`);
+        navigate(`/roomwait?roomId=${Codenum}`);
     };
     const handleError = (err) => {
         console.error(err);
     };
     return (
-        <div className="App">
-            <h1>Hello CodeSandbox</h1>
-            <h2>
-                
-                {selected}
-            </h2>
-            <select onChange={(e) => setSelected(e.target.value)}>
-                <option value={'environment'}>Back Camera</option>
-                <option value={'user'}>Front Camera</option>
-            </select>
+        <div className="wrap loaded">
+            <ContainerTitleDiv>ParKING</ContainerTitleDiv>
+            <ContainersubTitleDiv>
+                QR 인증 혹은 룸 코드 넘버를 넣어주세요.
+            </ContainersubTitleDiv>
+            
 
             {!showDialog && !processing && (
                 <QrReader
@@ -54,7 +50,7 @@ const RoomJoinPage = () => {
                     onError={handleError}
                     onScan={handleScan}
                     // chooseDeviceId={()=>selected}
-                    style={{ width: '200px', heigth: '100px' }}
+                    style={{ maxWidth: '400px',margin: 'auto' }}
                 />
             )}
             <ContainerDiv>
@@ -73,6 +69,23 @@ const RoomJoinPage = () => {
 };
 
 export default RoomJoinPage;
+
+const ContainerTitleDiv = styled.h1`
+  align-items: center;
+  font-family: "Noto Sans KR", sans-serif;
+  text-align: center;
+`;
+
+
+const ContainersubTitleDiv = styled.div`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 15px;
+  margin-bottom: 7vh;
+  text-align: center;
+`;
 
 const NameInput = styled.input`
     width: 85%;

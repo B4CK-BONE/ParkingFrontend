@@ -57,7 +57,7 @@ const InputNamePage = (props) => {
   };
 
   return (
-    <div ref={props.ref} className="wrap loaded">
+    <div className="wrap loaded">
       <ContainerDiv>
         <ContainerTitleDiv>간단한 회원 정보를 입력해주세요.</ContainerTitleDiv>
         <ContainersubTitleDiv>
@@ -120,6 +120,8 @@ const ContainerDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 700px;
+    margin: auto;
 `;
 
 const ContainerTitleDiv = styled.div`

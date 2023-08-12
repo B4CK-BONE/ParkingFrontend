@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { AUTH_USER, REFRESH_TOKEN } from './types';
+import { AUTH_USER, ACCESS_TOKEN } from './types';
 import { API_URL } from '../components/config';
 
 export function auth() {
@@ -12,15 +12,15 @@ export function auth() {
     };
 }
 
-export function refreshAccessToken() {
-    const request = Axios.get(`${API_URL}user/refresh`, {
-        withCredentials: true,
-    }).then((response) => response.data);
+export function refreshAccessToken(dataToSubmit) {
+    // const request = Axios.get(`${API_URL}user/refresh`, {
+    //     withCredentials: true,
+    // }).then((response) => response.data);
     
 
     // 새로운 Access Token 저장
     return {
-        type: REFRESH_TOKEN,
-        payload: request,
+        type: ACCESS_TOKEN,
+        payload: dataToSubmit,
     };
 }
