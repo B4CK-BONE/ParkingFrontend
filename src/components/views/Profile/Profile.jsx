@@ -1,14 +1,42 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../config';
+import { useSelector } from 'react-redux';
 
 const Profile = (props) => {
     const [Name, setName] = useState('');
     const [Usercar, setUsercar] = useState('');
     const [Userphone, setUserphone] = useState('');
+    const [Userkakao, setUserkakao] = useState('');
+	const [Userkakaovalue, setUserkakaovalue] = useState('');
     const navigate = useNavigate();
+    const userinfos = useSelector((state) => state.user);
+
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `${userinfos?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+        Axios.get(`${API_URL}user/${userinfos?.userData?.result.idx}`, config) //
+            .then((response) => {
+                // 요청이 성공한 경우의 처리
+                console.log(response.data);
+
+                setName(response.data.result.address);
+                setUsercar(response.data.result.car);
+                setUserphone(response.data.result.phone);
+                setUserkakao("https://open.kakao.com/o/"+response.data.result.kakao);
+				setUserkakaovalue(response.data.result.kakao);
+            })
+            .catch((error) => {
+                // 요청이 실패한 경우의 처리
+                console.error(error);
+            });
+    }, []);
 
     const onNameHandler = (event) => {
         const newValue = event.target.value
@@ -19,7 +47,10 @@ const Profile = (props) => {
     };
 
     const onUsercarHandler = (event) => {
-        setUsercar(event.currentTarget.value);
+        const newValue = event.target.value
+            .replace(/[^0-9가-힣]/g, '') // 숫자와 한글 이외의 문자 제거
+            .replace(/^\d{2,4}[가-힣]\d{5}$/, ''); // 형식을 만족하는 부분만 남김
+        setUsercar(newValue);
     };
 
     const onUserphoneHandler = (event) => {
@@ -30,22 +61,37 @@ const Profile = (props) => {
         setUserphone(newValue);
     };
 
+    const onUserkakaoHandler = (event) => {
+        const url = event.target.value;
+        const regex = /\/([a-zA-Z0-9]+)$/; // 정규식
+
+        const matches = url.match(regex);
+        const extractedValue = matches && matches[1]; // 추출된 값
+
+		setUserkakaovalue(extractedValue)
+        setUserkakao(event.target.value);
+    };
+
     const handleJoinRoom = (event) => {
         event.preventDefault();
 
-        const params = { car: Usercar, phone: Userphone, address: Name };
+        const params = { car: Usercar, phone: Userphone, address: Name, kakao: Userkakaovalue };
         //const body = JSON.stringify(params);
         if (Name !== '' || Usercar !== '' || Userphone) {
             //console.log(body);
             // 방 입장하기 버튼 클릭 시 실행되는 로직
-            axios
-                .put(`${API_URL}user/${1}`, params, {
-                    withCredentials: true,
-                }) //
+            const config = {
+                headers: {
+                    Authorization: `${userinfos?.accessToken}`,
+                },
+                withCredentials: true,
+            };
+            Axios.put(`${API_URL}user/${userinfos?.userData?.result.idx}`, params, config) //
                 .then((response) => {
                     // 요청이 성공한 경우의 처리
-                    console.log(response.data);
-                    navigate('/roomstart');
+                    if (response.data.isSuccess) {
+                        navigate('/setting');
+                    }
                 })
                 .catch((error) => {
                     // 요청이 실패한 경우의 처리
@@ -65,7 +111,8 @@ const Profile = (props) => {
                 <ContainersubTitleDiv>세대 호수</ContainersubTitleDiv>
                 <NameInput
                     type="text"
-                    minLength="4"
+                    minLength="3"
+                    maxLength="5"
                     value={Name}
                     onChange={onNameHandler}
                     placeholder="세대 호수 예). 201호 -> 201"
@@ -79,7 +126,7 @@ const Profile = (props) => {
                     onChange={onUserphoneHandler}
                     placeholder="전화번호 번호 예). 01011112222"
                 />
-				<ContainersubTitleDiv>차량 번호</ContainersubTitleDiv>
+                <ContainersubTitleDiv>차량 번호</ContainersubTitleDiv>
                 <NameInput
                     type="text"
                     minLength="7"
@@ -88,15 +135,15 @@ const Profile = (props) => {
                     onChange={onUsercarHandler}
                     placeholder="차량 번호 예). 17가 8526"
                 />
-				
-				<ContainersubTitleDiv>오픈채팅</ContainersubTitleDiv>
+
+                <ContainersubTitleDiv>오픈채팅</ContainersubTitleDiv>
                 <NameInput
                     type="text"
                     minLength="7"
-                    maxLength="10"
-                    value={Usercar}
-                    onChange={onUsercarHandler}
-                    placeholder="카카오톡 주소 예). https://open.kakao.com/o/shC7nIAf -> shC7nIAf(마지막 8자리)"
+                    maxLength="35"
+                    value={Userkakao}
+                    onChange={onUserkakaoHandler}
+                    placeholder="카카오톡 주소 붙혀넣기 예). https://open.kakao.com/o/shC7nIAf"
                 />
                 <StartBtn onClick={handleJoinRoom}>수정하기</StartBtn>
             </ContainerDiv>
@@ -131,7 +178,6 @@ const ContainerDiv = styled.div`
     align-items: center;
     max-width: 700px;
     margin: auto;
-
 `;
 
 const ContainerTitleDiv = styled.div`
@@ -141,7 +187,7 @@ const ContainerTitleDiv = styled.div`
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 20px;
     font-weight: 1000;
-	margin : 20px;
+    margin: 20px;
     margin-bottom: 2vh;
 `;
 
@@ -153,7 +199,6 @@ const ContainersubTitleDiv = styled.div`
     font-size: 8px;
     margin-left: 15px;
     margin-right: 80%;
-   
 `;
 
 const StartBtn = styled.button`

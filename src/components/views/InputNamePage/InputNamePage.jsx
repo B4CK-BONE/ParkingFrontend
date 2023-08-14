@@ -3,12 +3,15 @@ import axios from "axios";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../config";
+import { useSelector } from 'react-redux';
+
 
 const InputNamePage = (props) => {
   const [Name, setName] = useState("");
   const [Usercar, setUsercar] = useState("");
   const [Userphone, setUserphone] = useState("");
   const navigate = useNavigate();
+const userinfos = useSelector((state) => state.user);
 
   const onNameHandler = (event) => {
     const newValue = event.target.value
@@ -19,7 +22,10 @@ const InputNamePage = (props) => {
   };
 
   const onUsercarHandler = (event) => {
-    setUsercar(event.currentTarget.value);
+     const newValue = event.target.value
+      .replace(/[^0-9가-힣]/g, '') // 숫자와 한글 이외의 문자 제거
+      .replace(/^\d{2,4}[가-힣]\d{5}$/, ''); // 형식을 만족하는 부분만 남김
+    setUsercar(newValue);
   };
 
   const onUserphoneHandler = (event) => {
@@ -32,20 +38,30 @@ const InputNamePage = (props) => {
 
   const handleJoinRoom = (event) => {
     event.preventDefault();
-
+	console.log("test",userinfos?.userData);
     const params = { car: Usercar, phone: Userphone, address: Name };
     //const body = JSON.stringify(params);
     if (Name !== "" || Usercar !== "" || Userphone) {
       //console.log(body);
       // 방 입장하기 버튼 클릭 시 실행되는 로직
+		
+		const config = {
+            headers: {
+                Authorization: `${userinfos?.accessToken}`,
+            },
+            withCredentials: true,
+        };
       axios
-        .put(`${API_URL}user/${1}`, params, {
-          withCredentials: true,
-        }) //
+        .put(`${API_URL}user/${userinfos?.userData?.result.idx}`, params, config) //
         .then((response) => {
           // 요청이 성공한 경우의 처리
-          console.log(response.data);
-          navigate("/roomstart");
+		  if(response.data.isSuccess){
+			
+          	navigate("/roomstart");
+		  }else{
+			  alert(response.data.message);
+		  }
+         
         })
         .catch((error) => {
           // 요청이 실패한 경우의 처리
@@ -69,6 +85,7 @@ const InputNamePage = (props) => {
         <NameInput
           type="text"
           minLength="3"
+		maxLength="5"
           value={Name}
           onChange={onNameHandler}
           placeholder="세대 호수 예). 201호 -> 201"
@@ -84,10 +101,10 @@ const InputNamePage = (props) => {
         <NameInput
           type="text"
           minLength="7"
-          maxLength="10"
+          maxLength="9"
           value={Usercar}
           onChange={onUsercarHandler}
-          placeholder="차량 번호 예). 17가 8526"
+          placeholder="차량 번호 예). 17가8526"
         />
         <StartBtn onClick={handleJoinRoom}>가입하기</StartBtn>
       </ContainerDiv>

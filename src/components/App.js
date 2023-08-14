@@ -27,17 +27,25 @@ function App() {
     const { pathname } = useLocation();
     const wrapRef = useRef(null);
     const dispatch = useDispatch();
-    const NewMyParking = Auth(MyParking, true);
-    const NewListPage = Auth(ListPage, true);
-    const NewQrPage = Auth(QrPage, true);
-    const NewRoomJoinPage = Auth(RoomJoinPage, false);
-    const NewSettingPage = Auth(SettingPage, true);
-    const NewRoomStart = Auth(RoomStart, false);
-    const NewInputName = Auth(InputNamePage, false);
-    const NewLoginPage = Auth(LoginPage, false);
-    const NewRoomWaitPage = Auth(RoomWaitPage, false);
-	const NewManagementPage = Auth(ManagementPage, false);
-	const NewProfile = Auth(Profile, true);
+	
+	const NewLoginPage = Auth(LoginPage, false);
+	
+    const NewMyParking = Auth(MyParking, true, 1);
+    const NewListPage = Auth(ListPage, true, 1);
+    const NewQrPage = Auth(QrPage, true, 1);
+	const NewProfile = Auth(Profile, true, 1);
+	const NewSettingPage = Auth(SettingPage, true, 1);
+	
+	const NewInputName = Auth(InputNamePage, true,2);
+	
+    const NewRoomJoinPage = Auth(RoomJoinPage, true,5);
+    const NewRoomStart = Auth(RoomStart, true,5);
+    
+	const NewManagementPage = Auth(ManagementPage, true, 3);
+    
+    const NewRoomWaitPage = Auth(RoomWaitPage, true, 4);
+	
+	
 
     useEffect(() => {
         // const minute = 1000 * 60 * 60;

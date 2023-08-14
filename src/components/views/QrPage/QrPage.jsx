@@ -14,7 +14,7 @@ function QrPage(props) {
     useEffect(() => {
         const config = {
             headers: {
-                Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+                Authorization: `${userinfos?.accessToken}`,
             },
             withCredentials: true,
         };
@@ -23,7 +23,7 @@ function QrPage(props) {
                 // 요청이 성공한 경우의 처리
                 if (response.data.isSuccess) {
                     console.log(response.data);
-                    QRCode.toDataURL(`${Client_URL}roomwait?roomId=${response.data}`).then(
+                    QRCode.toDataURL(`${Client_URL}roomwait?roomId=${response.data.result.roomIdx}`).then(
                         (data) => {
                             setSrc(data);
                         }

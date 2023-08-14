@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 const RoomJoinPage = () => {
-   
     const [showDialog, setDiaglog] = useState(false);
     const [processing, setProcessing] = useState(false);
     const [selected, setSelected] = useState('environment');
@@ -16,7 +15,9 @@ const RoomJoinPage = () => {
     const handleScan = async (scanData) => {
         if (scanData && scanData !== '' && !showDialog && !processing) {
             console.log(`loaded >>>`, scanData);
-            //navigate("/");
+            const url = new URL(scanData);
+            const pathAndQuery = url.pathname + url.search;
+            navigate(pathAndQuery);
         }
     };
 
@@ -29,7 +30,6 @@ const RoomJoinPage = () => {
     };
 
     const handleJoinRoom = (event) => {
-		
         navigate(`/roomwait?roomId=${Codenum}`);
     };
     const handleError = (err) => {
@@ -38,10 +38,7 @@ const RoomJoinPage = () => {
     return (
         <div className="wrap loaded">
             <ContainerTitleDiv>ParKING</ContainerTitleDiv>
-            <ContainersubTitleDiv>
-                QR 인증 혹은 룸 코드 넘버를 넣어주세요.
-            </ContainersubTitleDiv>
-            
+            <ContainersubTitleDiv>QR 인증 혹은 룸 코드 넘버를 넣어주세요.</ContainersubTitleDiv>
 
             {!showDialog && !processing && (
                 <QrReader
@@ -50,7 +47,7 @@ const RoomJoinPage = () => {
                     onError={handleError}
                     onScan={handleScan}
                     // chooseDeviceId={()=>selected}
-                    style={{ maxWidth: '400px',margin: 'auto' }}
+                    style={{ maxWidth: '400px', margin: 'auto' }}
                 />
             )}
             <ContainerDiv>
@@ -71,20 +68,19 @@ const RoomJoinPage = () => {
 export default RoomJoinPage;
 
 const ContainerTitleDiv = styled.h1`
-  align-items: center;
-  font-family: "Noto Sans KR", sans-serif;
-  text-align: center;
+    align-items: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
 `;
 
-
 const ContainersubTitleDiv = styled.div`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 15px;
-  margin-bottom: 7vh;
-  text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    margin-bottom: 7vh;
+    text-align: center;
 `;
 
 const NameInput = styled.input`

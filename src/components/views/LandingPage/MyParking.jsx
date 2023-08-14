@@ -169,20 +169,18 @@ const MyParking = (props) => {
 	const [Parking, setParking] = useState(false);
     useEffect(() => {
         
-		let body = {
-			userIdx: 1
-		};
+		
 		const config = {
             headers: {
-                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+                Authorization: `${userinfos?.accessToken}`,
             },
             withCredentials: true,
         };
-        Axios.get(`${API_URL}parking`, body, config)
+        Axios.get(`${API_URL}parking`, config)
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 console.log(response.data);
-                setParkingList(response.data);
+                setParkingList(response.data.result);
             })
 
             .catch((error) => {
@@ -196,8 +194,8 @@ const MyParking = (props) => {
 
         setOpen(true);
         setIsModalOpen(true);
-        if (position2[button_number - 1] && button_number > -1) {
-            setUser(position2[button_number - 1]);
+        if (ParkingList[button_number - 1] && button_number > -1) {
+            setUser(ParkingList[button_number - 1]);
         } else {
             setUser('');
         }
@@ -209,7 +207,7 @@ const MyParking = (props) => {
                     <Parkingmaintextcontainer>주차장 현황</Parkingmaintextcontainer>
                     <Parkingimgcontainer>
                         <img
-                            src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FL7lEw%2Fbtsd01rpkbO%2FUwIxKrC1LVq6rVqZXxAPE0%2Fimg.png"
+                            src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FP0hyc%2Fbtsrh3vFd25%2FQe7O6z3MTnFmyq9SKuPYB1%2Fimg.png"
                             style={{
                                 border: '0px',
                                 padding: '0px 0.75rem',
@@ -220,20 +218,20 @@ const MyParking = (props) => {
                         />
                     </Parkingimgcontainer>
 
-                    {position2.map((point, index) => (
+                    {ParkingList?.map((point, index) => (
                         <React.Fragment key={index}>
                             <ParkingBtn
                                 onClick={onClickButton}
                                 data={point.slot}
                                 style={{
-                                    backgroundColor: point.use ? '#9b111e' : '#237af2',
-                                    bottom: `${point.bottom}`,
-                                    right: `${point.right}`,
-                                    height: `${point.height}`,
-                                    width: `${point.width}`,
+                                    backgroundColor: point?.use ? '#9b111e' : '#237af2',
+                                    bottom: `${point?.bottom}`,
+                                    right: `${point?.right}`,
+                                    height: `${point?.height}`,
+                                    width: `${point?.width}`,
                                 }}
                             >
-                                {point.endTime ? point.endTime : "주차 가능" }
+                                {point?.endTime ? point?.endTime : "주차 가능" }
                             </ParkingBtn>
                         </React.Fragment>
                     ))}
@@ -254,8 +252,8 @@ const MyParking = (props) => {
 export default MyParking;
 
 const Parkingmaintextcontainer = styled.div`
-    text-align: left;
-    margin: 20px;
+    text-align: center;
+    margin: 25px;
     font-size: 18px;
     font-family: 'Noto Sans KR', sans-serif;
 `;
