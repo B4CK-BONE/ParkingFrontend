@@ -14,7 +14,7 @@ function QrPage(props) {
     useEffect(() => {
         const config = {
             headers: {
-                Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+                Authorization: `${userinfos?.accessToken}`,
             },
             withCredentials: true,
         };
@@ -23,7 +23,7 @@ function QrPage(props) {
                 // 요청이 성공한 경우의 처리
                 if (response.data.isSuccess) {
                     console.log(response.data);
-                    QRCode.toDataURL(`${Client_URL}roomwait?roomId=${response.data}`).then(
+                    QRCode.toDataURL(`${Client_URL}roomwait?roomId=${response.data.result.roomIdx}`).then(
                         (data) => {
                             setSrc(data);
                         }
@@ -39,7 +39,7 @@ function QrPage(props) {
             });
     }, []);
     return (
-        <div ref={props.ref} className="wrap loaded">
+        <div className="wrap loaded">
             <div>
                 <img
                     src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcYaxSE%2FbtsfdaHthmR%2F1f2rjzIEmZbuy8EfSEHyok%2Fimg.png"

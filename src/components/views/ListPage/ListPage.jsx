@@ -177,7 +177,7 @@ function ListPage(props) {
             });
     }, []);
     return (
-        <div ref={props.ref} className="wrap loaded">
+        <div className="wrap loaded">
             {position2.map(
                 (list, index) =>
                     list.use && (

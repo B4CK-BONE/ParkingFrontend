@@ -4,93 +4,83 @@ import styled from 'styled-components';
 import { API_URL } from '../../config';
 import { useSelector } from 'react-redux';
 import { HiCheck } from 'react-icons/hi';
-import { MdClose } from 'react-icons/md';
+import { MdClose, MdOutlineReportProblem } from 'react-icons/md';
+import { RiKakaoTalkFill } from 'react-icons/ri';
 
 function ManagementPage(props) {
     const [ParkingList, setParkingList] = useState([]);
+    const [AccessCheck, setAccessCheck] = useState(false);
     const userinfos = useSelector((state) => state.user);
-    let newUser = [
-        {
-            idx: 3,
-            roomIdx: 1,
-            email: 'aqerdfc@naver.com',
-            car: '15다1345',
-            phone: '01021111111',
-            address: '103',
-            role: 0,
-        },
-    ];
 
     useEffect(() => {
-        let body = {
-            userIdx: 1,
-        };
         const config = {
             headers: {
-                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+                Authorization: `${userinfos?.accessToken}`,
             },
             withCredentials: true,
         };
-        Axios.get(`${API_URL}parking`, body, config)
+        Axios.get(`${API_URL}room/${userinfos?.userData?.result.roomIdx}/admin`, config)
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 console.log(response.data);
-                setParkingList(response.data);
+                setParkingList(response.data.result);
             })
 
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
                 console.error(error);
             });
-    }, []);
+    }, [AccessCheck]);
 
     const onDeleteButton = (event) => {
         const buttonValue = event.currentTarget.value;
-        
-		let body = {
-            userIdx: buttonValue,
-			adminIdx: 1,
-			role : 0
-        };
-        const config = {
-            headers: {
-                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
-            },
-            withCredentials: true,
-        };
-        Axios.put(`${API_URL}room/${userinfos?.userData?.roomIdx}/admin`, body, config)
-            .then((response) => {
-                // 요청이 성공한 경우의 처리
-                console.log(response.data);
-                setParkingList(response.data);
-            })
+        let body = {
+            userIdx: parseInt(buttonValue),
 
-            .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
-            });
-    };
-	
-	 const onAccessButton = (event) => {
-        
-        const buttonValue = event.currentTarget.value;
-        
-		let body = {
-            userIdx: buttonValue,
-			adminIdx: 1,
-			role : 1
+            role: 0,
         };
         const config = {
             headers: {
-                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+                Authorization: `${userinfos?.accessToken}`,
             },
             withCredentials: true,
         };
-        Axios.put(`${API_URL}room/${userinfos?.userData?.roomIdx}/admin`, body, config)
+        if (window.confirm('해당 유저를 추방하시겠습니까?')) {
+            Axios.put(`${API_URL}room/${userinfos?.userData?.result.roomIdx}/admin`, body, config)
+                .then((response) => {
+                    // 요청이 성공한 경우의 처리
+					alert(response.data.message);
+                    setParkingList(response.data.result);
+                    setAccessCheck(!AccessCheck);
+                })
+
+                .catch((error) => {
+                    // 요청이 실패한 경우의 처리
+                    console.error(error);
+                });
+        }
+    };
+
+    const onAccessButton = (event) => {
+        const buttonValue = event.currentTarget.value;
+        let body = {
+            userIdx: parseInt(buttonValue),
+
+            role: 1,
+        };
+        const config = {
+            headers: {
+                Authorization: `${userinfos?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+        Axios.put(`${API_URL}room/${userinfos?.userData?.result.roomIdx}/admin`, body, config)
             .then((response) => {
                 // 요청이 성공한 경우의 처리
+                alert(response.data.message);
                 console.log(response.data);
-                setParkingList(response.data);
+                setParkingList(response.data.result);
+                setAccessCheck(!AccessCheck);
             })
 
             .catch((error) => {
@@ -99,8 +89,25 @@ function ManagementPage(props) {
             });
     };
     return (
-        <div ref={props.ref} className="wrap loaded">
-            {newUser.map((list, index) => (
+        <div className="wrap loaded">
+            <CurrentDiv>
+                <div
+                    style={{
+                        color: 'gray',
+                        margin: '3vw 10vw 1vw 5vw',
+                        fontSize: '0.8rem',
+                    }}
+                >
+                    신청 회원
+                </div>
+                <hr
+                    style={{
+                        color: '#d3d3d3',
+                        width: '85%',
+                    }}
+                />
+            </CurrentDiv>
+            {ParkingList?.newUser?.map((list, index) => (
                 <React.Fragment key={index}>
                     <Ulclass>
                         <Liclass>
@@ -108,7 +115,9 @@ function ManagementPage(props) {
                                 <Divchildclass>{list.address}호</Divchildclass>
                                 <Divchild2class>
                                     <Pclass>{list.car}</Pclass>
-                                    <Pclass2>{list.phone}</Pclass2>
+                                    <Pclass2>
+                                        {list.phone.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3')}
+                                    </Pclass2>
                                 </Divchild2class>
                                 <CheckBtn value={list.idx} onClick={onAccessButton}>
                                     <HiCheck size="23" style={{ color: 'green' }} />
@@ -121,17 +130,88 @@ function ManagementPage(props) {
                     </Ulclass>
                 </React.Fragment>
             ))}
+            <CurrentDiv>
+                <div
+                    style={{
+                        color: 'gray',
+                        margin: '10vw 10vw 1vw 5vw',
+                        fontSize: '0.8rem',
+                    }}
+                >
+                    현 회원
+                </div>
+                <hr
+                    style={{
+                        color: '#d3d3d3',
+                        width: '85%',
+                    }}
+                />
+            </CurrentDiv>
+            {ParkingList?.oldUser?.map((list, index) => (
+                <React.Fragment key={index}>
+                    {index !== 0 && (
+                        <Ulclass>
+                            <CurrentLiclass>
+                                <Divclass>
+                                    <Divchildclass>{list.address}호</Divchildclass>
+                                    <Divchild2class>
+                                        <Pclass>{list.car}</Pclass>
+                                        <Pclass2>
+                                            <ReportDiv>
+                                                <MdOutlineReportProblem
+                                                    size="16"
+                                                    style={{ color: 'gray' }}
+                                                />{' '}
+                                                {list.reportCount}회
+                                            </ReportDiv>
+                                            {list.phone.replace(
+                                                /^(\d{3})(\d{4})(\d{4})$/,
+                                                '$1-$2-$3'
+                                            )}
+                                        </Pclass2>
+                                    </Divchild2class>
+
+                                    <div>
+                                        <CheckBtn value={list.idx} onClick={onAccessButton}>
+                                            <RiKakaoTalkFill
+                                                size="23"
+                                                style={{
+                                                    background: 'yellow',
+                                                    padding: '3px',
+                                                    borderRadius: '15px',
+                                                }}
+                                            />
+                                        </CheckBtn>
+                                        <CheckBtn value={list.idx} onClick={onDeleteButton}>
+                                            <MdClose size="23" style={{ color: 'red' }} />
+                                        </CheckBtn>
+                                    </div>
+                                </Divclass>
+                            </CurrentLiclass>
+                        </Ulclass>
+                    )}
+                </React.Fragment>
+            ))}
         </div>
     );
 }
 
 export default ManagementPage;
 
+const CurrentDiv = styled.div`
+    max-width: 700px;
+    margin: auto;
+`;
+
+const ReportDiv = styled.div`
+    margin-right: 10px;
+`;
+
 const Ulclass = styled.ul`
     padding-left: 0px;
     margin: auto;
     list-style: none;
-    max-width: 28rem; /* max-w-md in Tailwind CSS */
+    max-width: 640px; /* max-w-md in Tailwind CSS */
     border-color: #e5e7eb; /* divide-gray-200 in Tailwind CSS */
     &.divide-y > li:not(:last-child) {
         border-bottom-width: 1px;
@@ -143,6 +223,11 @@ const Liclass = styled.li`
     box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px -1px, rgba(0, 0, 0, 0.14) 0px 6px 10px 0px,
         rgba(0, 0, 0, 0.12) 0px 1px 18px 0px;
     border-radius: 15px;
+    margin: 20px;
+`;
+
+const CurrentLiclass = styled.li`
+    border-bottom: 1px solid #d3d3d3;
     margin: 20px;
 `;
 
@@ -197,6 +282,7 @@ const Pclass2 = styled.p`
     text-overflow: ellipsis; /* truncate in Tailwind CSS */
     white-space: nowrap; /* truncate in Tailwind CSS */
     margin: 10px;
+    display: flex;
 `;
 
 const CheckBtn = styled.button`

@@ -3,23 +3,28 @@ import styled from 'styled-components';
 import { IoIosArrowForward } from 'react-icons/io';
 import SliderSection from './Sections/SliderSection';
 import Axios from 'axios';
-import { useCookies } from 'react-cookie'; // useCookies import
+
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../config';
+import { useSelector } from 'react-redux';
 
 function SettingPage(props) {
     const [Src, setSrc] = useState('');
-    const [cookies, setCookie] = useCookies(['id']); // 쿠키 훅
     const [Userinfo, setUserinfo] = useState([]);
+	const userinfos = useSelector((state) => state.user);
 
     useEffect(() => {
-        const token = cookies.id; // 쿠키에서 id 를 꺼내기
-        Axios.get(`https://backbone-ufribf.run.goorm.site/info?id=${token}`, {
-            withCredentials: true,
-        }) //
+        const config = {
+                headers: {
+                    Authorization: `${userinfos?.accessToken}`,
+                },
+                withCredentials: true,
+            };
+        Axios.get(`${API_URL}user/${userinfos?.userData?.result?.idx}`,config) //
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 console.log(response.data);
-                setUserinfo(response.data);
+                setUserinfo(response.data.result);
             })
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
@@ -28,11 +33,11 @@ function SettingPage(props) {
     }, []);
 
     return (
-        <div ref={props.ref} className="wrap loaded">
+        <div className="wrap loaded">
             <UserinfoDiv>
                 <UserDiv>
-                    <UserNameDiv>{Userinfo.username}</UserNameDiv>
-                    <UserCarDiv>{Userinfo.usercar}</UserCarDiv>
+                    <UserNameDiv>{Userinfo?.address}호</UserNameDiv>
+                    <UserCarDiv>{Userinfo?.car}</UserCarDiv>
                 </UserDiv>
 
                 <UserinfochildDiv>
@@ -43,12 +48,14 @@ function SettingPage(props) {
                         />
                         <UserParkingTimeDiv>
                             <ParkingTitleDiv>출차 시간</ParkingTitleDiv>
-                            <ParkingTimeDiv>{Userinfo.outTime}</ParkingTimeDiv>
+                            <ParkingTimeDiv>{Userinfo?.endTime !== null ? Userinfo?.endTime : "시간 정보 없음"}</ParkingTimeDiv>
                         </UserParkingTimeDiv>
-                        <IoIosArrowForward
-                            size="23"
-                            style={{ marginTop: '11%', color: '#d3d3d3' }}
-                        />
+                        <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+                            <IoIosArrowForward
+                                size="23"
+                                style={{ marginTop: '11%', color: '#d3d3d3', marginTop: "50px" }}
+                            />
+                        </Link>
                     </UserinfosDiv>
                     <ParkingSet>
                         <a>주차장 바꾸기 |</a> <a> 주차장 변경 |</a> <a> QR 변경하기</a>
@@ -99,6 +106,15 @@ function SettingPage(props) {
                     <li>
                         <Link to="/management" style={{ color: 'inherit', textDecoration: 'none' }}>
                             유저 관리 페이지{' '}
+                            <IoIosArrowForward
+                                size="23"
+                                style={{ marginRight: '11%', color: 'gray', float: 'right' }}
+                            />
+                        </Link>
+                    </li>
+					<li>
+                        <Link to="/profile" style={{ color: 'inherit', textDecoration: 'none' }}>
+                            회원 정보 수정{' '}
                             <IoIosArrowForward
                                 size="23"
                                 style={{ marginRight: '11%', color: 'gray', float: 'right' }}
