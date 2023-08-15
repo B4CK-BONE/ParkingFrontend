@@ -5,172 +5,20 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import BottomSheetSection from './Sections/BottomSheetSection';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const MyParking = (props) => {
-    
     const [ParkingList, setParkingList] = useState([]);
     const userinfos = useSelector((state) => state.user);
-	let position2 = [
-		 
-        {
-        	bottom: '56vh',
-            right: '70%',
-            height: '5vh',
-            width: '20vw',
-            direction: "a",
-            endDate: "08-10",
-            endTime: "21:52",
-            car: "12가1234",
-			userIdx:2,
-            slot: 1,
-            use: true
-        },
-        {
-            bottom: '50vh',
-            right: '70%',
-            height: '5vh',
-            width: '20vw',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 2,
-            use: false
-        },
-        {
-            bottom: '44vh',
-            right: '70%',
-            height: '5vh',
-            width: '20vw',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 3,
-            use: false
-        },
-		{
-            bottom: '56vh',
-            right: '12%',
-            height: '5vh',
-            width: '20vw',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 4,
-            use: false
-        },
-		{
-            bottom: '50vh',
-            right: '12%',
-            height: '5vh',
-            width: '20vw',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 5,
-            use: false
-        },
-		{
-            bottom: '44vh',
-            right: '12%',
-            height: '5vh',
-            width: '20vw',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 6,
-            use: false
-        },
-		{
-           bottom: '40vh',
-            right: '40%',
-            height: '10vh',
-            width: '5vh',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 7,
-            use: false
-        },
-		{
-             bottom: '51vh',
-            right: '55%',
-            height: '10vh',
-            width: '5vh',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 8,
-            use: false
-        },
-		{
-            bottom: '51vh',
-            right: '40%',
-            height: '10vh',
-            width: '5vh',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 9,
-            use: false
-        },
-		{
-             bottom: '40vh',
-            right: '55%',
-            height: '10vh',
-            width: '5vh',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 10,
-            use: false
-        },
-		{
-             bottom: '28vh',
-            right: '40%',
-            height: '10vh',
-            width: '5vh',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 11,
-            use: false
-        },
-		{
-             bottom: '28vh',
-            right: '55%',
-            height: '10vh',
-            width: '5vh',
-            direction: "a",
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 12,
-            use: false
-        },
-		
-    
-	]
-
-   
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [open, setOpen] = useState(false);
     const [User, setUser] = useState([]);
-	const [Parking, setParking] = useState(false);
+    const [Parking, setParking] = useState(false);
+    const [Verify, setVerify] = useState(false);
+    const navigate = useNavigate();
+
     useEffect(() => {
-        
-		
-		const config = {
+        const config = {
             headers: {
                 Authorization: `${userinfos?.accessToken}`,
             },
@@ -178,14 +26,65 @@ const MyParking = (props) => {
         };
         Axios.get(`${API_URL}parking`, config)
             .then((response) => {
-                // 요청이 성공한 경우의 처리
-                console.log(response.data);
+                setVerify(false);
                 setParkingList(response.data.result);
+                for (var i = 0; i < response.data.result.length; i++) {
+                    if (response.data.result[i].userIdx === userinfos.userData?.result?.idx) {
+                        setVerify(true);
+                    }
+                }
             })
 
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
+                navigate('/login');
+            });
+        const intervalId = setInterval(() => {
+            let config2 = {
+                headers: {
+                    Authorization: `${userinfos?.accessToken}`,
+                },
+                withCredentials: true,
+            };
+            Axios.get(`${API_URL}parking`, config2)
+                .then((response) => {
+                    setVerify(false);
+                    setParkingList(response.data.result);
+                    for (var i = 0; i < response.data.result.length; i++) {
+                        if (response.data.result[i].userIdx === userinfos.userData?.result?.idx) {
+                            setVerify(true);
+                        }
+                    }
+                })
+
+                .catch((error) => {
+                    navigate('/login');
+                });
+        }, 10000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `${userinfos?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+        Axios.get(`${API_URL}parking`, config)
+            .then((response) => {
+                setVerify(false);
+                setParkingList(response.data.result);
+                for (var i = 0; i < response.data.result.length; i++) {
+                    if (response.data.result[i].userIdx === userinfos.userData?.result?.idx) {
+                        setVerify(true);
+                    }
+                }
+            })
+
+            .catch((error) => {
+                navigate('/login');
             });
     }, [Parking]);
 
@@ -211,8 +110,8 @@ const MyParking = (props) => {
                             style={{
                                 border: '0px',
                                 padding: '0px 0.75rem',
-								width: '70px',
-								height : '50px'
+                                width: '70px',
+                                height: '50px',
                             }}
                             alt="1"
                         />
@@ -231,7 +130,7 @@ const MyParking = (props) => {
                                     width: `${point?.width}`,
                                 }}
                             >
-                                {point?.endTime ? point?.endTime : "주차 가능" }
+                                {point?.endTime ? point?.endTime : '주차 가능'}
                             </ParkingBtn>
                         </React.Fragment>
                     ))}
@@ -241,8 +140,10 @@ const MyParking = (props) => {
                     setOpen={setOpen}
                     User={User}
                     ParkingList={ParkingList}
-					setParking={setParking}
-					Parking={Parking}
+                    setParking={setParking}
+                    Parking={Parking}
+                    Verify={Verify}
+                    setVerify={setVerify}
                 />
             </Container>
         </div>
@@ -261,7 +162,6 @@ const Parkingmaintextcontainer = styled.div`
 const Parkingimgcontainer = styled.div`
     text-align: center;
     margin-top: 20px;
-    
 `;
 
 const Parkingcontainer = styled.div`

@@ -13,24 +13,19 @@ export default function (SpecificComponent, option, adminRoute = null) {
         const userinfos = useSelector((state) => state.user);
         const location = useLocation();
 
-        console.log(location.pathname);
         useEffect(() => {
             dispatch(auth(userinfos?.accessToken))
                 .then((response) => {
-                    console.log(response.payload);
                     if (!response.payload.isSuccess) {
                         if (option && location.pathname !== '/login') {
                             navigate('/login', { replace: true });
                         } else {
-                            console.log('검증');
                         }
                     } else {
-                        //로그인한 상태
                         if (response.payload.result.role < 0) {
                             if (location.pathname !== '/inputname') {
                                 navigate('/inputname', { replace: true });
                             } else {
-                                console.log('검증');
                             }
                         } else {
                             if (adminRoute === 3 && response.payload.result.role !== 2) {
@@ -63,9 +58,8 @@ export default function (SpecificComponent, option, adminRoute = null) {
                                     response.payload.result.roomIdx > 0
                                 ) {
                                     navigate('/', { replace: true });
-                                }else{
-									
-								}  
+                                } else {
+                                }
                             } else if (adminRoute === 2 && response.payload.result.role >= 0) {
                                 navigate('/roomstart', { replace: true });
                             } else if (adminRoute === 1) {
@@ -74,7 +68,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
                                     response.payload.result.role === 0
                                 ) {
                                     navigate('/roomstart', { replace: true });
-                                }else if (
+                                } else if (
                                     response.payload.result.roomIdx > 0 &&
                                     response.payload.result.role === 0
                                 ) {
@@ -82,16 +76,26 @@ export default function (SpecificComponent, option, adminRoute = null) {
                                 }
                             } else {
                                 if (option === false) {
-                                    console.log('여기입니다');
-                                    navigate('/', { replace: true });
+									if(response.payload.result.role > -1 && location.pathname !== '/inputname'){
+										navigate('/inputname', { replace: true });
+									}else if(response.payload.result.role === 0 && location.pathname !== '/roomstart'){
+										navigate('/roomstart', { replace: true });
+									}else if(response.payload.result.role === 1 && location.pathname !== '/'){
+										navigate('/', { replace: true });
+									}else if(response.payload.result.role === 2 && location.pathname !== '/'){
+										navigate('/', { replace: true });
+									}
+                                    
                                 }
                             }
                         }
                     }
                 })
                 .catch((error) => {
-                    // 요청이 실패한 경우의 처리
-                    console.error('error');
+                    if (location.pathname !== '/login') {
+                            navigate('/login', { replace: true });
+                        } else {
+                        }
                 });
         }, []);
 

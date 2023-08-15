@@ -10,7 +10,7 @@ const Profile = (props) => {
     const [Usercar, setUsercar] = useState('');
     const [Userphone, setUserphone] = useState('');
     const [Userkakao, setUserkakao] = useState('');
-	const [Userkakaovalue, setUserkakaovalue] = useState('');
+    const [Userkakaovalue, setUserkakaovalue] = useState('');
     const navigate = useNavigate();
     const userinfos = useSelector((state) => state.user);
 
@@ -21,19 +21,18 @@ const Profile = (props) => {
             },
             withCredentials: true,
         };
-        Axios.get(`${API_URL}user/${userinfos?.userData?.result.idx}`, config) //
+        Axios.get(`${API_URL}user/${userinfos?.userData?.result.idx}`, config)
             .then((response) => {
-                // 요청이 성공한 경우의 처리
-                console.log(response.data);
-
                 setName(response.data.result.address);
                 setUsercar(response.data.result.car);
                 setUserphone(response.data.result.phone);
-                setUserkakao("https://open.kakao.com/o/"+response.data.result.kakao);
-				setUserkakaovalue(response.data.result.kakao);
+                if (response.data.result.kakao !== null) {
+                    setUserkakao('https://open.kakao.com/o/' + response.data.result.kakao);
+                    setUserkakaovalue(response.data.result.kakao);
+                }
             })
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
+                
                 console.error(error);
             });
     }, []);
@@ -47,10 +46,7 @@ const Profile = (props) => {
     };
 
     const onUsercarHandler = (event) => {
-        const newValue = event.target.value
-            .replace(/[^0-9가-힣]/g, '') // 숫자와 한글 이외의 문자 제거
-            .replace(/^\d{2,4}[가-힣]\d{5}$/, ''); // 형식을 만족하는 부분만 남김
-        setUsercar(newValue);
+        setUsercar(event.target.value);
     };
 
     const onUserphoneHandler = (event) => {
@@ -68,7 +64,7 @@ const Profile = (props) => {
         const matches = url.match(regex);
         const extractedValue = matches && matches[1]; // 추출된 값
 
-		setUserkakaovalue(extractedValue)
+        setUserkakaovalue(extractedValue);
         setUserkakao(event.target.value);
     };
 
@@ -76,10 +72,8 @@ const Profile = (props) => {
         event.preventDefault();
 
         const params = { car: Usercar, phone: Userphone, address: Name, kakao: Userkakaovalue };
-        //const body = JSON.stringify(params);
+
         if (Name !== '' || Usercar !== '' || Userphone) {
-            //console.log(body);
-            // 방 입장하기 버튼 클릭 시 실행되는 로직
             const config = {
                 headers: {
                     Authorization: `${userinfos?.accessToken}`,
@@ -163,6 +157,7 @@ const NameInput = styled.input`
     padding: 10px;
     margin: 10px auto;
     background-color: rgb(233, 233, 233);
+    max-width: 700px;
 `;
 
 const animation = keyframes`
@@ -217,6 +212,7 @@ const StartBtn = styled.button`
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 17px;
     font-weight: 400;
+    max-width: 700px;
 
     margin: 10px;
     &:active {

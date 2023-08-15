@@ -4,7 +4,7 @@ import { API_URL } from '../components/config';
 
 
 export function auth(token) {
-	console.log("test",token);
+	
 	const config = {
             headers: {
                 Authorization: `${token}`,

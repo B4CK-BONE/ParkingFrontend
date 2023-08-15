@@ -3,182 +3,34 @@ import Axios from 'axios';
 import styled from 'styled-components';
 import { API_URL } from '../../config';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function ListPage(props) {
     const [ParkingList, setParkingList] = useState([]);
     const userinfos = useSelector((state) => state.user);
-    let position2 = [
-        {
-            bottom: '56vh',
-            right: '70%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: '08-10',
-            endTime: '21:52',
-            car: '12가1234',
-            slot: 1,
-            use: true,
-        },
-        {
-            bottom: '50vh',
-            right: '70%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 2,
-            use: false,
-        },
-        {
-            bottom: '44vh',
-            right: '70%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 3,
-            use: false,
-        },
-        {
-            bottom: '56vh',
-            right: '12%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 4,
-            use: false,
-        },
-        {
-            bottom: '50vh',
-            right: '12%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 5,
-            use: false,
-        },
-        {
-            bottom: '44vh',
-            right: '12%',
-            height: '5vh',
-            width: '20vw',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 6,
-            use: false,
-        },
-        {
-            bottom: '40vh',
-            right: '40%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 7,
-            use: false,
-        },
-        {
-            bottom: '51vh',
-            right: '55%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 8,
-            use: false,
-        },
-        {
-            bottom: '51vh',
-            right: '40%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 9,
-            use: false,
-        },
-        {
-            bottom: '40vh',
-            right: '55%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 10,
-            use: false,
-        },
-        {
-            bottom: '28vh',
-            right: '40%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 11,
-            use: false,
-        },
-        {
-            bottom: '28vh',
-            right: '55%',
-            height: '10vh',
-            width: '5vh',
-            direction: 'a',
-            endDate: null,
-            endTime: null,
-            car: null,
-            slot: 12,
-            use: false,
-        },
-    ];
+    const navigate = useNavigate();
 
     useEffect(() => {
-        let body = {
-            userIdx: 1,
-        };
-        const config = {
+         const config = {
             headers: {
-                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+                Authorization: `${userinfos?.accessToken}`,
             },
             withCredentials: true,
         };
-        Axios.get(`${API_URL}parking`, body, config)
+        Axios.get(`${API_URL}parking`, config)
             .then((response) => {
-                // 요청이 성공한 경우의 처리
-                console.log(response.data);
-                setParkingList(response.data);
+               if(response.data.isSuccess){
+				   setParkingList(response.data.result);
+			   }     
+                
             })
-
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
+                navigate('/login');
             });
     }, []);
     return (
         <div className="wrap loaded">
-            {position2.map(
+            {ParkingList.map(
                 (list, index) =>
                     list.use && (
                         <React.Fragment key={index}>

@@ -15,7 +15,7 @@ const LoginPage = (props) => {
   const onGoogleLogin = () => {
     // 방 입장하기 버튼 클릭 시 실행되는 로직
     window.location.href = `${REDIRECT_URL}oauth2/authorization/google`;
-    //window.location.href = 'https://farmfarm1223.tistory.com/93';
+    
       
   };
 	
@@ -23,8 +23,9 @@ const LoginPage = (props) => {
 		const params = new URLSearchParams(location.search);
   		const accessToken = params.get('accessToken');
 		const refreshToken = params.get('refreshToken');
-		console.log(accessToken);
+		
 		if(accessToken !== null && refreshToken !== null){
+			console.log(refreshToken);
 			setCookie('refreshToken', refreshToken);
 			dispatch(refreshAccessToken(accessToken));
 			navigate("/inputname");

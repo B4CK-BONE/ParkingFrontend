@@ -22,10 +22,8 @@ const userinfos = useSelector((state) => state.user);
   };
 
   const onUsercarHandler = (event) => {
-     const newValue = event.target.value
-      .replace(/[^0-9가-힣]/g, '') // 숫자와 한글 이외의 문자 제거
-      .replace(/^\d{2,4}[가-힣]\d{5}$/, ''); // 형식을 만족하는 부분만 남김
-    setUsercar(newValue);
+      
+    setUsercar(event.target.value);
   };
 
   const onUserphoneHandler = (event) => {
@@ -38,12 +36,10 @@ const userinfos = useSelector((state) => state.user);
 
   const handleJoinRoom = (event) => {
     event.preventDefault();
-	console.log("test",userinfos?.userData);
+	
     const params = { car: Usercar, phone: Userphone, address: Name };
     //const body = JSON.stringify(params);
     if (Name !== "" || Usercar !== "" || Userphone) {
-      //console.log(body);
-      // 방 입장하기 버튼 클릭 시 실행되는 로직
 		
 		const config = {
             headers: {
@@ -77,7 +73,7 @@ const userinfos = useSelector((state) => state.user);
       <ContainerDiv>
         <ContainerTitleDiv>간단한 회원 정보를 입력해주세요.</ContainerTitleDiv>
         <ContainersubTitleDiv>
-          ParKING은 세대 호수와 차량번호가 필요해요. 정보를 안전하게 보관되며,
+          ParKING은 세대 호수와 차량번호가 필요해요.<br/>정보를 안전하게 보관되며,
           어디에도 공개되지 않아요.
         </ContainersubTitleDiv>
       </ContainerDiv>
@@ -124,6 +120,7 @@ const NameInput = styled.input`
   padding: 10px;
   margin: 10px auto;
   background-color: rgb(233, 233, 233);
+  max-width : 700px;
 `;
 
 const animation = keyframes`
@@ -148,6 +145,8 @@ const ContainerTitleDiv = styled.div`
   font-family: "Noto Sans KR", sans-serif;
   font-size: 25px;
   font-weight: 1000;
+  
+  
   margin-bottom: 2vh;
 `;
 
@@ -178,6 +177,7 @@ const StartBtn = styled.button`
   font-family: "Noto Sans KR", sans-serif;
   font-size: 17px;
   font-weight: 400;
+  max-width : 700px;
 
   margin: 10px;
   &:active {
