@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IoIosArrowForward } from 'react-icons/io';
 import SliderSection from './Sections/SliderSection';
 import Axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config';
 import { useSelector } from 'react-redux';
@@ -11,20 +11,31 @@ import { useSelector } from 'react-redux';
 function SettingPage(props) {
     const [Src, setSrc] = useState('');
     const [Userinfo, setUserinfo] = useState([]);
-	const userinfos = useSelector((state) => state.user);
+    const [EndTime, setEndTime] = useState('');
+    const userinfos = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const config = {
-                headers: {
-                    Authorization: `${userinfos?.accessToken}`,
-                },
-                withCredentials: true,
-            };
-        Axios.get(`${API_URL}user/${userinfos?.userData?.result?.idx}`,config) //
+            headers: {
+                Authorization: `${userinfos?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+        Axios.get(`${API_URL}user/${userinfos?.userData?.result?.idx}`, config) //
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 console.log(response.data);
                 setUserinfo(response.data.result);
+                if (response.data.result.endTime !== null) {
+                    const dateTime = new Date(response.data.result.endTime);
+                    const year = dateTime.getFullYear();
+                    const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+                    const day = String(dateTime.getDate()).padStart(2, '0');
+                    const hours = String(dateTime.getHours()).padStart(2, '0');
+                    const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+                    setEndTime(`${year}-${month}-${day} ${hours}:${minutes}`);
+                }
             })
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
@@ -32,8 +43,33 @@ function SettingPage(props) {
             });
     }, []);
 
+    const onLogoutBtn = () => {
+        const config = {
+            headers: {
+                Authorization: `${userinfos?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+
+        Axios.get(`${API_URL}user/logout`, config)
+            .then((response) => {
+                // 요청이 성공한 경우의 처리
+                if (response.data.isSuccess) {
+                    navigate('/login');
+                } else {
+                    alert(response.data.message);
+                    navigate('/');
+                }
+            })
+
+            .catch((error) => {
+                // 요청이 실패한 경우의 처리
+                navigate('/login');
+            });
+    };
+
     return (
-        <div className="wrap loaded">
+        <div className="wrap loaded" style={{ minHeight: 'calc(130vh - 80px)' }}>
             <UserinfoDiv>
                 <UserDiv>
                     <UserNameDiv>{Userinfo?.address}호</UserNameDiv>
@@ -48,18 +84,18 @@ function SettingPage(props) {
                         />
                         <UserParkingTimeDiv>
                             <ParkingTitleDiv>출차 시간</ParkingTitleDiv>
-                            <ParkingTimeDiv>{Userinfo?.endTime !== null ? Userinfo?.endTime : "시간 정보 없음"}</ParkingTimeDiv>
+                            <ParkingTimeDiv>
+                                {Userinfo?.endTime !== null ? EndTime : '시간 정보 없음'}
+                            </ParkingTimeDiv>
                         </UserParkingTimeDiv>
                         <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
                             <IoIosArrowForward
                                 size="23"
-                                style={{ marginTop: '11%', color: '#d3d3d3', marginTop: "50px" }}
+                                style={{ marginTop: '11%', color: '#d3d3d3', marginTop: '50px' }}
                             />
                         </Link>
                     </UserinfosDiv>
-                    <ParkingSet>
-                        <a>주차장 바꾸기 |</a> <a> 주차장 변경 |</a> <a> QR 변경하기</a>
-                    </ParkingSet>
+                    <ParkingSet></ParkingSet>
                 </UserinfochildDiv>
 
                 <UserBannerchildDiv>
@@ -68,7 +104,7 @@ function SettingPage(props) {
                 <div
                     style={{
                         color: 'gray',
-                        margin: '10vw 10vw 1vw 7vw',
+                        margin: '60px 10vw 1vw 7vw',
                         fontSize: '0.8rem',
                     }}
                 >
@@ -103,16 +139,21 @@ function SettingPage(props) {
                             style={{ marginRight: '11%', color: 'gray', float: 'right' }}
                         />
                     </li>
+                    {userinfos?.userData?.result?.role === 2 && (
+                        <li>
+                            <Link
+                                to="/management"
+                                style={{ color: 'inherit', textDecoration: 'none' }}
+                            >
+                                유저 관리 페이지{' '}
+                                <IoIosArrowForward
+                                    size="23"
+                                    style={{ marginRight: '11%', color: 'gray', float: 'right' }}
+                                />
+                            </Link>
+                        </li>
+                    )}
                     <li>
-                        <Link to="/management" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            유저 관리 페이지{' '}
-                            <IoIosArrowForward
-                                size="23"
-                                style={{ marginRight: '11%', color: 'gray', float: 'right' }}
-                            />
-                        </Link>
-                    </li>
-					<li>
                         <Link to="/profile" style={{ color: 'inherit', textDecoration: 'none' }}>
                             회원 정보 수정{' '}
                             <IoIosArrowForward
@@ -120,6 +161,11 @@ function SettingPage(props) {
                                 style={{ marginRight: '11%', color: 'gray', float: 'right' }}
                             />
                         </Link>
+                    </li>
+                    <li>
+                        <div onClick={onLogoutBtn} style={{ color: 'red', textDecoration: 'none' }}>
+                            로그아웃{' '}
+                        </div>
                     </li>
                 </ListUl>
             </UserinfoDiv>
@@ -226,6 +272,7 @@ const ListUl = styled.ul`
     margin-right: 1vw;
     & > li {
         margin: 13px 8px 8px 8px;
+		cursor: pointer;
     }
 `;
 

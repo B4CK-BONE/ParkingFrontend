@@ -93,6 +93,7 @@ const NameInput = styled.input`
     padding: 10px;
     margin: 10px auto;
     background-color: rgb(233, 233, 233);
+	max-width : 700px;
 `;
 
 const animation = keyframes`
@@ -124,6 +125,7 @@ const StartBtn = styled.button`
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 17px;
     font-weight: 400;
+	max-width : 700px;
 
     margin: 10px;
     &:active {

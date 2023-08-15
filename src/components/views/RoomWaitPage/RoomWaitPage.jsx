@@ -9,23 +9,69 @@ export default function RoomWaitPage() {
     const location = useLocation();
     const navigate = useNavigate();
     const userinfos = useSelector((state) => state.user);
-	
+
     useEffect(() => {
+        var params = new URLSearchParams(location.search);
+        var paramValue = params.get('roomId');
+		if(paramValue === null){
+			navigate("/roomstart")
+		}
+        const config = {
+            headers: {
+                Authorization: `${userinfos?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+        if (paramValue === null) {
+            paramValue = 0;
+        }
+        axios
+            .get(`${API_URL}room?room_id=${paramValue}`, config) //
+            .then((response) => {
+                // 요청이 성공한 경우의 처리
+                if (response.data.code === 1000) {
+                    console.log(response.data);
+                    // 현재 URL 가져오기
+                    const currentUrl = new URL(window.location.href);
+
+                    // URL의 쿼리 파라미터 변경
+                    currentUrl.searchParams.set('roomId', '0');
+
+                    // 변경된 URL을 주소 표시줄에 업데이트
+                    window.history.pushState(null, null, currentUrl.href);
+                } else if (response.data.code === 5000) {
+                    alert(response.data.message);
+                } else if (response.data.code === 5001) {
+                    navigate('/', { replace: true });
+                } else if (response.data.code === 5002) {
+                    alert(response.data.message);
+                } else if (response.data.code === 5003) {
+                    alert(response.data.message);
+                    navigate('/roomstart', { replace: true });
+                } else {
+                    alert(response.data.message);
+                    navigate('/login', { replace: true });
+                }
+            })
+            .catch((error) => {
+                // 요청이 실패한 경우의 처리
+                console.error(error);
+            });
         const intervalId = setInterval(() => {
             // 실행하고자 하는 작업을 여기에 작성
-            var params = new URLSearchParams(location.search);
-            var paramValue = params.get('roomId');
-            const config = {
+            var params2 = new URLSearchParams(location.search);
+            var paramValue2 = params.get('roomId');
+            const config2 = {
                 headers: {
                     Authorization: `${userinfos?.accessToken}`,
                 },
                 withCredentials: true,
             };
-			if(paramValue === null){
-				paramValue = 0;
-			}
+            if (paramValue2 === null) {
+                paramValue2 = 0;
+            }
             axios
-                .get(`${API_URL}room?room_id=${paramValue}`, config) //
+                .get(`${API_URL}room?room_id=${paramValue2}`, config2) //
                 .then((response) => {
                     // 요청이 성공한 경우의 처리
                     if (response.data.code === 1000) {
@@ -49,7 +95,7 @@ export default function RoomWaitPage() {
                         navigate('/roomstart', { replace: true });
                     } else {
                         alert(response.data.message);
-						navigate('/login', { replace: true });
+                        navigate('/login', { replace: true });
                     }
                 })
                 .catch((error) => {

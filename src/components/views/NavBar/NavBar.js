@@ -7,7 +7,7 @@ const MainText = styled.h1`
   margin-bottom: 10%;
   font-weight: bolder;
   color: #ffffff;
-  font-family: "Bungee Inline", cursive;
+  font-family: 'Audiowide', cursive;
   @media (min-width: 800px) {
     font-size: 30px;
   }

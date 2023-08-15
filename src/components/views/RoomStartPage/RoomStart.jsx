@@ -117,7 +117,7 @@ const StartBtn = styled.button`
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 17px;
     font-weight: 400;
-
+	max-width : 700px;
     margin: 10px;
     &:active {
         animation: ${animation} 0.2s;

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import 'react-spring-bottom-sheet/dist/style.css';
 import { GrClose } from 'react-icons/gr';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { API_URL } from '../../../config';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
@@ -25,17 +25,80 @@ function BottomSheetSection(props) {
         setParkingTime(e.target.value);
         setDisabled(e.target.value.length === 0 ? true : false);
     };
+    const onKakaoChange = () => {
+        window.open(`https://open.kakao.com/o/${props.User?.kakao}`, '_blank');
+    };
+	
+	const onReportSubmit = () => {
+		
+		let body={
+			suspect: props.User?.userIdx,
+		};
+		const config = {
+            headers: {
+                Authorization: `${userinfos?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+
+        Axios.post(`${API_URL}parking/report`, body, config)
+            .then((response) => {
+                // 요청이 성공한 경우의 처리
+                if (response.data.isSuccess) {
+                    props.setParking(!props.Parking);
+                    props.setOpen(false);
+                } else {
+                    alert(response.data.message);
+                    props.setOpen(false);
+                }
+            })
+
+            .catch((error) => {
+                // 요청이 실패한 경우의 처리
+                navigate('/login');
+            });
+	};
+
+    const onDeleteBtn = () => {
+        const config = {
+            headers: {
+                Authorization: `${userinfos?.accessToken}`,
+            },
+            withCredentials: true,
+        };
+
+        Axios.delete(`${API_URL}parking/time`, config)
+            .then((response) => {
+                // 요청이 성공한 경우의 처리
+                if (response.data.isSuccess) {
+                    props.setParking(!props.Parking);
+                    props.setOpen(false);
+                } else {
+                    alert(response.data.message);
+                    props.setOpen(false);
+                }
+            })
+
+            .catch((error) => {
+                // 요청이 실패한 경우의 처리
+                navigate('/login');
+            });
+    };
 
     const createNewWishList = () => {
+        const parsedDate = new Date(ParkingTime);
+        if (isNaN(parsedDate)) {
+            alert("시간을 설정해주세요.");
+        }
+        const isoString = parsedDate.toISOString();
         let body = {
-            userIdx: 1,
-            time: ParkingTime,
+            time: isoString,
             slot: props.User.slot,
         };
 
         const config = {
             headers: {
-                // Authorization: `Bearer ${userinfos?.isSuccess?.accessToken}`,
+                Authorization: `${userinfos?.accessToken}`,
             },
             withCredentials: true,
         };
@@ -43,14 +106,18 @@ function BottomSheetSection(props) {
         Axios.post(`${API_URL}parking/time`, body, config)
             .then((response) => {
                 // 요청이 성공한 경우의 처리
-                console.log(response.data);
-                props.setParking(!props.Parking);
-                props.setOpen(false);
+                if (response.data.isSuccess) {
+                    props.setParking(!props.Parking);
+                    props.setOpen(false);
+                } else {
+                    alert(response.data.message);
+                    props.setOpen(false);
+                }
             })
 
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
-                console.error(error);
+                navigate('/login');
             });
     };
     return (
@@ -61,10 +128,27 @@ function BottomSheetSection(props) {
                     onDismiss={onClose}
                     header={
                         <StyledBottomSheetHeader>
-                            <div className="sheetHeader">{props.User.car}</div>{' '}
-							<RiKakaoTalkFill size="33" onClick={onClose} style={{background: "yellow", borderRadius: "15px"}}/>
-                            <GoReport size="23" onClick={onClose} />
-                            <GrClose size="23" onClick={onClose} />
+                            <BottomSheetCarNum>{props.User.car}</BottomSheetCarNum>{' '}
+							<BottomButtonList>
+                            {props.User?.userIdx !== userinfos.userData?.result?.idx &&
+                                props.User?.kakao && (
+                                    <BottomKakao>
+                                        <RiKakaoTalkFill
+                                            size="25"
+                                            onClick={onKakaoChange}
+                                        />
+                                    </BottomKakao>
+                                )}
+                            {props.User?.userIdx !== userinfos.userData?.result?.idx && (
+                                <BottomGoReport>
+                                    <GoReport size="25" onClick={onReportSubmit} />
+                                </BottomGoReport>
+                            )}
+							<BottomGrClose>
+								<GrClose size="25" onClick={onClose} />
+							</BottomGrClose>
+							</BottomButtonList>
+                            
                         </StyledBottomSheetHeader>
                     }
                     snapPoints={({ maxHeight }) => 0.45 * maxHeight}
@@ -74,16 +158,35 @@ function BottomSheetSection(props) {
                             height: '50vh',
                         }}
                     >
-                        <StyledNewWishList>
-                            <StyledButtonWrapper>
-                                <ParkingInDiv>
-                                    <ParkingInChildDiv>
-                                        출차 예정 : {props.User.endDate}
-                                        {props.User.endTime}
-                                    </ParkingInChildDiv>
-                                </ParkingInDiv>
-                            </StyledButtonWrapper>
-                        </StyledNewWishList>
+                        {props.User?.userIdx === userinfos.userData?.result?.idx ? (
+                            <StyledNewWishList>
+                                <input
+                                    type="datetime-local"
+                                    name="inTime"
+                                    value={ParkingTime}
+                                    onChange={onParkingTimeChange}
+                                />
+                                <div style={{ display: 'flex', width: '100%' }}>
+                                    <StartBtn onClick={createNewWishList}>
+                                        예약 시간 바꾸기
+                                    </StartBtn>
+                                    <StartBtn onClick={onDeleteBtn}>예약 삭제하기</StartBtn>
+                                </div>
+                            </StyledNewWishList>
+                        ) : (
+                            <StyledNewWishList>
+                                <StyledButtonWrapper>
+                                    <ParkingInDiv>
+                                        <ParkingInChildDiv>
+                                            출차 예정 : {props.User.endDate}
+                                            <div style={{ marginLeft: '10px' }}>
+                                                {props.User.endTime}
+                                            </div>
+                                        </ParkingInChildDiv>
+                                    </ParkingInDiv>
+                                </StyledButtonWrapper>
+                            </StyledNewWishList>
+                        )}
                     </div>
                 </BottomSheet>
             ) : (
@@ -103,23 +206,8 @@ function BottomSheetSection(props) {
                             height: '50vh',
                         }}
                     >
-                        {props.User?.userIdx ? (
-                            <StyledNewWishList>
-                                <input
-                                    type="datetime-local"
-                                    name="inTime"
-                                    value={ParkingTime}
-                                    onChange={onParkingTimeChange}
-                                />
-                                <div style={{ display: 'flex' }}>
-                                    <button disabled={isDisabled} onClick={createNewWishList}>
-                                        예약 시간 바꾸기
-                                    </button>
-                                    <button disabled={isDisabled} onClick={createNewWishList}>
-                                        취소하기
-                                    </button>
-                                </div>
-                            </StyledNewWishList>
+                        {props.Verify ? (
+                            <StyledNewWishList>이미 시간을 설정했습니다.</StyledNewWishList>
                         ) : (
                             <StyledNewWishList>
                                 <input
@@ -128,9 +216,9 @@ function BottomSheetSection(props) {
                                     value={ParkingTime}
                                     onChange={onParkingTimeChange}
                                 />
-                                <button disabled={isDisabled} onClick={createNewWishList}>
+                                <StartBtn disabled={isDisabled} onClick={createNewWishList}>
                                     새로 만들기
-                                </button>
+                                </StartBtn>
                             </StyledNewWishList>
                         )}
                     </div>
@@ -142,35 +230,32 @@ function BottomSheetSection(props) {
 
 export default BottomSheetSection;
 
+const animation = keyframes`
+50% {
+  transform: scale(0.92);
+}
+`;
 const ParkingInDiv = styled.div`
-    border-bottom: 3px solid #00aaff;
-    border-top: 3px solid #00aaff;
-    color: black;
     text-align: center;
-    margin-left: 10px;
 `;
 
 const ParkingInChildDiv = styled.div`
-    margin: 10px;
+	display: flex;
+	flex-direction: row;
+	margin-top:10px;
+	margin-bottom:10px;
+	font-size: 1.6rem;
+	font-weight: bold;
+	color: black;
 `;
+
+const BottomSheetCarNum = styled.div``;
 
 const StyledButtonWrapper = styled.div`
     display: flex;
     align-items: center;
     gap: 1.6rem;
     justify-content: center;
-    & > button {
-        width: 5.8rem;
-        height: 5.8rem;
-        border: 0.1rem solid gray;
-        border-radius: 0.8rem;
-        background-color: white;
-    }
-
-    & > button > img {
-        width: 2.4rem;
-        height: 2.4rem;
-    }
 `;
 
 const StyledBottomSheetHeader = styled.div`
@@ -182,10 +267,6 @@ const StyledBottomSheetHeader = styled.div`
     position: sticky;
     top: 0;
     background: white;
-
-    & > img {
-        cursor: pointer;
-    }
 
     & > div {
         font-weight: 600;
@@ -201,14 +282,15 @@ const StyledNewWishList = styled.div`
     flex-direction: column;
     align-items: center;
     & > input {
-        width: 85%;
+        width: 80%;
         padding: 0.5rem 1rem;
         border: 0.1rem solid gray;
-        border-radius: 0.8rem;
+        border-radius: 0.5rem;
         margin-bottom: 1.8rem;
         font-weight: 500;
-        font-size: 1.4rem;
+        font-size: 1.1rem;
         line-height: 1.7rem;
+        max-width: 660px;
     }
 
     & > input:focus {
@@ -224,18 +306,54 @@ const StyledNewWishList = styled.div`
         margin-bottom: 6.8rem;
     }
 
-    & > button {
-        width: 98%;
-        font-weight: 600;
-        font-size: 1rem;
-        line-height: 2.3rem;
-        margin-bottom: 30px;
-        border-radius: 0.6rem;
-        color: white;
-        background-color: #452b75;
-    }
-
     & > button:disabled {
         background-color: gray;
     }
+`;
+
+const StartBtn = styled.button`
+    display: flex;
+    justify-content: center;
+
+    width: calc(100% - 32px);
+    height: 54px;
+    line-height: 54px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+    background: #5849ff;
+    color: #fff;
+    text-align: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    max-width: 700px;
+    margin: 10px;
+    &:active {
+        animation: ${animation} 0.2s;
+    }
+`;
+
+const BottomButtonList = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	
+	flex-direction: row;
+	
+	align-items: center;
+`;
+
+const BottomGoReport = styled.div`
+	display: flex;
+	align-items: center;
+	margin-left: 8px;
+`;
+const BottomGrClose = styled.div`
+	display: flex;
+	align-items: center;
+	margin-left: 8px;
+`;
+const BottomKakao = styled.div`
+	display: flex;
+	align-items: center;
 `;

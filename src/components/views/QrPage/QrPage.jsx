@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 
 function QrPage(props) {
     const [Src, setSrc] = useState('');
+	const [Code, setCode] = useState('');
     const navigate = useNavigate();
 	const userinfos = useSelector((state) => state.user);
 
@@ -23,6 +24,7 @@ function QrPage(props) {
                 // 요청이 성공한 경우의 처리
                 if (response.data.isSuccess) {
                     console.log(response.data);
+					setCode(response.data.result.roomIdx)
                     QRCode.toDataURL(`${Client_URL}roomwait?roomId=${response.data.result.roomIdx}`).then(
                         (data) => {
                             setSrc(data);
@@ -60,16 +62,31 @@ function QrPage(props) {
                     width={'200px'}
                     style={{
                         marginTop: '100px',
-                        marginBottom: '200px',
                         border: '4px solid #452b75',
                     }}
                 />
+				<RoomcodeDiv>방 번호</RoomcodeDiv>
+				<RoomDiv>{Code}</RoomDiv>
             </QrcodeDiv>
         </div>
     );
 }
 
 export default QrPage;
+
+const RoomcodeDiv = styled.div`
+    color: rgb(73, 80, 87);
+    text-align: center;
+	font-size: 16px;
+	margin-top:20px
+`;
+
+const RoomDiv = styled.div`
+    
+    text-align: center;
+	font-size: 20px;
+	margin-top:8px;
+`;
 
 const QrcodeDiv = styled.div`
     background-color: #ffffff;
