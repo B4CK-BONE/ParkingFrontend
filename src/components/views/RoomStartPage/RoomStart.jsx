@@ -21,18 +21,16 @@ const RoomStart = (props) => {
         axios
             .post(`${API_URL}room`, null, config) //
             .then((response) => {
-                // 요청이 성공한 경우의 처리
-                // 요청이 성공한 경우의 처리
+                
                 if (response.data.isSuccess) {
-                    console.log(response.data);
+                    
                     navigate('/');
                 } else {
                     alert(response.data.message);
                 }
             })
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
+                
                 navigate('/');
             });
     };

@@ -21,9 +21,9 @@ function QrPage(props) {
         };
         Axios.get(`${API_URL}room/qr`, config) //
             .then((response) => {
-                // 요청이 성공한 경우의 처리
+                
                 if (response.data.isSuccess) {
-                    console.log(response.data);
+                    
 					setCode(response.data.result.roomIdx)
                     QRCode.toDataURL(`${Client_URL}roomwait?roomId=${response.data.result.roomIdx}`).then(
                         (data) => {

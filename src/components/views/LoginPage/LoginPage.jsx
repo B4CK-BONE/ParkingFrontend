@@ -25,7 +25,7 @@ const LoginPage = (props) => {
 		const refreshToken = params.get('refreshToken');
 		
 		if(accessToken !== null && refreshToken !== null){
-			console.log(refreshToken);
+			
 			setCookie('refreshToken', refreshToken);
 			dispatch(refreshAccessToken(accessToken));
 			navigate("/inputname");

@@ -24,8 +24,7 @@ function SettingPage(props) {
         };
         Axios.get(`${API_URL}user/${userinfos?.userData?.result?.idx}`, config) //
             .then((response) => {
-                // 요청이 성공한 경우의 처리
-                console.log(response.data);
+                
                 setUserinfo(response.data.result);
                 if (response.data.result.endTime !== null) {
                     const dateTime = new Date(response.data.result.endTime);
@@ -38,7 +37,7 @@ function SettingPage(props) {
                 }
             })
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
+                
                 console.error(error);
             });
     }, []);
@@ -53,7 +52,7 @@ function SettingPage(props) {
 
         Axios.get(`${API_URL}user/logout`, config)
             .then((response) => {
-                // 요청이 성공한 경우의 처리
+                
                 if (response.data.isSuccess) {
                     navigate('/login');
                 } else {
@@ -63,7 +62,7 @@ function SettingPage(props) {
             })
 
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
+                
                 navigate('/login');
             });
     };
