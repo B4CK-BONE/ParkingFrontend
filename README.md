@@ -48,7 +48,12 @@ npm run start
 
 ## Author
 
-👤 **1223v**
+👤 1223v 👤 marinesnow34 👤 scott4935 👤 greensnapback0229
+
+Github: @1223v
+Github: @marinesnow34
+Github: @scott4935
+Github: @greensnapback0229
 
 
 * Website: 1223v.github.io
