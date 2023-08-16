@@ -12,7 +12,7 @@
 
 ## API Docs
 
-### 💎 [ParKING FRONT-End WEB Postman API DOCs](https://docs.google.com/spreadsheets/d/1YJ8Sd4-a11__bD16xVhjMOyaRQf1k_zU/edit#gid=990061567)
+### 💎 [ParKING FRONT-End WEB API DOCs](https://docs.google.com/spreadsheets/d/1YJ8Sd4-a11__bD16xVhjMOyaRQf1k_zU/edit#gid=990061567)
 
 
 ## 기술스택
