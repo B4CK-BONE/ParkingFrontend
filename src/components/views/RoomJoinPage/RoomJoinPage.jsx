@@ -14,7 +14,7 @@ const RoomJoinPage = () => {
 
     const handleScan = async (scanData) => {
         if (scanData && scanData !== '' && !showDialog && !processing) {
-            console.log(`loaded >>>`, scanData);
+            
             const url = new URL(scanData);
             const pathAndQuery = url.pathname + url.search;
             navigate(pathAndQuery);

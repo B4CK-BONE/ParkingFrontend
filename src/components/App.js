@@ -49,47 +49,44 @@ function App() {
     const minute = 1000 * 60 * 60;
     useInterval(() => {
         if (
-                    cookies.refreshToken !== 'undefined' &&
-                    cookies.refreshToken !== undefined &&
-                    cookies.refreshToken
-                ) {
-                    let config = {
-                        headers: {
-                            Authorization: `${cookies.refreshToken}`,
-                        },
-                        withCredentials: true,
+            cookies.refreshToken !== 'undefined' &&
+            cookies.refreshToken !== undefined &&
+            cookies.refreshToken
+        ) {
+            let config = {
+                headers: {
+                    Authorization: `${cookies.refreshToken}`,
+                },
+                withCredentials: true,
+            };
+            Axios.get(`${API_URL}user/refresh`, config)
+                .then((response) => {
+                    const options = {
+                        path: '/', // 경로 설정 (쿠키를 어떤 경로에서 사용할 지 지정)
+                        maxAge: 60 * 60 * 24 * 30, // 만료 시간 설정 (예: 30일)
                     };
-                    Axios.get(`${API_URL}user/refresh`, config)
-                        .then((response) => {
-                            const options = {
-                                path: '/', // 경로 설정 (쿠키를 어떤 경로에서 사용할 지 지정)
-                                maxAge: 60 * 60 * 24 * 30, // 만료 시간 설정 (예: 30일)
-                            };
-                            console.log(response.data.refreshToken);
 
-                            if (
-                                response.data.refreshToken !== 'undefined' &&
-                                response.data.refreshToken !== undefined &&
-                                response.data.refreshToken
-                            ) {
-                                removeCookies();
-                                console.log('refresh 없앰' + cookies.refreshToken);
-                                setCookie('refreshToken', response.data.refreshToken, options);
-                                console.log('refresh 잘 들어갔냐' + cookies.refreshToken);
-                                dispatch(refreshAccessToken(response.data.accessToken));
-                                navigate('/inputname');
-                            }
-                        })
+                    if (
+                        response.data.refreshToken !== 'undefined' &&
+                        response.data.refreshToken !== undefined &&
+                        response.data.refreshToken
+                    ) {
+                        removeCookies();
 
-                        .catch((error) => {
-                            navigate('/login');
-                        });
-                } else {
-                    removeCookies();
-                }
+                        setCookie('refreshToken', response.data.refreshToken, options);
+
+                        dispatch(refreshAccessToken(response.data.accessToken));
+                        navigate('/inputname');
+                    }
+                })
+
+                .catch((error) => {
+                    navigate('/login');
+                });
+        } else {
+            removeCookies();
+        }
     }, minute * 24);
-
-   
 
     if (
         url.includes('roomstart') ||

@@ -30,14 +30,13 @@ export default function RoomWaitPage() {
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 if (response.data.code === 1000) {
-                    console.log(response.data);
-                    // 현재 URL 가져오기
+                    
                     const currentUrl = new URL(window.location.href);
 
-                    // URL의 쿼리 파라미터 변경
+                    
                     currentUrl.searchParams.set('roomId', '0');
 
-                    // 변경된 URL을 주소 표시줄에 업데이트
+                    
                     window.history.pushState(null, null, currentUrl.href);
                 } else if (response.data.code === 5000) {
                     alert(response.data.message);
@@ -54,11 +53,10 @@ export default function RoomWaitPage() {
                 }
             })
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
+               
             });
         const intervalId = setInterval(() => {
-            // 실행하고자 하는 작업을 여기에 작성
+           
             var params2 = new URLSearchParams(location.search);
             var paramValue2 = params.get('roomId');
             const config2 = {
@@ -75,8 +73,7 @@ export default function RoomWaitPage() {
                 .then((response) => {
                     // 요청이 성공한 경우의 처리
                     if (response.data.code === 1000) {
-                        console.log(response.data);
-                        // 현재 URL 가져오기
+                       
                         const currentUrl = new URL(window.location.href);
 
                         // URL의 쿼리 파라미터 변경
@@ -99,8 +96,7 @@ export default function RoomWaitPage() {
                     }
                 })
                 .catch((error) => {
-                    // 요청이 실패한 경우의 처리
-                    console.error(error);
+                    
                 });
         }, 5000); // 10초마다 실행
 
