@@ -22,12 +22,6 @@ export function auth(token) {
 }
 
 export function refreshAccessToken(dataToSubmit) {
-    // const request = Axios.get(`${API_URL}user/refresh`, {
-    //     withCredentials: true,
-    // }).then((response) => response.data);
-    
-
-    // 새로운 Access Token 저장
     return {
         type: ACCESS_TOKEN,
         payload: dataToSubmit,

@@ -62,8 +62,8 @@ function App() {
             Axios.get(`${API_URL}user/refresh`, config)
                 .then((response) => {
                     const options = {
-                        path: '/', // 경로 설정 (쿠키를 어떤 경로에서 사용할 지 지정)
-                        maxAge: 60 * 60 * 24 * 30, // 만료 시간 설정 (예: 30일)
+                        path: '/',
+                        maxAge: 60 * 60 * 24 * 30,
                     };
 
                     if (

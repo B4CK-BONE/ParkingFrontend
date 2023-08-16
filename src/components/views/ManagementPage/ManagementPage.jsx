@@ -12,7 +12,7 @@ function ManagementPage(props) {
     const [ParkingList, setParkingList] = useState([]);
     const [AccessCheck, setAccessCheck] = useState(false);
     const userinfos = useSelector((state) => state.user);
-	const navigate = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const config = {
@@ -23,12 +23,11 @@ function ManagementPage(props) {
         };
         Axios.get(`${API_URL}room/${userinfos?.userData?.result.roomIdx}/admin`, config)
             .then((response) => {
-                
                 setParkingList(response.data.result);
             })
 
             .catch((error) => {
-                navigate("/login");
+                navigate('/login');
             });
     }, [AccessCheck]);
 
@@ -48,14 +47,21 @@ function ManagementPage(props) {
         if (window.confirm('해당 유저를 추방하시겠습니까?')) {
             Axios.put(`${API_URL}room/${userinfos?.userData?.result.roomIdx}/admin`, body, config)
                 .then((response) => {
-                    // 요청이 성공한 경우의 처리
-					alert(response.data.message);
-                    setParkingList(response.data.result);
-                    setAccessCheck(!AccessCheck);
+                    
+                    if (response.data.isSuccess) {
+                        setParkingList(response.data.result);
+                        setAccessCheck(!AccessCheck);
+                    } else {
+                        if (response.data.message === '사이트 관리자에게 문의하세요.') {
+                            alert(response.data.code + ' : ' + response.data.message);
+                        } else {
+                            alert(response.data.message);
+                        }
+                    }
                 })
 
                 .catch((error) => {
-                    navigate("/login");
+                    navigate('/login');
                 });
         }
     };
@@ -75,23 +81,30 @@ function ManagementPage(props) {
         };
         Axios.put(`${API_URL}room/${userinfos?.userData?.result.roomIdx}/admin`, body, config)
             .then((response) => {
-                // 요청이 성공한 경우의 처리
-                alert(response.data.message);
-                setParkingList(response.data.result);
-                setAccessCheck(!AccessCheck);
+                
+                if (response.data.isSuccess) {
+                    setParkingList(response.data.result);
+                    setAccessCheck(!AccessCheck);
+                } else {
+                    if (response.data.message === '사이트 관리자에게 문의하세요.') {
+                        alert(response.data.code + ' : ' + response.data.message);
+                    } else {
+                        alert(response.data.message);
+                    }
+                }
             })
 
             .catch((error) => {
-                navigate("/login");
+                navigate('/login');
             });
     };
-	
-	 const onKakaoChange = (event) => {
-		 if(event.currentTarget.value !== null){
-			 window.open(`https://open.kakao.com/o/${event.currentTarget.value}`, '_blank');
-		 }else{
-			 alert("해당 유저가 오픈채팅을 설정하지 않았습니다.");
-		 }
+
+    const onKakaoChange = (event) => {
+        if (event.currentTarget.value !== null) {
+            window.open(`https://open.kakao.com/o/${event.currentTarget.value}`, '_blank');
+        } else {
+            alert('해당 유저가 오픈채팅을 설정하지 않았습니다.');
+        }
     };
     return (
         <div className="wrap loaded">
@@ -177,7 +190,7 @@ function ManagementPage(props) {
                                     </Divchild2class>
 
                                     <div>
-										<CheckBtn value={list.kakao} onClick={onKakaoChange}>
+                                        <CheckBtn value={list.kakao} onClick={onKakaoChange}>
                                             <RiKakaoTalkFill
                                                 size="23"
                                                 style={{
@@ -187,7 +200,7 @@ function ManagementPage(props) {
                                                 }}
                                             />
                                         </CheckBtn>
-											
+
                                         <CheckBtn value={list.idx} onClick={onDeleteButton}>
                                             <MdClose size="23" style={{ color: 'red' }} />
                                         </CheckBtn>

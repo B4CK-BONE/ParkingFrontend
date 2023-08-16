@@ -71,15 +71,15 @@ export default function RoomWaitPage() {
             axios
                 .get(`${API_URL}room?room_id=${paramValue2}`, config2) //
                 .then((response) => {
-                    // 요청이 성공한 경우의 처리
+                    
                     if (response.data.code === 1000) {
                        
                         const currentUrl = new URL(window.location.href);
 
-                        // URL의 쿼리 파라미터 변경
+                        
                         currentUrl.searchParams.set('roomId', '0');
 
-                        // 변경된 URL을 주소 표시줄에 업데이트
+                        
                         window.history.pushState(null, null, currentUrl.href);
                     } else if (response.data.code === 5000) {
                         alert(response.data.message);
@@ -98,10 +98,10 @@ export default function RoomWaitPage() {
                 .catch((error) => {
                     
                 });
-        }, 5000); // 10초마다 실행
+        }, 5000);
 
         return () => {
-            // 컴포넌트가 언마운트될 때 clearInterval로 interval 정리
+            
             clearInterval(intervalId);
         };
     }, []);

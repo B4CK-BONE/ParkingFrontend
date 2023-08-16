@@ -77,7 +77,7 @@ const Ulclass = styled.ul`
 `;
 
 const Liclass = styled.li`
-    /* 스크린 크기가 작을 때 */
+    
 `;
 
 const Divclass = styled.div`

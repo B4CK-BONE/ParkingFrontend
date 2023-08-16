@@ -9,19 +9,19 @@ import { BsFillJournalBookmarkFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const Footer = ({ movePage }) => {
-  // 현재 선택된 아이콘을 관리하는 state
+ 
   const [activeNav, setActiveNav] = useState(1);
 
   return (
     <nav className="wrapper">
-      {/* 하단 네비게이션 최상위 태그 */}
+     
 
       <Link
         to="/"
         className="nav-link"
         onClick={() => {
           setActiveNav(1);
-          //movePage("/");
+          
         }}
       >
         <NavColor>
@@ -40,7 +40,7 @@ const Footer = ({ movePage }) => {
         className="nav-link"
         onClick={() => {
           setActiveNav(3);
-          //movePage("/list");
+          
         }}
       >
         <NavColor>
@@ -58,7 +58,7 @@ const Footer = ({ movePage }) => {
         className="nav-link"
         onClick={() => {
           setActiveNav(4);
-          //movePage("/qrcode");
+          
         }}
       >
         <NavColor>
@@ -75,7 +75,7 @@ const Footer = ({ movePage }) => {
         to="/setting"
         className="nav-link"
         onClick={() => {
-          //movePage("/setting");
+          
           setActiveNav(5);
         }}
       >

@@ -10,7 +10,7 @@ const RoomStart = (props) => {
     const navigate = useNavigate();
     const userinfos = useSelector((state) => state.user);
     const handleCreateRoom = () => {
-        // 방 생성하기 버튼 클릭 시 실행되는 로직
+        
         const config = {
             headers: {
                 Authorization: `${userinfos?.accessToken}`,
@@ -19,14 +19,18 @@ const RoomStart = (props) => {
         };
 
         axios
-            .post(`${API_URL}room`, null, config) //
+            .post(`${API_URL}room`, null, config) 
             .then((response) => {
                 
                 if (response.data.isSuccess) {
                     
                     navigate('/');
                 } else {
-                    alert(response.data.message);
+                    if (response.data.message === '사이트 관리자에게 문의하세요.') {
+                        alert(response.data.code + ' : ' + response.data.message);
+                    }else{
+						alert(response.data.message);
+					}
                 }
             })
             .catch((error) => {

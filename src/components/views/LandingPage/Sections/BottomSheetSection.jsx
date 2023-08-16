@@ -43,18 +43,24 @@ function BottomSheetSection(props) {
 
         Axios.post(`${API_URL}parking/report`, body, config)
             .then((response) => {
-                // 요청이 성공한 경우의 처리
+                
                 if (response.data.isSuccess) {
+					alert("신고했습니다");
                     props.setParking(!props.Parking);
                     props.setOpen(false);
                 } else {
-                    alert(response.data.message);
+					if (response.data.message === '사이트 관리자에게 문의하세요.') {
+                        alert(response.data.code + ' : ' + response.data.message);
+                    }else{
+						alert(response.data.message);
+					}
+                    
                     props.setOpen(false);
                 }
             })
 
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
+                
                 navigate('/login');
             });
 	};
@@ -69,18 +75,23 @@ function BottomSheetSection(props) {
 
         Axios.delete(`${API_URL}parking/time`, config)
             .then((response) => {
-                // 요청이 성공한 경우의 처리
+                
                 if (response.data.isSuccess) {
                     props.setParking(!props.Parking);
                     props.setOpen(false);
                 } else {
-                    alert(response.data.message);
+					if (response.data.message === '사이트 관리자에게 문의하세요.') {
+                        alert(response.data.code + ' : ' + response.data.message);
+                    }else{
+						alert(response.data.message);
+					}
+                    
                     props.setOpen(false);
                 }
             })
 
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
+                
                 navigate('/login');
             });
     };
@@ -105,7 +116,7 @@ function BottomSheetSection(props) {
 
         Axios.post(`${API_URL}parking/time`, body, config)
             .then((response) => {
-                // 요청이 성공한 경우의 처리
+                
                 if (response.data.isSuccess) {
                     props.setParking(!props.Parking);
                     props.setOpen(false);
@@ -116,7 +127,7 @@ function BottomSheetSection(props) {
             })
 
             .catch((error) => {
-                // 요청이 실패한 경우의 처리
+                
                 navigate('/login');
             });
     };

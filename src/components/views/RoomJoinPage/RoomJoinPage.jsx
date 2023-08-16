@@ -23,8 +23,8 @@ const RoomJoinPage = () => {
 
     const onRoomcodeHandler = (event) => {
         const newValue = event.target.value
-            .replace(/[^0-9.]/g, '') // 숫자와 소수점 이외의 문자를 제거
-            .replace(/(\..*?)\..*/g, '$1'); // 여러 소수점을 하나로 축소
+            .replace(/[^0-9.]/g, '')
+            .replace(/(\..*?)\..*/g, '$1'); 
 
         setCodenum(newValue);
     };
