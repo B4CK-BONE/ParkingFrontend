@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
 import user from './user_reducer';
-import { persistReducer } from 'redux-persist';	// 추가
-import storage from 'redux-persist/lib/storage';	// 추가
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
   key: 'root',
   storage,
-}	// 추가
+}
 
 const rootReducer = combineReducers({
   user,
 })
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);	// 추가
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export default persistedReducer;	// 수정
+export default persistedReducer;

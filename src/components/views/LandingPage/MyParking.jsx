@@ -26,11 +26,19 @@ const MyParking = (props) => {
         };
         Axios.get(`${API_URL}parking`, config)
             .then((response) => {
-                setVerify(false);
-                setParkingList(response.data.result);
-                for (var i = 0; i < response.data.result.length; i++) {
-                    if (response.data.result[i].userIdx === userinfos.userData?.result?.idx) {
-                        setVerify(true);
+                if (response.data.isSuccess) {
+                    setVerify(false);
+                    setParkingList(response.data.result);
+                    for (var i = 0; i < response.data.result.length; i++) {
+                        if (response.data.result[i].userIdx === userinfos.userData?.result?.idx) {
+                            setVerify(true);
+                        }
+                    }
+                } else {
+                    if (response.data.message === '사이트 관리자에게 문의하세요.') {
+                        alert(response.data.code + ' : ' + response.data.message);
+                    } else {
+                        alert(response.data.message);
                     }
                 }
             })
@@ -47,11 +55,21 @@ const MyParking = (props) => {
             };
             Axios.get(`${API_URL}parking`, config2)
                 .then((response) => {
-                    setVerify(false);
-                    setParkingList(response.data.result);
-                    for (var i = 0; i < response.data.result.length; i++) {
-                        if (response.data.result[i].userIdx === userinfos.userData?.result?.idx) {
-                            setVerify(true);
+                    if (response.data.isSuccess) {
+                        setVerify(false);
+                        setParkingList(response.data.result);
+                        for (var i = 0; i < response.data.result.length; i++) {
+                            if (
+                                response.data.result[i].userIdx === userinfos.userData?.result?.idx
+                            ) {
+                                setVerify(true);
+                            }
+                        }
+                    } else {
+                        if (response.data.message === '사이트 관리자에게 문의하세요.') {
+                            alert(response.data.code + ' : ' + response.data.message);
+                        } else {
+                            alert(response.data.message);
                         }
                     }
                 })
@@ -74,11 +92,19 @@ const MyParking = (props) => {
         };
         Axios.get(`${API_URL}parking`, config)
             .then((response) => {
-                setVerify(false);
-                setParkingList(response.data.result);
-                for (var i = 0; i < response.data.result.length; i++) {
-                    if (response.data.result[i].userIdx === userinfos.userData?.result?.idx) {
-                        setVerify(true);
+                if (response.data.isSuccess) {
+                    setVerify(false);
+                    setParkingList(response.data.result);
+                    for (var i = 0; i < response.data.result.length; i++) {
+                        if (response.data.result[i].userIdx === userinfos.userData?.result?.idx) {
+                            setVerify(true);
+                        }
+                    }
+                } else {
+                    if (response.data.message === '사이트 관리자에게 문의하세요.') {
+                        alert(response.data.code + ' : ' + response.data.message);
+                    } else {
+                        alert(response.data.message);
                     }
                 }
             })

@@ -19,7 +19,7 @@ function QrPage(props) {
             },
             withCredentials: true,
         };
-        Axios.get(`${API_URL}room/qr`, config) //
+        Axios.get(`${API_URL}room/qr`, config) 
             .then((response) => {
                 
                 if (response.data.isSuccess) {

@@ -23,46 +23,57 @@ const Profile = (props) => {
         };
         Axios.get(`${API_URL}user/${userinfos?.userData?.result.idx}`, config)
             .then((response) => {
-                setName(response.data.result.address);
-                setUsercar(response.data.result.car);
-                setUserphone(response.data.result.phone);
-                if (response.data.result.kakao !== null) {
-                    setUserkakao('https://open.kakao.com/o/' + response.data.result.kakao);
-                    setUserkakaovalue(response.data.result.kakao);
+                if (response.data.isSuccess) {
+                    setName(response.data.result.address);
+                    setUsercar(response.data.result.car);
+                    setUserphone(response.data.result.phone);
+                    if (response.data.result.kakao !== null) {
+                        setUserkakao('https://open.kakao.com/o/' + response.data.result.kakao);
+                        setUserkakaovalue(response.data.result.kakao);
+                    }
+                } else {
+                    if (response.data.message === '사이트 관리자에게 문의하세요.') {
+                        alert(response.data.code + ' : ' + response.data.message);
+                    } else {
+                        alert(response.data.message);
+                    }
                 }
             })
             .catch((error) => {
-                
                 console.error(error);
             });
     }, []);
 
     const onNameHandler = (event) => {
         const newValue = event.target.value
-            .replace(/[^0-9.]/g, '') // 숫자와 소수점 이외의 문자를 제거
-            .replace(/(\..*?)\..*/g, '$1'); // 여러 소수점을 하나로 축소
+            .replace(/[^0-9.]/g, '')
+            .replace(/(\..*?)\..*/g, '$1');
 
         setName(newValue);
     };
 
     const onUsercarHandler = (event) => {
-        setUsercar(event.target.value);
+        const newValue = event.target.value
+            .replace(/[^\w\s]|_/g, '')
+            .replace(/\s+/g, '');
+
+		setUsercar(newValue);
     };
 
     const onUserphoneHandler = (event) => {
         const newValue = event.target.value
-            .replace(/[^0-9.]/g, '') // 숫자와 소수점 이외의 문자를 제거
-            .replace(/(\..*?)\..*/g, '$1'); // 여러 소수점을 하나로 축소
+            .replace(/[^0-9.]/g, '')
+            .replace(/(\..*?)\..*/g, '$1');
 
         setUserphone(newValue);
     };
 
     const onUserkakaoHandler = (event) => {
         const url = event.target.value;
-        const regex = /\/([a-zA-Z0-9]+)$/; // 정규식
+        const regex = /\/([a-zA-Z0-9]+)$/;
 
         const matches = url.match(regex);
-        const extractedValue = matches && matches[1]; // 추출된 값
+        const extractedValue = matches && matches[1];
 
         setUserkakaovalue(extractedValue);
         setUserkakao(event.target.value);
@@ -71,7 +82,11 @@ const Profile = (props) => {
     const handleJoinRoom = (event) => {
         event.preventDefault();
 
-        const params = { car: Usercar, phone: Userphone, address: Name, kakao: Userkakaovalue };
+        const params = { car: Usercar, phone: Userphone, address: Name };
+
+        if (Userkakaovalue !== '') {
+            params.kakao = Userkakaovalue;
+        }
 
         if (Name !== '' || Usercar !== '' || Userphone) {
             const config = {
@@ -82,13 +97,13 @@ const Profile = (props) => {
             };
             Axios.put(`${API_URL}user/${userinfos?.userData?.result.idx}`, params, config) //
                 .then((response) => {
-                    // 요청이 성공한 경우의 처리
+                    
                     if (response.data.isSuccess) {
                         navigate('/setting');
                     }
                 })
                 .catch((error) => {
-                    // 요청이 실패한 경우의 처리
+                   
                     console.error(error);
                 });
         } else {

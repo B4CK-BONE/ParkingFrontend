@@ -3,17 +3,17 @@ import axios from "axios";
 import styled, { keyframes } from "styled-components";
 import {REDIRECT_URL} from "../../config"
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie'; // useCookies import
+import { useCookies } from 'react-cookie'; 
 import { useDispatch} from 'react-redux';
 import { refreshAccessToken } from '../../../_actions/user_action';
 
 const LoginPage = (props) => {
   const dispatch = useDispatch();
-  const [cookies, setCookie] = useCookies(['refreshToken']); // 쿠키 훅
+  const [cookies, setCookie] = useCookies(['refreshToken']); 
   const location = useLocation();
   const navigate = useNavigate();
   const onGoogleLogin = () => {
-    // 방 입장하기 버튼 클릭 시 실행되는 로직
+    
     window.location.href = `${REDIRECT_URL}oauth2/authorization/google`;
     
       
