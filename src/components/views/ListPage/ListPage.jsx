@@ -21,6 +21,7 @@ function ListPage(props) {
             .then((response) => {
                if(response.data.isSuccess){
 				   setParkingList(response.data.result);
+				   console.log(response.data.result)
 			   }     
                 
             })
@@ -48,8 +49,8 @@ function ListPage(props) {
                                             <Pclass2>{list.car}</Pclass2>
                                         </Divchild2class>
                                         <Divchild3class>
-                                            {list.endDate.split('-')[0]}월{' '}
-                                            {list.endDate.split('-')[1]}일 {list.endTime} 까지 사용
+                                            {list.endDate.split('/')[0]}월{' '}
+                                            {list.endDate.split('/')[1]}일 {list.endTime} 까지 사용
                                             예정
                                         </Divchild3class>
                                     </Divclass>
@@ -58,11 +59,19 @@ function ListPage(props) {
                         </React.Fragment>
                     )
             )}
+			
         </div>
     );
 }
 
 export default ListPage;
+
+const NotSurveyDiv = styled.div`
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: rgb(31, 41, 55);
+    text-align: center;
+`;
 
 const Ulclass = styled.ul`
     padding-left: 0px;

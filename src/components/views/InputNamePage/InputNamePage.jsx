@@ -13,25 +13,22 @@ const InputNamePage = (props) => {
     const userinfos = useSelector((state) => state.user);
 
     const onNameHandler = (event) => {
-        const newValue = event.target.value
-            .replace(/[^0-9.]/g, '') 
-            .replace(/(\..*?)\..*/g, '$1');
+        const newValue = event.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
 
         setName(newValue);
     };
 
     const onUsercarHandler = (event) => {
-		const newValue = event.target.value
-            .replace(/[^\w\s]|_/g, '')
-            .replace(/\s+/g, '');
+        const newValue = event.target.value
+            .replace(/[^0-9ㄱ-힣]{2,3}/g, '');
+		
+		
 
-		setUsercar(newValue);
+        setUsercar(newValue);
     };
 
     const onUserphoneHandler = (event) => {
-        const newValue = event.target.value
-            .replace(/[^0-9.]/g, '')
-            .replace(/(\..*?)\..*/g, '$1');
+        const newValue = event.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
 
         setUserphone(newValue);
     };
@@ -40,7 +37,7 @@ const InputNamePage = (props) => {
         event.preventDefault();
 
         const params = { car: Usercar, phone: Userphone, address: Name };
-        
+
         if (Name !== '' || Usercar !== '' || Userphone) {
             const config = {
                 headers: {
@@ -51,7 +48,6 @@ const InputNamePage = (props) => {
             axios
                 .put(`${API_URL}user/${userinfos?.userData?.result.idx}`, params, config) //
                 .then((response) => {
-                    
                     if (response.data.isSuccess) {
                         navigate('/roomstart');
                     } else {
@@ -63,7 +59,6 @@ const InputNamePage = (props) => {
                     }
                 })
                 .catch((error) => {
-                    
                     console.error(error);
                 });
         } else {

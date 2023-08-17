@@ -54,8 +54,7 @@ const Profile = (props) => {
 
     const onUsercarHandler = (event) => {
         const newValue = event.target.value
-            .replace(/[^\w\s]|_/g, '')
-            .replace(/\s+/g, '');
+             .replace(/[^0-9ㄱ-힣]{2,3}/g, '');
 
 		setUsercar(newValue);
     };
