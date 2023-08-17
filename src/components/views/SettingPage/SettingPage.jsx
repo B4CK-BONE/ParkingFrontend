@@ -141,6 +141,20 @@ function SettingPage(props) {
                     {userinfos?.userData?.result?.role === 2 && (
                         <li>
                             <Link
+                                to="/survey"
+                                style={{ color: 'inherit', textDecoration: 'none' }}
+                            >
+                                설문조사 결과보기{' '}
+                                <IoIosArrowForward
+                                    size="23"
+                                    style={{ marginRight: '11%', color: 'gray', float: 'right' }}
+                                />
+                            </Link>
+                        </li>
+                    )}
+					{userinfos?.userData?.result?.role === 2 && (
+                        <li>
+                            <Link
                                 to="/management"
                                 style={{ color: 'inherit', textDecoration: 'none' }}
                             >
@@ -213,7 +227,7 @@ const ParkingTimeDiv = styled.div`
 
 const UserCarDiv = styled.div`
     padding: 8px;
-    font-size: 1vw;
+    font-size: 13px;
     font-weight: 1000;
     border-radius: 11px;
     display: flex;

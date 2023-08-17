@@ -91,7 +91,6 @@ function BottomSheetSection(props) {
             })
 
             .catch((error) => {
-                
                 navigate('/login');
             });
     };

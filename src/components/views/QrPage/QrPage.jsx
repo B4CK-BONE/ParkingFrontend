@@ -42,19 +42,23 @@ function QrPage(props) {
     }, []);
     return (
         <div className="wrap loaded">
-            <div>
-                <img
-                    src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcYaxSE%2FbtsfdaHthmR%2F1f2rjzIEmZbuy8EfSEHyok%2Fimg.png"
-                    alt="QrcodeImg"
-                    style={{
-                        width: '80px',
-                        height: '80px',
-                        margin: '30px 0px 10px 10px',
-                    }}
-                />
-                <QrcodeH3>QR코드로 방을 입장할 수 있습니다.</QrcodeH3>
-                <QrcodeChildDiv>앱 상단바 &gt; QR코드 스캔 </QrcodeChildDiv>
-            </div>
+            <QrTopDiv>
+                <ImgExplain>
+                    <img
+                        src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcYaxSE%2FbtsfdaHthmR%2F1f2rjzIEmZbuy8EfSEHyok%2Fimg.png"
+                        alt="QrcodeImg"
+                        style={{
+                            width: '80px',
+                            height: '80px',
+                            margin: '20px 5px 20px -5px',
+                        }}
+                    />
+                </ImgExplain>
+                <QrExplain>
+                    <QrcodeH3>QR코드로 방을 입장할 수 있습니다.</QrcodeH3>
+                    <QrcodeChildDiv>앱 상단바 &gt; QR코드 스캔 </QrcodeChildDiv>
+                </QrExplain>
+            </QrTopDiv>
             <QrcodeDiv>
                 <img
                     src={Src}
@@ -63,6 +67,7 @@ function QrPage(props) {
                     style={{
                         marginTop: '100px',
                         border: '4px solid #452b75',
+                        borderRadius: '10px'
                     }}
                 />
 				<RoomcodeDiv>방 번호</RoomcodeDiv>
@@ -77,15 +82,16 @@ export default QrPage;
 const RoomcodeDiv = styled.div`
     color: rgb(73, 80, 87);
     text-align: center;
-	font-size: 16px;
+	font-size: 25px;
 	margin-top:20px
 `;
 
 const RoomDiv = styled.div`
-    
+    font-weight: 1000;
     text-align: center;
-	font-size: 20px;
-	margin-top:8px;
+    font-size: 35px;
+    margin-top: 8px;
+    color: #bc3cbc;
 `;
 
 const QrcodeDiv = styled.div`
@@ -95,11 +101,31 @@ const QrcodeDiv = styled.div`
 `;
 
 const QrcodeH3 = styled.h3`
-    margin: 0px 30px 8px 30px;
+    margin-bottom:0px;
 `;
 
 const QrcodeChildDiv = styled.div`
-    margin: 0px 30px 30px 30px;
+    margin-top: 0px;
+	margin-bottom:30px;
     color: #495057;
     font-size: small;
+`;
+
+const QrTopDiv = styled.div`
+	display: flex;
+    align-content: flex-end;
+    align-items: center;
+    justify-content: center;
+`;
+
+const QrExplain = styled.div`
+    display: flex;
+    flex-flow: wrap;
+    -webkit-box-pack: start;
+    place-content: space-between flex-start;
+    flex-direction: column;
+`;
+const ImgExplain = styled.div`
+    
+    
 `;

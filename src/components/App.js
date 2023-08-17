@@ -16,11 +16,13 @@ import LoginPage from './views/LoginPage/LoginPage';
 import RoomWaitPage from './views/RoomWaitPage/RoomWaitPage';
 import ManagementPage from './views/ManagementPage/ManagementPage';
 import Profile from './views/Profile/Profile';
+import SurveyResultPage from './views/SurveyResultPage/SurveyResultPage';
 import { refreshAccessToken } from '../_actions/user_action';
 import { useCookies } from 'react-cookie'; // useCookies import
 import Axios from 'axios';
 import { API_URL } from './config';
 import useInterval from '../hook/useInterval'; // useInterval 파일의 경로에 맞게 수정
+
 
 function App() {
     const url = document.URL;
@@ -43,6 +45,7 @@ function App() {
     const NewRoomStart = Auth(RoomStart, true, 5);
 
     const NewManagementPage = Auth(ManagementPage, true, 3);
+	const NewSurveyResultPage = Auth(SurveyResultPage, true, 3);
 
     const NewRoomWaitPage = Auth(RoomWaitPage, true, 4);
 
@@ -129,7 +132,8 @@ function App() {
                     <Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
                     <Route path="/setting" element={<NewSettingPage />} />
                     <Route path="/profile" element={<NewProfile />} />
-                    <Route path="/management" element={<NewManagementPage ref={wrapRef} />} />
+                    <Route path="/management" element={<NewManagementPage />} />
+					<Route path="/survey" element={<NewSurveyResultPage />} />
                 </Routes>
             </div>
             <Footer />

@@ -6,13 +6,14 @@ import { useSelector } from 'react-redux';
 import { HiCheck } from 'react-icons/hi';
 import { MdClose, MdOutlineReportProblem } from 'react-icons/md';
 import { RiKakaoTalkFill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ManagementPage(props) {
     const [ParkingList, setParkingList] = useState([]);
     const [AccessCheck, setAccessCheck] = useState(false);
     const userinfos = useSelector((state) => state.user);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const config = {
@@ -47,7 +48,6 @@ function ManagementPage(props) {
         if (window.confirm('해당 유저를 추방하시겠습니까?')) {
             Axios.put(`${API_URL}room/${userinfos?.userData?.result.roomIdx}/admin`, body, config)
                 .then((response) => {
-                    
                     if (response.data.isSuccess) {
                         setParkingList(response.data.result);
                         setAccessCheck(!AccessCheck);
@@ -81,7 +81,6 @@ function ManagementPage(props) {
         };
         Axios.put(`${API_URL}room/${userinfos?.userData?.result.roomIdx}/admin`, body, config)
             .then((response) => {
-                
                 if (response.data.isSuccess) {
                     setParkingList(response.data.result);
                     setAccessCheck(!AccessCheck);
@@ -106,6 +105,16 @@ function ManagementPage(props) {
             alert('해당 유저가 오픈채팅을 설정하지 않았습니다.');
         }
     };
+
+    const onTelChange = (telnum) => {
+        if (telnum !== null) {
+            window.location.href = 'tel:' + telnum;
+			
+        } else {
+            alert('해당 유저가 번호가 없습니다.');
+        }
+    };
+
     return (
         <div className="wrap loaded">
             <CurrentDiv>
@@ -182,10 +191,12 @@ function ManagementPage(props) {
                                                 />{' '}
                                                 {list.reportCount}회
                                             </ReportDiv>
-                                            {list.phone.replace(
-                                                /^(\d{3})(\d{4})(\d{4})$/,
-                                                '$1-$2-$3'
-                                            )}
+                                            <div onClick={()=>onTelChange(list.phone)}>
+                                                {list.phone?.replace(
+                                                    /^(\d{3})(\d{4})(\d{4})$/,
+                                                    '$1-$2-$3'
+                                                )}
+                                            </div>
                                         </Pclass2>
                                     </Divchild2class>
 

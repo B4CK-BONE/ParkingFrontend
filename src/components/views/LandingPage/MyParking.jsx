@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import BottomSheetSection from './Sections/BottomSheetSection';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { BsArrowDownUp } from 'react-icons/bs'
+
 
 const MyParking = (props) => {
     const [ParkingList, setParkingList] = useState([]);
@@ -37,9 +39,7 @@ const MyParking = (props) => {
                 } else {
                     if (response.data.message === '사이트 관리자에게 문의하세요.') {
                         alert(response.data.code + ' : ' + response.data.message);
-                    } else {
-                        alert(response.data.message);
-                    }
+                    } 
                 }
             })
 
@@ -131,18 +131,9 @@ const MyParking = (props) => {
                 <Parkingcontainer>
                     <Parkingmaintextcontainer>주차장 현황</Parkingmaintextcontainer>
                     <Parkingimgcontainer>
-                        <img
-                            src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FP0hyc%2Fbtsrh3vFd25%2FQe7O6z3MTnFmyq9SKuPYB1%2Fimg.png"
-                            style={{
-                                border: '0px',
-                                padding: '0px 0.75rem',
-                                width: '70px',
-                                height: '50px',
-                            }}
-                            alt="1"
-                        />
+                        <BsArrowDownUp size="50" />
                     </Parkingimgcontainer>
-
+					<Parkinglistcontainer>
                     {ParkingList?.map((point, index) => (
                         <React.Fragment key={index}>
                             <ParkingBtn
@@ -160,6 +151,7 @@ const MyParking = (props) => {
                             </ParkingBtn>
                         </React.Fragment>
                     ))}
+					</Parkinglistcontainer>
                 </Parkingcontainer>
                 <BottomSheetSection
                     open={open}
@@ -176,18 +168,25 @@ const MyParking = (props) => {
     );
 };
 
+
+
 export default MyParking;
 
 const Parkingmaintextcontainer = styled.div`
     text-align: center;
     margin: 25px;
-    font-size: 18px;
+    font-size: 30px;
     font-family: 'Noto Sans KR', sans-serif;
+    color: rgb(69, 43, 117);
+    font-weight: bolder;
 `;
 
 const Parkingimgcontainer = styled.div`
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 20px;
+    
+    
 `;
 
 const Parkingcontainer = styled.div`
@@ -240,4 +239,10 @@ const ParkingBtn = styled.button`
     color: #ffffff;
     max-width: 120px;
     max-height: 150px;
+`;
+
+const Parkinglistcontainer = styled.div`
+	display:flex;
+	justify-content:center;
+	margin-top:10px;
 `;
