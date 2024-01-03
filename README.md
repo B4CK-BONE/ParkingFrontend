@@ -64,5 +64,8 @@ Github: @greensnapback0229
 
 Give a ⭐️ if this project helped you!
 
-   
+## 📝 License
+
+Copyright © 2021 B4CKBONE.
+This project is MIT licensed.   
 
