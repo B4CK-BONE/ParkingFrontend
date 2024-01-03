@@ -57,9 +57,6 @@ Github: @scott4935
 Github: @greensnapback0229
 
 
-* Website: 1223v.github.io
-* Github: [@1223v](https://farmfarm1223.tistory.com/)
-
 ## Show your support
 
 Give a ⭐️ if this project helped you!
