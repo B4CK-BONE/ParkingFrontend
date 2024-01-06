@@ -29,6 +29,11 @@
   - NodeJS v16.20.0
   - react v18.2.0
 
+## Diagram
+
+![src](https://github.com/B4CK-BONE/ParkingFrontend/assets/78861124/bd57d268-d7fa-45ba-9c48-3c293c2d79fe)
+
+
 
 ## Usage
 
