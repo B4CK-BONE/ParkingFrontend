@@ -51,6 +51,22 @@ npm install react-qr-reader@2.2.1 --force
 npm run start
 ```
 
+## 개발 일지
+
+- 프론트엔드 프로젝트 생성(• react v18.2.0 , • NodeJS v16.20.0 ) (21/10/13) - `commit` : 6be3eb9
+- WebView UI 프레임 크기 설정 (23/05/06)  - `commit` : 7d1593e
+- QRcode 생성 기능 추가 (23/05/12)   - `commit` : c6e7b66
+- CORS 제한 해제 (23/05/19)   - `commit` : 70a5207
+- API 연결 테스트 (23/05/19)  - `commit` : f12a77a
+- auth 기능 추가 (23/05/24)  - `commit` : 4158adc
+- 유저 정보 입력 기능 추가 (23/08/08)  - `commit` : 4e63c03
+- QRcode reader 기능 추가 (23/08/09)  - `commit` : 113f2c2
+- 구글 로그인 기능 추가 (23/08/10)  - `commit` : 8c0e6ff
+- 관리자 페이지 기능 추가(23/08/11)  - `commit` : a1a37ef
+- AT / RT 쿠키에 보관(RT) 설정 및 redux(AT) 상태 관리 추가(23/08/13)  - `commit` : f60bd39
+- Access Token 시간 측정 및 API 추가(23/08/16)  - `commit` : 234d461
+- 전화 연결 기능 추가 (23/08/18)  - `commit` : 555fdbe
+
 
 ## Author
 
