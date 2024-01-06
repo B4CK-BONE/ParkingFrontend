@@ -84,6 +84,6 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2021 B4CKBONE.
+Copyright © 2023 B4CKBONE.
 This project is MIT licensed.   
 
