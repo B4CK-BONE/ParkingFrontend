@@ -70,12 +70,10 @@ npm run start
 
 ## Author
 
-👤 1223v 👤 marinesnow34 👤 scott4935 👤 greensnapback0229
+👤 1223v 👤 marinesnow34 
 
 Github: [@1223v](https://github.com/1223v)
 Github: [@marinesnow34](https://github.com/marinesnow34)
-Github: [@scott4935](https://github.com/scott4935)
-Github: [@greensnapback0229](https://github.com/greensnapback0229)
 
 
 ## Show your support
